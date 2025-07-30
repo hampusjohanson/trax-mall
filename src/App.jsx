@@ -1449,7 +1449,6 @@ function App() {
             return (
               <div key={key}>
                 <div className="frozen-question">
-                  <h3>Consideration</h3>
                   <p>{question.label}</p>
                 </div>
                 <div className="question-group">

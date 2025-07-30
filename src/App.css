@@ -1023,13 +1023,13 @@ body {
   z-index: 100;
 }
 
-.frozen-question h3 {
-  color: #059669;
-  font-size: 1.2em;
-  font-weight: 600;
-  margin: 0 0 12px 0;
-  text-align: center;
+/* Ensure parent container allows sticky positioning */
+.page-content {
+  min-height: 100vh;
+  overflow-y: auto;
 }
+
+
 
 .frozen-question p {
   color: #374151;
