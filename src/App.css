@@ -521,7 +521,7 @@ body {
 
 .brand-scale .scale-label:first-child {
   text-align: left;
-  padding-left: 8px;
+  padding-left: 16px;
 }
 
 .brand-scale-row {
