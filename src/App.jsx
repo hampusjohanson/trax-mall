@@ -153,7 +153,7 @@ const SURVEY_CONFIG = {
             '4',
             '5',
             '6',
-            '7 Instämmer helt'
+            '7 Instämmer helt och hållet'
           ]
         }
       }
