@@ -500,12 +500,13 @@ body {
   gap: 8px;
   justify-content: flex-start;
   margin-bottom: 20px;
-  padding: 16px;
+  padding: 12px 20px;
   background: #f9fafb;
   border-radius: 12px;
   border: 2px solid #e5e7eb;
-  margin-left: 220px;
+  margin-left: 240px;
   width: fit-content;
+  max-width: 600px;
 }
 
 .brand-scale .scale-label {
