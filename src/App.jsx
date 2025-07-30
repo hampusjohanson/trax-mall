@@ -283,7 +283,7 @@ function App() {
       setRandomizedStatements(shuffledStatements)
       
       // Randomisera ordningen av importance options EN gång per respondent
-      const importanceOptions = SURVEY_CONFIG.sections.behavior.questions.importance_attributes.options
+      const importanceOptions = SURVEY_CONFIG.sections.importance.questions.importance_attributes.options
       const shuffledImportanceOptions = [...importanceOptions].sort(() => Math.random() - 0.5)
       setRandomizedImportanceOptions(shuffledImportanceOptions)
       
