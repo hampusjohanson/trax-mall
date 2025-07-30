@@ -364,6 +364,12 @@ function App() {
       
       return newData
     })
+    
+    // Markera statement som besvarad
+    setAnsweredQuestions(prev => ({
+      ...prev,
+      [`${questionKey}_${statementIndex}`]: true
+    }))
   }
 
   const handleImportanceSelection = (questionKey, optionIndex, value) => {
@@ -474,6 +480,14 @@ function App() {
     const previousQuestionKey = questionKeys[questionIndex - 1]
     
     return isQuestionAnswered(previousQuestionKey)
+  }
+
+  const shouldShowStatement = (statementIndex) => {
+    if (statementIndex === 0) return true // Visa första statement alltid
+    
+    // Kontrollera om föregående statement är besvarad
+    const previousStatementKey = `image_statements_${statementIndex - 1}`
+    return isQuestionAnswered(previousStatementKey)
   }
 
   const renderQuestion = (key, question) => {
@@ -870,45 +884,51 @@ function App() {
           </div>
           
           <div className="statements-list">
-            {randomizedStatements.map((statement, statementIndex) => (
-              <div key={statementIndex} className="statement-row">
-                <div className="statement-text">
-                  {statement}
-                </div>
-                <div className="brand-checkboxes">
-                  {randomizedBrands.map(brand => (
-                    <label key={brand.id} className="brand-checkbox">
+            {randomizedStatements.map((statement, statementIndex) => {
+              if (!shouldShowStatement(statementIndex)) {
+                return null
+              }
+              
+              return (
+                <div key={statementIndex} className="statement-row">
+                  <div className="statement-text">
+                    {statement}
+                  </div>
+                  <div className="brand-checkboxes">
+                    {randomizedBrands.map(brand => (
+                      <label key={brand.id} className="brand-checkbox">
+                        <input
+                          type="checkbox"
+                          name={`image_statements_${statementIndex}_${brand.id}`}
+                          checked={formData[`image_statements_${statementIndex}_${brand.id}`] || false}
+                          onChange={(e) => handleStatementSelection('image_statements', statementIndex, brand.id, e.target.checked)}
+                        />
+                        <img 
+                          src={brand.logo} 
+                          alt={brand.name} 
+                          className="brand-image-small" 
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'inline';
+                          }}
+                        />
+                        <span className="brand-fallback-small" style={{display: 'none'}}>{brand.name.charAt(0)}</span>
+                        <span className="brand-name-small">{brand.name}</span>
+                      </label>
+                    ))}
+                    <label className="brand-checkbox">
                       <input
                         type="checkbox"
-                        name={`image_statements_${statementIndex}_${brand.id}`}
-                        checked={formData[`image_statements_${statementIndex}_${brand.id}`] || false}
-                        onChange={(e) => handleStatementSelection('image_statements', statementIndex, brand.id, e.target.checked)}
+                        name={`image_statements_${statementIndex}_ingen`}
+                        checked={formData[`image_statements_${statementIndex}_ingen`] || false}
+                        onChange={(e) => handleStatementSelection('image_statements', statementIndex, 'ingen', e.target.checked)}
                       />
-                      <img 
-                        src={brand.logo} 
-                        alt={brand.name} 
-                        className="brand-image-small" 
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'inline';
-                        }}
-                      />
-                      <span className="brand-fallback-small" style={{display: 'none'}}>{brand.name.charAt(0)}</span>
-                      <span className="brand-name-small">{brand.name}</span>
+                      <span className="brand-name-small">Ingen av dessa</span>
                     </label>
-                  ))}
-                  <label className="brand-checkbox">
-                    <input
-                      type="checkbox"
-                      name={`image_statements_${statementIndex}_ingen`}
-                      checked={formData[`image_statements_${statementIndex}_ingen`] || false}
-                      onChange={(e) => handleStatementSelection('image_statements', statementIndex, 'ingen', e.target.checked)}
-                    />
-                    <span className="brand-name-small">Ingen av dessa</span>
-                  </label>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       )

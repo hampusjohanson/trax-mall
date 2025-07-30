@@ -1408,3 +1408,22 @@ body {
     margin-right: 12px;
   }
 } 
+
+/* Animation för statements som dyker upp */
+.statement-row {
+  animation: slideInUp 0.5s ease-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+/* Staggered animation för statements */
+.statement-row:nth-child(1) { animation-delay: 0.1s; }
+.statement-row:nth-child(2) { animation-delay: 0.2s; }
+.statement-row:nth-child(3) { animation-delay: 0.3s; }
+.statement-row:nth-child(4) { animation-delay: 0.4s; }
+.statement-row:nth-child(5) { animation-delay: 0.5s; }
+.statement-row:nth-child(6) { animation-delay: 0.6s; }
+.statement-row:nth-child(7) { animation-delay: 0.7s; }
+.statement-row:nth-child(8) { animation-delay: 0.8s; }
+.statement-row:nth-child(9) { animation-delay: 0.9s; }
+.statement-row:nth-child(10) { animation-delay: 1.0s; } 
