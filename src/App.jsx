@@ -864,7 +864,9 @@ function App() {
           <div className="brand-scale">
             <div className="scale-labels">
               {question.scale.map((scaleOption, scaleIndex) => (
-                <span key={scaleIndex} className="scale-label">{scaleOption}</span>
+                <span key={scaleIndex} className="scale-label">
+                  {scaleOption.replace(/^\d+\s*/, '')}
+                </span>
               ))}
             </div>
             {randomizedBrands.map(brand => (

@@ -498,7 +498,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 20px;
   padding: 16px;
   background: #f9fafb;
@@ -557,9 +557,10 @@ body {
 .scale-options {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 20px;
   flex: 1;
-  justify-content: center;
+  justify-content: flex-start;
+  margin-left: 20px;
 }
 
 .scale-option {
