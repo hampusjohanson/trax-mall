@@ -539,7 +539,7 @@ function App() {
   const isQuestionAnswered = (questionKey) => {
     // Speciallogik för purchase_frequency - kolla om minst ett varumärke har valts
     if (questionKey === 'purchase_frequency') {
-      return randomizedBrands.some(brand => {
+      return randomizedBrands && randomizedBrands.length > 0 && randomizedBrands.some(brand => {
         const frequency = formData[`purchase_frequency_${brand.id}`]
         return frequency && frequency !== ''
       })
@@ -587,6 +587,10 @@ function App() {
 
   // Hämta varumärken som köps minst varje år
   const getFrequentBrands = () => {
+    if (!randomizedBrands || randomizedBrands.length === 0) {
+      return []
+    }
+    
     const frequentOptions = ['1 gång per år', '1 gång per halvår', '1 gång per kvartal', 'Varje månad', 'Varannan månad', 'Varannan vecka', 'Varje vecka', 'Flera gånger per vecka', 'Dagligen']
     
     return randomizedBrands.filter(brand => {
