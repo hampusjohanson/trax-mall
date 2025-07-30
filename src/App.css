@@ -504,6 +504,8 @@ body {
   background: #f9fafb;
   border-radius: 12px;
   border: 2px solid #e5e7eb;
+  margin-left: 220px;
+  width: fit-content;
 }
 
 .brand-scale .scale-label {
