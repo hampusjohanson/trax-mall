@@ -1438,3 +1438,134 @@ body {
 .statement-row:nth-child(8) { animation-delay: 0.8s; }
 .statement-row:nth-child(9) { animation-delay: 0.9s; }
 .statement-row:nth-child(10) { animation-delay: 1.0s; } 
+
+/* Brand share styling */
+.brand-share {
+  margin-top: 16px;
+}
+
+.share-instructions {
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border-left: 3px solid #88FFC2;
+}
+
+.share-instructions p {
+  margin: 0;
+  color: #374151;
+  font-size: 0.95em;
+}
+
+.brand-share-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.brand-share-row:hover {
+  border-color: #88FFC2;
+  background: #f8fffd;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(136, 255, 194, 0.2);
+}
+
+.brand-share-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.brand-share-logo img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.brand-share-logo .brand-name {
+  font-weight: 600;
+  color: #374151;
+}
+
+.share-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.share-percentage-input {
+  width: 80px;
+  padding: 8px 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1em;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+.share-percentage-input:focus {
+  outline: none;
+  border-color: #88FFC2;
+  box-shadow: 0 0 0 3px rgba(136, 255, 194, 0.1);
+}
+
+.percentage-symbol {
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 1.1em;
+}
+
+.share-total {
+  background: #f8fafc;
+  padding: 16px 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 16px;
+  border: 2px solid #e5e7eb;
+}
+
+.share-total span {
+  font-weight: 600;
+  color: #374151;
+  font-size: 1.1em;
+}
+
+.no-frequent-brands {
+  background: #fef2f2;
+  border: 2px solid #fecaca;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  color: #dc2626;
+}
+
+.no-frequent-brands p {
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Mobile styling för brand share */
+@media (max-width: 768px) {
+  .brand-share-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .share-input {
+    align-self: flex-end;
+  }
+  
+  .brand-share-logo img {
+    width: 32px;
+    height: 32px;
+  }
+} 

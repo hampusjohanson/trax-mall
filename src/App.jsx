@@ -129,6 +129,11 @@ const SURVEY_CONFIG = {
             'Mer sällan/aldrig'
           ]
         },
+        share_of_market: {
+          type: 'brand_share',
+          label: 'Hur fördelar du normalt dina inköp av hamburgare mellan dessa olika kedjor? Ange procent för varje kedja du köper från minst varje år. Summan ska bli 100%.',
+          required: true
+        },
         importance_attributes: {
           type: 'multiple_choice',
           label: 'Vilka av följande faktorer är viktiga för dig när du väljer hamburgerkedja? Du kan välja flera alternativ.',
@@ -552,6 +557,16 @@ function App() {
     return isQuestionAnswered(previousStatementKey)
   }
 
+  // Hämta varumärken som köps minst varje år
+  const getFrequentBrands = () => {
+    const frequentOptions = ['1 gång per år', '1 gång per halvår', '1 gång per kvartal', 'Varje månad', 'Varannan månad', 'Varannan vecka', 'Varje vecka', 'Flera gånger per vecka', 'Dagligen']
+    
+    return randomizedBrands.filter(brand => {
+      const frequency = formData[`purchase_frequency_${brand.id}`]
+      return frequency && frequentOptions.includes(frequency)
+    })
+  }
+
   const renderQuestion = (key, question) => {
     switch (question.type) {
       case 'select':
@@ -959,6 +974,60 @@ function App() {
                   <span className="multiple-choice-text">{option}</span>
                 </label>
               ))
+            )}
+          </div>
+        )
+      
+      case 'brand_share':
+        const frequentBrands = getFrequentBrands()
+        return (
+          <div className="brand-share">
+            {frequentBrands.length > 0 ? (
+              <>
+                <div className="share-instructions">
+                  <p>Ange procent för varje kedja du köper från minst varje år. Summan ska bli 100%.</p>
+                </div>
+                {frequentBrands.map(brand => (
+                  <div key={brand.id} className="brand-share-row">
+                    <div className="brand-share-logo">
+                      <img 
+                        src={brand.logo} 
+                        alt={brand.name} 
+                        className="brand-image" 
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'inline';
+                        }}
+                      />
+                      <span className="brand-fallback" style={{display: 'none'}}>{brand.name.charAt(0)}</span>
+                      <span className="brand-name">{brand.name}</span>
+                    </div>
+                    <div className="share-input">
+                      <input
+                        type="number"
+                        name={`${key}_${brand.id}`}
+                        value={formData[`${key}_${brand.id}`] || ''}
+                        onChange={handleInputChange}
+                        min="0"
+                        max="100"
+                        placeholder="0"
+                        className="share-percentage-input"
+                      />
+                      <span className="percentage-symbol">%</span>
+                    </div>
+                  </div>
+                ))}
+                <div className="share-total">
+                  <span>Totalt: {frequentBrands.reduce((sum, brand) => {
+                    const value = parseInt(formData[`${key}_${brand.id}`]) || 0
+                    return sum + value
+                  }, 0)}%</span>
+                </div>
+              </>
+            ) : (
+              <div className="no-frequent-brands">
+                <p>Du har inte valt några kedjor som du köper från minst varje år. Gå tillbaka och uppdatera dina svar i frekvensfrågan.</p>
+              </div>
             )}
           </div>
         )
