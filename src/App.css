@@ -6,9 +6,9 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: Arial, sans-serif;
   line-height: 1.6;
-  color: #374151;
+  color: rgb(17, 21, 66);
   background: white;
 }
 
@@ -56,7 +56,7 @@ body {
   margin: 0;
   font-size: 1.1em;
   font-weight: 500;
-  color: #374151;
+  color: rgb(17, 21, 66);
 }
 
 .survey-header h1:empty {
@@ -87,7 +87,7 @@ body {
 .survey-section h3 {
   font-size: 1.3em;
   font-weight: 600;
-  color: #374151;
+  color: rgb(17, 21, 66);
   margin-bottom: 25px;
   padding-bottom: 12px;
   border-bottom: 2px solid #e5e7eb;
@@ -128,7 +128,7 @@ body {
   display: block;
   font-size: 1.1em;
   font-weight: 600;
-  color: #374151;
+  color: rgb(17, 21, 66);
   margin-bottom: 16px;
   line-height: 1.4;
 }
@@ -199,7 +199,7 @@ body {
   border: 2px solid #e5e7eb;
   border-radius: 8px;
   font-size: 0.95em;
-  color: #374151;
+  color: rgb(17, 21, 66);
   background: white;
   transition: border-color 0.2s ease;
 }
@@ -248,7 +248,7 @@ body {
 .brand-logo-header {
   padding: 16px 20px;
   font-weight: 600;
-  color: #374151;
+  color: rgb(17, 21, 66);
   text-align: center;
   font-size: 0.9em;
   flex: 0 0 200px;
@@ -259,7 +259,7 @@ body {
 .option-header {
   padding: 16px 12px;
   font-weight: 600;
-  color: #374151;
+  color: rgb(17, 21, 66);
   text-align: center;
   font-size: 0.8em;
   flex: 1 1 0%;
@@ -329,7 +329,7 @@ body {
 
 .brand-name {
   font-weight: 600;
-  color: #374151;
+  color: rgb(17, 21, 66);
   font-size: 0.95em;
 }
 
@@ -365,7 +365,7 @@ body {
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.9em;
-  color: #374151;
+  color: rgb(17, 21, 66);
   transition: all 0.2s ease;
   gap: 10px;
   width: 100%;
@@ -433,8 +433,8 @@ body {
 
 .statement-text {
   margin-bottom: 12px;
-  font-size: 0.95em;
-  color: #374151;
+  font-size: 1.15em;
+  color: rgb(17, 21, 66);
   line-height: 1.4;
 }
 
@@ -498,7 +498,7 @@ body {
 .brand-name-small {
   font-size: 0.95em;
   font-weight: 500;
-  color: #374151;
+  color: rgb(17, 21, 66);
   flex: 1;
 }
 
@@ -524,7 +524,7 @@ body {
 
 .brand-scale .scale-label {
   font-size: 0.85em;
-  color: #374151;
+  color: rgb(17, 21, 66);
   font-weight: 600;
   text-align: center;
   line-height: 1.2;
@@ -576,7 +576,7 @@ body {
 
 .brand-scale-logo .brand-name {
   font-weight: 600;
-  color: #374151;
+  color: rgb(17, 21, 66);
   font-size: 1.1em;
 }
 
@@ -629,7 +629,7 @@ body {
 
 .scale-number {
   font-size: 1.1em;
-  color: #374151;
+  color: rgb(17, 21, 66);
   font-weight: 600;
   margin-top: 8px;
 }
@@ -711,7 +711,7 @@ body {
   padding: 50px 30px;
   text-align: center;
   background: #88FFC2;
-  color: #374151;
+  color: rgb(17, 21, 66);
 }
 
 .success-message h3 {
@@ -741,7 +741,7 @@ body {
 }
 
 .survey-footer p strong {
-  color: #374151;
+  color: rgb(17, 21, 66);
 }
 
 /* Progress indicator */
@@ -928,7 +928,7 @@ body {
   
   .brand-scale-logo .brand-name {
     font-weight: 600;
-    color: #374151;
+    color: rgb(17, 21, 66);
     font-size: 1.1em;
   }
   
@@ -980,14 +980,14 @@ body {
   
   .scale-number {
     font-size: 1em;
-    color: #374151;
+    color: rgb(17, 21, 66);
     font-weight: 500;
     margin: 0;
   }
   
   .scale-text {
     font-size: 0.9em;
-    color: #374151;
+    color: rgb(17, 21, 66);
     font-weight: 500;
     flex: 1;
     white-space: nowrap;
@@ -1000,7 +1000,7 @@ body {
   .scale-text:empty::after {
     content: attr(data-scale-number);
     font-size: 0.9em;
-    color: #374151;
+    color: rgb(17, 21, 66);
     font-weight: 500;
   }
 }
@@ -1048,7 +1048,7 @@ body {
 
 .brand-scale-single-header .brand-name {
   font-weight: 600;
-  color: #374151;
+  color: rgb(17, 21, 66);
   font-size: 1.1em;
 }
 
@@ -1106,7 +1106,7 @@ body {
 
 .scale-single-number {
   font-size: 1em;
-  color: #374151;
+  color: rgb(17, 21, 66);
   font-weight: 500;
   margin: 0;
   min-width: 20px;
@@ -1115,7 +1115,7 @@ body {
 
 .scale-single-text {
   font-size: 0.9em;
-  color: #374151;
+  color: rgb(17, 21, 66);
   font-weight: 500;
   flex: 1;
   white-space: nowrap;
@@ -1215,7 +1215,7 @@ body {
   
   .survey-header {
     background: #f9fafb !important;
-    color: #374151 !important;
+    color: rgb(17, 21, 66) !important;
   }
   
   .submit-btn {
@@ -1280,7 +1280,7 @@ body {
   border: 2px solid #e5e7eb;
   border-radius: 8px;
   background: white;
-  color: #374151;
+  color: rgb(17, 21, 66);
   font-size: 0.9em;
   font-weight: 500;
   cursor: pointer;
@@ -1359,7 +1359,7 @@ body {
 .category-info p {
   margin: 0;
   font-size: 1.1em;
-  color: #374151;
+  color: rgb(17, 21, 66);
   line-height: 1.4;
   font-weight: 500;
   max-width: none;
@@ -1373,7 +1373,7 @@ body {
 .instructions p {
   margin: 0;
   font-size: 1.1em;
-  color: #374151;
+  color: rgb(17, 21, 66);
   line-height: 1.4;
   max-width: none;
   font-weight: 500;
@@ -1499,7 +1499,7 @@ body {
   background: #f8fafc;
   padding: 20px 20px;
   font-weight: 600;
-  color: #374151;
+  color: rgb(17, 21, 66);
   text-align: center;
   font-size: 1em;
   border-bottom: 2px solid #e5e7eb;
@@ -1514,7 +1514,7 @@ body {
   background: #f8fafc;
   padding: 20px 12px;
   font-weight: 600;
-  color: #374151;
+  color: rgb(17, 21, 66);
   text-align: center;
   font-size: 0.95em;
   border-bottom: 2px solid #e5e7eb;
@@ -1577,7 +1577,7 @@ body {
 
 .brand-name-v2 {
   font-weight: 600;
-  color: #374151;
+  color: rgb(17, 21, 66);
   font-size: 0.95em;
 }
 
@@ -1689,7 +1689,7 @@ body {
   .brand-name-v2 {
     font-size: 1.1em;
     font-weight: 600;
-    color: #374151;
+    color: rgb(17, 21, 66);
   }
   
   .option-cell-v2 {
@@ -1726,7 +1726,7 @@ body {
     cursor: pointer;
     font-size: 0.95em;
     font-weight: 500;
-    color: #374151;
+    color: rgb(17, 21, 66);
     gap: 12px;
   }
   
@@ -1759,7 +1759,7 @@ body {
     display: block;
     font-size: 0.9em;
     font-weight: 500;
-    color: #374151;
+    color: rgb(17, 21, 66);
     line-height: 1.3;
     flex: 1;
     white-space: nowrap;
@@ -1798,7 +1798,7 @@ body {
   transition: all 0.3s ease;
   font-size: 1em;
   font-weight: 500;
-  color: #374151;
+  color: rgb(17, 21, 66);
 }
 
 .multiple-choice-option:hover {
@@ -1825,10 +1825,7 @@ body {
   line-height: 1.5;
 }
 
-/* Större font för importance attributes */
-.multiple-choice-option .multiple-choice-text {
-  font-size: 1.2em;
-}
+
 
 /* Mobile styling för multiple choice */
 @media (max-width: 768px) {
@@ -1842,10 +1839,7 @@ body {
     margin-right: 12px;
   }
   
-  /* Större font för importance attributes på mobil */
-  .multiple-choice-option .multiple-choice-text {
-    font-size: 1.15em;
-  }
+
 } 
 
 /* Animation för statements som dyker upp */
@@ -1882,7 +1876,7 @@ body {
 
 .share-instructions p {
   margin: 0;
-  color: #374151;
+  color: rgb(17, 21, 66);
   font-size: 0.95em;
 }
 
@@ -1920,7 +1914,7 @@ body {
 
 .brand-share-logo .brand-name {
   font-weight: 600;
-  color: #374151;
+  color: rgb(17, 21, 66);
 }
 
 .share-input {
@@ -1962,7 +1956,7 @@ body {
 
 .share-total span {
   font-weight: 600;
-  color: #374151;
+  color: rgb(17, 21, 66);
   font-size: 1.1em;
 }
 
@@ -2022,7 +2016,7 @@ body {
 .security-question-text {
   font-size: 1.1em;
   font-weight: 600;
-  color: #374151;
+  color: rgb(17, 21, 66);
   margin-bottom: 16px;
   line-height: 1.4;
 }
