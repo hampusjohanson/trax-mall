@@ -361,6 +361,15 @@ function App() {
         children_ages: true // Markera som besvarad så man kan gå vidare
       }))
     }
+    
+    // Speciallogik för share of market - markera frågan som besvarad när någon procent ändras
+    if (name.startsWith('share_of_market_')) {
+      const questionKey = 'share_of_market'
+      setAnsweredQuestions(prev => ({
+        ...prev,
+        [questionKey]: true
+      }))
+    }
   }
 
   const handleBrandSelection = (questionKey, brandId, value) => {
@@ -544,6 +553,11 @@ function App() {
     // Speciallogik för children_ages - visa bara om children = 'ja'
     if (questionKey === 'children_ages') {
       return formData.children === 'ja'
+    }
+    
+    // Speciallogik för share_of_market - visa bara om purchase_frequency är besvarad
+    if (questionKey === 'share_of_market') {
+      return isQuestionAnswered('purchase_frequency')
     }
     
     return true
