@@ -898,10 +898,20 @@ function App() {
                   <select
                     name={`${key}_${brand.id}`}
                     value={formData[`${key}_${brand.id}`] || ''}
-                    onChange={(e) => setFormData(prev => ({
-                      ...prev,
-                      [`${key}_${brand.id}`]: e.target.value
-                    }))}
+                    onChange={(e) => {
+                      setFormData(prev => ({
+                        ...prev,
+                        [`${key}_${brand.id}`]: e.target.value
+                      }))
+                      
+                      // Markera frågan som besvarad för purchase_frequency
+                      if (key === 'purchase_frequency') {
+                        setAnsweredQuestions(prev => ({
+                          ...prev,
+                          [key]: true
+                        }))
+                      }
+                    }}
                     required={question.required}
                     className="frequency-select"
                   >
