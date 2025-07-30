@@ -1627,6 +1627,8 @@ body {
 
 .option-cell-v2 input[type="radio"]:checked {
   transform: scale(1.6);
+  background: #88FFC2;
+  border: 2px solid #88FFC2;
   box-shadow: 0 0 0 1px rgba(136, 255, 194, 0.3);
 }
 
