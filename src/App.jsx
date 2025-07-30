@@ -1444,6 +1444,21 @@ function App() {
             return null
           }
           
+          // Special styling för consideration-frågan
+          if (currentPageData.key === 'consideration' && key === 'strength_scale') {
+            return (
+              <div key={key}>
+                <div className="frozen-question">
+                  <h3>Consideration</h3>
+                  <p>{question.label}</p>
+                </div>
+                <div className="question-group">
+                  {renderQuestion(key, question)}
+                </div>
+              </div>
+            )
+          }
+          
           return (
             <div key={key} className="question-group">
               <label className="question-label">
