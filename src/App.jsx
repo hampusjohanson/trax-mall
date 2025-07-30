@@ -32,7 +32,7 @@ const SURVEY_CONFIG = {
           required: true,
           min: 16,
           max: 74,
-          placeholder: 'Ange din ålder (16-74 år)'
+          placeholder: ''
         }
       }
     },
