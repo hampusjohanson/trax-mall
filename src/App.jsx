@@ -182,7 +182,7 @@ const SURVEY_CONFIG = {
         children_ages: {
           type: 'multiple_choice',
           label: 'Vilka åldersgrupper av barn har du i ditt hushåll? Flera svar är möjliga.',
-          required: true,
+          required: false,
           options: [
             'Nej, inga barn',
             'Ja, barn som är under 6 år',
@@ -353,7 +353,7 @@ function App() {
       }))
       setAnsweredQuestions(prev => ({
         ...prev,
-        children_ages: false
+        children_ages: true // Markera som besvarad så man kan gå vidare
       }))
     }
   }
