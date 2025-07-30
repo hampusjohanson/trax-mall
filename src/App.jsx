@@ -23,6 +23,118 @@ const SURVEY_CONFIG = {
     { id: 'prime_burger', name: 'Prime Burger', logo: '/images/prime-burger.svg' }
   ],
   sections: {
+    security: {
+      title: "",
+      questions: {
+        security_questions: {
+          type: 'security_check',
+          label: 'För att säkerställa att du är en riktig person, svara på följande frågor:',
+          required: true,
+          questions: [
+            {
+              question: 'Vad är 5+7?',
+              options: ['10', '11', '12', '13'],
+              correct: '12'
+            },
+            {
+              question: 'Vilken färg har gräs?',
+              options: ['Röd', 'Blå', 'Grön', 'Gul'],
+              correct: 'Grön'
+            },
+            {
+              question: 'Vilken månad kommer efter mars?',
+              options: ['Februari', 'Maj', 'April', 'Juni'],
+              correct: 'April'
+            },
+            {
+              question: 'Hur många ben har en katt?',
+              options: ['2', '4', '6', '8'],
+              correct: '4'
+            },
+            {
+              question: 'Vilken är Sveriges huvudstad?',
+              options: ['Göteborg', 'Malmö', 'Stockholm', 'Uppsala'],
+              correct: 'Stockholm'
+            },
+            {
+              question: 'Vad är 3x4?',
+              options: ['7', '10', '12', '15'],
+              correct: '12'
+            },
+            {
+              question: 'Vilken färg har himlen på en solig dag?',
+              options: ['Grön', 'Röd', 'Blå', 'Gul'],
+              correct: 'Blå'
+            },
+            {
+              question: 'Hur många dagar har en vecka?',
+              options: ['5', '6', '7', '8'],
+              correct: '7'
+            },
+            {
+              question: 'Vilken är Sveriges största stad?',
+              options: ['Stockholm', 'Göteborg', 'Malmö', 'Uppsala'],
+              correct: 'Stockholm'
+            },
+            {
+              question: 'Vad är 10-3?',
+              options: ['5', '6', '7', '8'],
+              correct: '7'
+            },
+            {
+              question: 'Vilken färg har snö?',
+              options: ['Blå', 'Grön', 'Vit', 'Gul'],
+              correct: 'Vit'
+            },
+            {
+              question: 'Hur många fingrar har du på en hand?',
+              options: ['3', '4', '5', '6'],
+              correct: '5'
+            },
+            {
+              question: 'Vilken årstid kommer efter vår?',
+              options: ['Vinter', 'Sommar', 'Höst', 'Vår'],
+              correct: 'Sommar'
+            },
+            {
+              question: 'Vad är 2+2?',
+              options: ['3', '4', '5', '6'],
+              correct: '4'
+            },
+            {
+              question: 'Vilken färg har en banan?',
+              options: ['Röd', 'Blå', 'Gul', 'Grön'],
+              correct: 'Gul'
+            },
+            {
+              question: 'Hur många timmar har en dag?',
+              options: ['12', '18', '24', '30'],
+              correct: '24'
+            },
+            {
+              question: 'Vilken är Sveriges andra största stad?',
+              options: ['Stockholm', 'Göteborg', 'Malmö', 'Uppsala'],
+              correct: 'Göteborg'
+            },
+            {
+              question: 'Vad är 6+3?',
+              options: ['7', '8', '9', '10'],
+              correct: '9'
+            },
+            {
+              question: 'Vilken färg har blod?',
+              options: ['Blå', 'Grön', 'Röd', 'Gul'],
+              correct: 'Röd'
+            },
+            {
+              question: 'Hur många månader har ett år?',
+              options: ['10', '11', '12', '13'],
+              correct: '12'
+            }
+          ]
+        }
+      }
+    },
     screening: {
       title: "",
       questions: {
@@ -161,6 +273,7 @@ const SURVEY_CONFIG = {
     background: {
       title: "",
       questions: {
+
         gender: {
           type: 'select',
           label: 'Kön:',
@@ -237,6 +350,45 @@ const SURVEY_CONFIG = {
             { value: 'mer_än_100000', label: 'Mer än 100 000 kr' },
             { value: 'vet_ej', label: 'Vet ej/Vill ej uppge' }
           ]
+        },
+        life_situation: {
+          type: 'select',
+          label: 'Vilket av följande alternativ passar bäst in på din livssituation?',
+          required: true,
+          options: [
+            { value: 'singel', label: 'Singel' },
+            { value: 'pojkvän_flickvän', label: 'Pojkvän/flickvän' },
+            { value: 'sambo_gift_utan_barn', label: 'Sambo/gift utan barn' },
+            { value: 'ensamstående_med_barn', label: 'Ensamstående med barn' },
+            { value: 'sambo_gift_med_små_barn', label: 'Sambo/gift med små barn' },
+            { value: 'sambo_gift_med_tonårsbarn', label: 'Sambo/gift med tonårsbarn' },
+            { value: 'sambo_gift_med_utflyttade_barn', label: 'Sambo/gift med utflyttade barn' },
+            { value: 'frånskild', label: 'Frånskild' },
+            { value: 'änka_änkeman', label: 'Änka/Änkeman' },
+            { value: 'annat', label: 'Annat' }
+          ]
+        },
+        education: {
+          type: 'select',
+          label: 'Vilken är din senast fullföljda utbildningsnivå?',
+          required: true,
+          options: [
+            { value: 'grundskola', label: 'Grundskola' },
+            { value: 'gymnasieskola', label: 'Gymnasieskola' },
+            { value: 'universitet_högskola', label: 'Universitet eller högskola' }
+          ]
+        },
+        employment: {
+          type: 'select',
+          label: 'Vad är din nuvarande sysselsättning?',
+          required: true,
+          options: [
+            { value: 'egenföretagare', label: 'Egenföretagare' },
+            { value: 'anställd', label: 'Anställd' },
+            { value: 'studerande', label: 'Studerande' },
+            { value: 'pensionär', label: 'Pensionär' },
+            { value: 'arbetslös', label: 'Arbetslös' }
+          ]
         }
       }
     }
@@ -251,14 +403,16 @@ function App() {
   const [randomizedBrands, setRandomizedBrands] = useState([])
   const [randomizedStatements, setRandomizedStatements] = useState([])
   const [randomizedImportanceOptions, setRandomizedImportanceOptions] = useState([])
+  const [randomizedSecurityQuestions, setRandomizedSecurityQuestions] = useState([])
   const [isInitialized, setIsInitialized] = useState(false)
-  const [currentPage, setCurrentPage] = useState(0) // 0: screening, 1: awareness, 2: statements, 3: behavior, 4: importance, 5: consideration, 6: background
+  const [currentPage, setCurrentPage] = useState(0) // 0: security, 1: screening, 2: awareness, 3: statements, 4: behavior, 5: importance, 6: consideration, 7: background
   const [connectionStatus, setConnectionStatus] = useState('')
   const [submissionCount, setSubmissionCount] = useState(0)
   const [answeredQuestions, setAnsweredQuestions] = useState({})
 
   // Definiera sidorna i ordning
   const pages = [
+    { key: 'security', title: '' },
     { key: 'screening', title: '' },
     { key: 'awareness_v2', title: '' },
     { key: 'statements', title: '' },
@@ -292,6 +446,11 @@ function App() {
       const importanceOptions = SURVEY_CONFIG.sections.importance.questions.importance_attributes.options
       const shuffledImportanceOptions = [...importanceOptions].sort(() => Math.random() - 0.5)
       setRandomizedImportanceOptions(shuffledImportanceOptions)
+      
+      // Randomisera 3 säkerhetsfrågor EN gång per respondent
+      const securityQuestions = SURVEY_CONFIG.sections.security.questions.security_questions.questions
+      const shuffledSecurityQuestions = [...securityQuestions].sort(() => Math.random() - 0.5).slice(0, 3)
+      setRandomizedSecurityQuestions(shuffledSecurityQuestions)
       
       setIsInitialized(true)
     }
@@ -1076,7 +1235,10 @@ function App() {
                   <span>Totalt: {frequentBrands.reduce((sum, brand) => {
                     const value = parseInt(formData[`${key}_${brand.id}`]) || 0
                     return sum + value
-                  }, 0)}%</span>
+                  }, 0)}% ({100 - frequentBrands.reduce((sum, brand) => {
+                    const value = parseInt(formData[`${key}_${brand.id}`]) || 0
+                    return sum + value
+                  }, 0)}% kvar att fördela)</span>
                 </div>
               </>
             ) : (
@@ -1087,6 +1249,34 @@ function App() {
           </div>
         )
       
+      case 'security_check':
+        return (
+          <div className="security-questions">
+            {randomizedSecurityQuestions.map((securityQuestion, index) => (
+              <div key={index} className="security-question">
+                <div className="security-question-text">
+                  {securityQuestion.question}
+                </div>
+                <div className="security-options">
+                  {securityQuestion.options.map((option, optionIndex) => (
+                    <label key={optionIndex} className="security-option">
+                      <input
+                        type="radio"
+                        name={`${key}_${index}`}
+                        value={option}
+                        checked={formData[`${key}_${index}`] === option}
+                        onChange={handleInputChange}
+                        required={question.required}
+                      />
+                      <span className="security-option-text">{option}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      
       default:
         return null
     }
@@ -1094,6 +1284,31 @@ function App() {
 
   const renderPage = () => {
     const currentPageData = pages[currentPage]
+    
+    // Security sida - utan kategoridefinition
+    if (currentPageData.key === 'security') {
+      const section = SURVEY_CONFIG.sections[currentPageData.key]
+      if (!section) return null
+      
+      return (
+        <div className="page-content">
+          {Object.entries(section.questions).map(([key, question], index) => {
+            if (!shouldShowQuestion(key, index)) {
+              return null
+            }
+            
+            return (
+              <div key={key} className="question-group">
+                <label className="question-label">
+                  {question.label}
+                </label>
+                {renderQuestion(key, question)}
+              </div>
+            )
+          })}
+        </div>
+      )
+    }
     
     // Statements sida
     if (currentPageData.key === 'statements') {
@@ -1204,10 +1419,18 @@ function App() {
   return (
     <div className="app">
       <div className="survey-container">
-        <div className="survey-header">
-          <h1>{SURVEY_CONFIG.title}</h1>
-          <h2>{SURVEY_CONFIG.subtitle}</h2>
-        </div>
+        {currentPage > 0 && (
+          <div className="survey-header">
+            <h1>{SURVEY_CONFIG.title}</h1>
+            <h2>{SURVEY_CONFIG.subtitle}</h2>
+          </div>
+        )}
+        {currentPage === 0 && (
+          <div className="survey-header security-header">
+            <h1></h1>
+            <h2></h2>
+          </div>
+        )}
         
         <div className="survey-form">
           {renderPage()}
