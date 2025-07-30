@@ -520,6 +520,11 @@ function App() {
       case 'number':
         return (
           <div className="question-input">
+            {key === 'age' && (
+              <div className="input-hint">
+                <em>Skriv antal år</em>
+              </div>
+            )}
             <input
               type="number"
               id={key}
@@ -531,11 +536,6 @@ function App() {
               placeholder={question.placeholder}
               required={question.required}
             />
-            {key === 'age' && (
-              <div className="input-hint">
-                <em>skriv antal år</em>
-              </div>
-            )}
           </div>
         )
       
