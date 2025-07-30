@@ -11,8 +11,8 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey)
 // Enkät-konfiguration för hamburgerkedjor
 const SURVEY_CONFIG = {
   version: 1,
-  title: "Hamburgerkedjor",
-  subtitle: "", // Tog bort "Hamburgerkedjor i Sverige"
+  title: "Denna enkät handlar om hamburgerkedjor som erbjuder snabbmat för att äta på plats eller ta med.",
+  subtitle: "",
   category: "Denna enkät handlar om hamburgerkedjor som erbjuder snabbmat för att äta på plats eller ta med.",
   brands: [
     { id: 'mcdonalds', name: 'McDonald\'s', logo: '/images/mcdonalds.png' },
@@ -36,17 +36,11 @@ const SURVEY_CONFIG = {
         }
       }
     },
-    awareness: {
+    awareness_v2: {
       title: "",
       questions: {
-        consideration_set: {
-          type: 'open_multiple',
-          label: 'Om du skulle behöva köpa hamburgare till en lördagsmiddag när gäster ska komma på besök, vilka hamburgerkedjor skulle du överväga? Du kan ange flera.',
-          required: true,
-          max_answers: 5
-        },
-        awareness: {
-          type: 'brand_matrix',
+        awareness_v2: {
+          type: 'brand_matrix_v2',
           label: 'Hur väl känner du till följande hamburgerkedjor?',
           required: true,
           options: [
@@ -66,23 +60,14 @@ const SURVEY_CONFIG = {
           required: true,
           statements: [
             'Nästa gång jag väljer hamburgerkedja kommer jag mest sannolikt välja detta',
-            'När det gäller hamburgerkedjor är detta mitt förstahandsval/min favorit',
-            'Detta företag känner jag lojalitet till/är jag positivt inställd till/gillar jag',
             'Detta företag skulle jag definitivt kunna rekommendera till vänner och bekanta',
             'Hamburgare från detta företag är värt ett högre pris än de billigaste alternativen',
-            'Jag är villig att betala lite extra för denna hamburgerkedja',
             'Här är jag kund idag/Detta köper jag oftast/Detta köpte jag senast',
-            'Jag skulle kunna tänka mig att köpa från denna hamburgerkedja',
             'Passar mig och mina behov',
-            'Detta varumärke är välbekant för mig',
             'Detta varumärke lägger man ofta märke till',
-            'Jag gillar företaget bakom detta varumärke',
             'Prisvärt',
-            'Hög kvalitet',
             'Enkelt att vara kund',
-            'Pålitligt - håller löften',
             'Tillgängligt - finns nära mig',
-            'Att köpa från detta märke gör ett gott intryck på andra',
             'Att vara kund här känns nästan som att vara en del av en gemenskap'
           ]
         },
@@ -212,7 +197,7 @@ function App() {
   // Definiera sidorna i ordning
   const pages = [
     { key: 'screening', title: '' },
-    { key: 'awareness', title: '' },
+    { key: 'awareness_v2', title: '' },
     { key: 'statements', title: '' },
     { key: 'behavior', title: '' },
     { key: 'background', title: '' }
@@ -303,10 +288,57 @@ function App() {
   }
 
   const handleBrandSelection = (questionKey, brandId, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [`${questionKey}_${brandId}`]: value
-    }))
+    setFormData(prev => {
+      const newData = { ...prev }
+      
+      if (brandId === 'inget') {
+        // Om "Inget av dessa" väljs, avmarkera alla andra
+        if (value) {
+          // Rensa alla andra val för denna fråga
+          Object.keys(newData).forEach(key => {
+            if (key.startsWith(`${questionKey}_`) && key !== `${questionKey}_inget`) {
+              newData[key] = false
+            }
+          })
+        }
+        newData[`${questionKey}_inget`] = value
+      } else {
+        // Om en vanlig brand väljs, avmarkera "Inget av dessa"
+        if (value) {
+          newData[`${questionKey}_inget`] = false
+        }
+        newData[`${questionKey}_${brandId}`] = value
+      }
+      
+      return newData
+    })
+  }
+
+  const handleStatementSelection = (questionKey, statementIndex, brandId, value) => {
+    setFormData(prev => {
+      const newData = { ...prev }
+      
+      if (brandId === 'ingen') {
+        // Om "Ingen av dessa" väljs, avmarkera alla andra för denna statement
+        if (value) {
+          // Rensa alla andra val för denna statement
+          Object.keys(newData).forEach(key => {
+            if (key.startsWith(`${questionKey}_${statementIndex}_`) && key !== `${questionKey}_${statementIndex}_ingen`) {
+              newData[key] = false
+            }
+          })
+        }
+        newData[`${questionKey}_${statementIndex}_ingen`] = value
+      } else {
+        // Om en vanlig brand väljs, avmarkera "Ingen av dessa" för denna statement
+        if (value) {
+          newData[`${questionKey}_${statementIndex}_ingen`] = false
+        }
+        newData[`${questionKey}_${statementIndex}_${brandId}`] = value
+      }
+      
+      return newData
+    })
   }
 
   const handleSubmit = async (e) => {
@@ -409,7 +441,7 @@ function App() {
         return (
           <div className="brand-matrix">
             <div className="brand-header">
-              <div className="brand-logo-header">Varumärke</div>
+              <div className="brand-logo-header"></div>
               {question.options.map((option, index) => (
                 <div key={index} className="option-header">{option}</div>
               ))}
@@ -446,6 +478,49 @@ function App() {
           </div>
         )
       
+      case 'brand_matrix_v2':
+        return (
+          <div className="brand-matrix-v2">
+            <div className="brand-header-v2">
+              <div className="brand-logo-header-v2"></div>
+              {question.options.map((option, index) => (
+                <div key={index} className="option-header-v2">{option}</div>
+              ))}
+            </div>
+            {randomizedBrands.map(brand => (
+              <div key={brand.id} className="brand-row-v2">
+                <div className="brand-logo-v2">
+                  <img 
+                    src={brand.logo} 
+                    alt={brand.name} 
+                    className="brand-image-v2" 
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'inline';
+                    }}
+                  />
+                  <span className="brand-fallback-v2" style={{display: 'none'}}>{brand.name.charAt(0)}</span>
+                  <span className="brand-name-v2">{brand.name}</span>
+                </div>
+                {question.options.map((option, index) => (
+                  <div key={index} className="option-cell-v2">
+                    <label style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                      <input
+                        type="radio"
+                        name={`${key}_${brand.id}`}
+                        value={option}
+                        checked={formData[`${key}_${brand.id}`] === option}
+                        onChange={(e) => handleBrandSelection(key, brand.id, e.target.value)}
+                        required={question.required}
+                      />
+                    </label>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        )
+      
       case 'brand_multiple':
         return (
           <div className="brand-multiple">
@@ -475,7 +550,7 @@ function App() {
                 type="checkbox"
                 name={`${key}_inget`}
                 checked={formData[`${key}_inget`] || false}
-                onChange={(e) => setFormData(prev => ({ ...prev, [`${key}_inget`]: e.target.checked }))}
+                onChange={(e) => handleBrandSelection(key, 'inget', e.target.checked)}
               />
               <span className="brand-name">Inget av dessa</span>
             </label>
@@ -553,10 +628,7 @@ function App() {
                         type="checkbox"
                         name={`${key}_${statementIndex}_${brand.id}`}
                         checked={formData[`${key}_${statementIndex}_${brand.id}`] || false}
-                        onChange={(e) => setFormData(prev => ({
-                          ...prev,
-                          [`${key}_${statementIndex}_${brand.id}`]: e.target.checked
-                        }))}
+                        onChange={(e) => handleStatementSelection(key, statementIndex, brand.id, e.target.checked)}
                       />
                       <span className="brand-name-small">{brand.name}</span>
                     </label>
@@ -566,10 +638,7 @@ function App() {
                       type="checkbox"
                       name={`${key}_${statementIndex}_ingen`}
                       checked={formData[`${key}_${statementIndex}_ingen`] || false}
-                      onChange={(e) => setFormData(prev => ({
-                        ...prev,
-                        [`${key}_${statementIndex}_ingen`]: e.target.checked
-                      }))}
+                      onChange={(e) => handleStatementSelection(key, statementIndex, 'ingen', e.target.checked)}
                     />
                     <span className="brand-name-small">Ingen av dessa</span>
                   </label>
@@ -673,9 +742,6 @@ function App() {
       return (
         <div className="page-content statements-container">
           <div className="frozen-instructions">
-            <div className="category-info">
-              <p>{SURVEY_CONFIG.category}</p>
-            </div>
             <div className="instructions">
               <p><strong>Instruktioner:</strong> För varje påstående nedan, välj de hamburgerkedjor som du tycker passar bäst. Du kan välja flera alternativ.</p>
             </div>
@@ -694,11 +760,18 @@ function App() {
                         type="checkbox"
                         name={`image_statements_${statementIndex}_${brand.id}`}
                         checked={formData[`image_statements_${statementIndex}_${brand.id}`] || false}
-                        onChange={(e) => setFormData(prev => ({
-                          ...prev,
-                          [`image_statements_${statementIndex}_${brand.id}`]: e.target.checked
-                        }))}
+                        onChange={(e) => handleStatementSelection('image_statements', statementIndex, brand.id, e.target.checked)}
                       />
+                      <img 
+                        src={brand.logo} 
+                        alt={brand.name} 
+                        className="brand-image-small" 
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'inline';
+                        }}
+                      />
+                      <span className="brand-fallback-small" style={{display: 'none'}}>{brand.name.charAt(0)}</span>
                       <span className="brand-name-small">{brand.name}</span>
                     </label>
                   ))}
@@ -707,10 +780,7 @@ function App() {
                       type="checkbox"
                       name={`image_statements_${statementIndex}_ingen`}
                       checked={formData[`image_statements_${statementIndex}_ingen`] || false}
-                      onChange={(e) => setFormData(prev => ({
-                        ...prev,
-                        [`image_statements_${statementIndex}_ingen`]: e.target.checked
-                      }))}
+                      onChange={(e) => handleStatementSelection('image_statements', statementIndex, 'ingen', e.target.checked)}
                     />
                     <span className="brand-name-small">Ingen av dessa</span>
                   </label>
