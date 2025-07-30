@@ -38,7 +38,7 @@ body {
 
 /* Header styling */
 .survey-header {
-  background: linear-gradient(135deg, #88FFC2 0%, #66D4A3 100%);
+  background: #88FFC2;
   padding: 12px 20px;
   text-align: center;
   color: #172166;
@@ -106,7 +106,7 @@ body {
   left: 0;
   width: 50px;
   height: 2px;
-  background: linear-gradient(135deg, #88FFC2 0%, #66D4A3 100%);
+  background: #88FFC2;
 }
 
 .question-group {
@@ -114,7 +114,7 @@ body {
   background: #f9fafb;
   padding: 20px;
   border-radius: 8px;
-  border-left: 3px solid #3b82f6;
+  border-left: 3px solid #88FFC2;
   transition: all 0.2s ease;
 }
 
@@ -573,7 +573,7 @@ body {
 
 /* Submit button */
 .submit-btn {
-  background: linear-gradient(135deg, #88FFC2 0%, #66D4A3 100%);
+  background: #88FFC2;
   color: #374151;
   border: none;
   padding: 14px 28px;
@@ -590,7 +590,7 @@ body {
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #66D4A3 0%, #4FB08A 100%);
+  background: #66D4A3;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(136, 255, 194, 0.4);
 }
@@ -605,8 +605,8 @@ body {
 .success-message {
   padding: 50px 30px;
   text-align: center;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
+  background: #88FFC2;
+  color: #374151;
 }
 
 .success-message h3 {
@@ -925,10 +925,25 @@ body {
   }
 }
 
+/* Animation för frågor som dyker upp */
 .question-group {
-  animation: fadeInUp 0.4s ease-out;
+  animation: slideInUp 0.5s ease-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
 }
 
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered animation för flera frågor */
 .question-group:nth-child(1) { animation-delay: 0.1s; }
 .question-group:nth-child(2) { animation-delay: 0.2s; }
 .question-group:nth-child(3) { animation-delay: 0.3s; }

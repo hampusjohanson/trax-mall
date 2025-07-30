@@ -206,6 +206,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(0) // 0: screening, 1: awareness, 2: statements, 3: behavior, 4: background
   const [connectionStatus, setConnectionStatus] = useState('')
   const [submissionCount, setSubmissionCount] = useState(0)
+  const [answeredQuestions, setAnsweredQuestions] = useState({})
 
   // Definiera sidorna i ordning
   const pages = [
@@ -303,6 +304,12 @@ function App() {
       ...prev,
       [name]: value
     }))
+    
+    // Markera frågan som besvarad
+    setAnsweredQuestions(prev => ({
+      ...prev,
+      [name]: true
+    }))
   }
 
   const handleBrandSelection = (questionKey, brandId, value) => {
@@ -384,6 +391,12 @@ function App() {
       
       return newData
     })
+    
+    // Markera frågan som besvarad
+    setAnsweredQuestions(prev => ({
+      ...prev,
+      [questionKey]: true
+    }))
   }
 
   const handleSubmit = async (e) => {
@@ -423,6 +436,7 @@ function App() {
     setIsSubmitted(false)
     setCurrentPage(0) // Gå tillbaka till första sidan
     setIsInitialized(false) // Återställ så att ny randomisering sker för nästa respondent
+    setAnsweredQuestions({}) // Återställ besvarade frågor
     const initialData = {}
     Object.values(SURVEY_CONFIG.sections).forEach(section => {
       Object.keys(section.questions).forEach(key => {
@@ -442,6 +456,24 @@ function App() {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1)
     }
+  }
+
+  const isQuestionAnswered = (questionKey) => {
+    return answeredQuestions[questionKey] || false
+  }
+
+  const shouldShowQuestion = (questionKey, questionIndex) => {
+    if (questionIndex === 0) return true // Visa första frågan alltid
+    
+    // Hitta föregående fråga
+    const currentPageData = pages[currentPage]
+    const section = SURVEY_CONFIG.sections[currentPageData.key]
+    if (!section) return true
+    
+    const questionKeys = Object.keys(section.questions)
+    const previousQuestionKey = questionKeys[questionIndex - 1]
+    
+    return isQuestionAnswered(previousQuestionKey)
   }
 
   const renderQuestion = (key, question) => {
@@ -888,14 +920,20 @@ function App() {
     
     return (
       <div className="page-content">
-        {Object.entries(section.questions).map(([key, question]) => (
-          <div key={key} className="question-group">
-            <label className="question-label">
-              {question.label}
-            </label>
-            {renderQuestion(key, question)}
-          </div>
-        ))}
+        {Object.entries(section.questions).map(([key, question], index) => {
+          if (!shouldShowQuestion(key, index)) {
+            return null
+          }
+          
+          return (
+            <div key={key} className="question-group">
+              <label className="question-label">
+                {question.label}
+              </label>
+              {renderQuestion(key, question)}
+            </div>
+          )
+        })}
       </div>
     )
   }
