@@ -921,10 +921,31 @@ function App() {
                     name={`${key}_${index}`}
                     checked={formData[`${key}_${index}`] || false}
                     onChange={(e) => {
-                      setFormData(prev => ({
-                        ...prev,
-                        [`${key}_${index}`]: e.target.checked
-                      }))
+                      setFormData(prev => {
+                        const newData = { ...prev }
+                        
+                        // Speciallogik för children_ages - exklusivitet
+                        if (key === 'children_ages') {
+                          if (index === 0) { // "Nej, inga barn"
+                            if (e.target.checked) {
+                              // Rensa alla andra val
+                              question.options.forEach((_, i) => {
+                                if (i !== 0) {
+                                  newData[`${key}_${i}`] = false
+                                }
+                              })
+                            }
+                          } else { // Barn i specifika åldersgrupper
+                            if (e.target.checked) {
+                              // Avmarkera "Nej, inga barn"
+                              newData[`${key}_0`] = false
+                            }
+                          }
+                        }
+                        
+                        newData[`${key}_${index}`] = e.target.checked
+                        return newData
+                      })
                       
                       // Markera frågan som besvarad för children_ages
                       if (key === 'children_ages') {
