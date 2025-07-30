@@ -203,6 +203,17 @@ body {
   font-style: italic;
 }
 
+/* Input hint styling */
+.input-hint {
+  margin-top: 8px;
+  font-size: 0.9em;
+  color: #6b7280;
+}
+
+.input-hint em {
+  font-style: italic;
+}
+
 /* Brand matrix styling */
 .brand-matrix {
   display: flex;
