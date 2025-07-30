@@ -255,7 +255,7 @@ const SURVEY_CONFIG = {
       title: "",
       questions: {
         strength_scale: {
-          type: 'brand_scale',
+          type: 'brand_scale_single',
           label: 'Nästa gång jag väljer hamburgerkedja kan jag tänka mig att välja detta.',
           required: true,
           scale: [
@@ -888,6 +888,7 @@ function App() {
                         onChange={(e) => handleBrandSelection(key, brand.id, e.target.value)}
                         required={question.required}
                       />
+                      <span className="option-text-mobile">{option}</span>
                     </label>
                   </div>
                 ))}
@@ -1063,6 +1064,59 @@ function App() {
                         required={question.required}
                       />
                       <span className="scale-number">{scaleIndex + 1}</span>
+                      <span className="scale-text">
+                        {scaleOption.replace(/^\d+\s*/, '') || 
+                          (scaleIndex + 1 === 1 ? 'Instämmer inte alls' :
+                           scaleIndex + 1 === 7 ? 'Instämmer helt och hållet' :
+                           `Siffra ${scaleIndex + 1}`)}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      
+      case 'brand_scale_single':
+        return (
+          <div className="brand-scale-single">
+            {randomizedBrands.map(brand => (
+              <div key={brand.id} className="brand-scale-single-question">
+                <div className="brand-scale-single-header">
+                  <img 
+                    src={brand.logo} 
+                    alt={brand.name} 
+                    className="brand-image" 
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'inline';
+                    }}
+                  />
+                  <span className="brand-fallback" style={{display: 'none'}}>{brand.name.charAt(0)}</span>
+                  <span className="brand-name">{brand.name}</span>
+                </div>
+                <div className="scale-single-options">
+                  {question.scale.map((scaleOption, scaleIndex) => (
+                    <label key={scaleIndex} className="scale-single-option">
+                      <input
+                        type="radio"
+                        name={`${key}_${brand.id}`}
+                        value={scaleIndex + 1}
+                        checked={formData[`${key}_${brand.id}`] === (scaleIndex + 1).toString()}
+                        onChange={(e) => setFormData(prev => ({
+                          ...prev,
+                          [`${key}_${brand.id}`]: e.target.value
+                        }))}
+                        required={question.required}
+                      />
+                      <span className="scale-single-number">{scaleIndex + 1}</span>
+                      <span className="scale-single-text">
+                        {scaleOption.replace(/^\d+\s*/, '') || 
+                          (scaleIndex + 1 === 1 ? 'Instämmer inte alls' :
+                           scaleIndex + 1 === 7 ? 'Instämmer helt och hållet' :
+                           '')}
+                      </span>
                     </label>
                   ))}
                 </div>

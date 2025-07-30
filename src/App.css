@@ -167,19 +167,23 @@ body {
   height: 18px;
   margin: 0;
   cursor: pointer;
-  accent-color: #88FFC2;
-  border: 1px solid #e5e7eb;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 50%;
+  border: 2px solid #e5e7eb;
+  background: white;
+  position: relative;
 }
 
 .option-label input[type="radio"]:checked,
 .option-label input[type="checkbox"]:checked {
-  border-width: 0.5px;
-  border-color: #88FFC2;
+  background: #88FFC2;
+  border: 2px solid #88FFC2;
 }
 
 .option-text {
   font-weight: 500;
-  color: #374151;
+  color: rgb(17, 21, 66);
   cursor: pointer;
 }
 
@@ -877,43 +881,244 @@ body {
   }
 
   /* Mobile brand scale */
+  .brand-scale {
+    margin-top: 12px;
+  }
+  
+  .brand-scale .scale-labels {
+    display: none; /* Dölj scale labels på mobil */
+  }
+  
   .brand-scale-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
     padding: 16px;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  .brand-scale-row:hover {
+    border-color: #88FFC2;
+    background: #f8fffd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(136, 255, 194, 0.2);
   }
   
   .brand-scale-logo {
-    min-width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-  }
-  
-  .scale-container {
-    width: 100%;
-  }
-  
-  .scale-labels {
-    width: 100%;
-    justify-content: space-between;
-    gap: 4px;
-  }
-  
-  .scale-options {
-    width: 100%;
-    justify-content: space-between;
-    gap: 4px;
-  }
-  
-  .scale-label {
-    font-size: 0.8em;
-    min-width: 50px;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    gap: 12px;
   }
   
   .brand-scale-logo img {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
   }
+  
+  .brand-scale-logo .brand-name {
+    font-weight: 600;
+    color: #374151;
+    font-size: 1.1em;
+  }
+  
+  .scale-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .scale-option {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 12px 16px;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 44px;
+    height: 44px;
+    gap: 12px;
+  }
+  
+  .scale-option:hover {
+    background: #f8fffd;
+    border-color: #88FFC2;
+    transform: translateY(-1px);
+  }
+  
+  .scale-option input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: #88FFC2;
+    transform: scale(1.2);
+  }
+  
+  .scale-option input[type="radio"]:checked {
+    transform: scale(1.3);
+  }
+  
+  .scale-option input[type="radio"]:checked + .scale-number {
+    color: #059669;
+    font-weight: 600;
+  }
+  
+  .scale-number {
+    font-size: 1em;
+    color: #374151;
+    font-weight: 500;
+    margin: 0;
+  }
+  
+  .scale-text {
+    font-size: 0.9em;
+    color: #374151;
+    font-weight: 500;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+  
+  /* Om scale-text är tom, visa siffran istället */
+  .scale-text:empty::after {
+    content: attr(data-scale-number);
+    font-size: 0.9em;
+    color: #374151;
+    font-weight: 500;
+  }
+}
+
+/* Brand scale single styling */
+.brand-scale-single {
+  margin-top: 16px;
+}
+
+.brand-scale-single-question {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.brand-scale-single-question:hover {
+  border-color: #88FFC2;
+  background: #f8fffd;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(136, 255, 194, 0.2);
+}
+
+.brand-scale-single-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.brand-scale-single-header img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.brand-scale-single-header .brand-name {
+  font-weight: 600;
+  color: #374151;
+  font-size: 1.1em;
+}
+
+.scale-single-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.scale-single-option {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 12px 16px;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px;
+  height: 44px;
+  gap: 12px;
+}
+
+.scale-single-option:hover {
+  background: #f8fffd;
+  border-color: #88FFC2;
+  transform: translateY(-1px);
+}
+
+.scale-single-option input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 50%;
+  border: 2px solid #e5e7eb;
+  background: white;
+  position: relative;
+  transform: scale(1.2);
+}
+
+.scale-single-option input[type="radio"]:checked {
+  transform: scale(1.3);
+  background: #88FFC2;
+  border: 2px solid #88FFC2;
+}
+
+.scale-single-option input[type="radio"]:checked + .scale-single-number {
+  color: rgb(17, 21, 66);
+  font-weight: 600;
+}
+
+.scale-single-number {
+  font-size: 1em;
+  color: #374151;
+  font-weight: 500;
+  margin: 0;
+  min-width: 20px;
+  text-align: left;
+}
+
+.scale-single-text {
+  font-size: 0.9em;
+  color: #374151;
+  font-weight: 500;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
 } 
 
 /* Desktop styling för bättre responsivitet */
@@ -1401,12 +1606,16 @@ body {
 
 .option-cell-v2 input[type="radio"] {
   transform: scale(1.5);
-  accent-color: #3b82f6;
   cursor: pointer;
   margin: 0;
   padding: 8px;
   border-radius: 50%;
   transition: all 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid #e5e7eb;
+  background: white;
+  position: relative;
 }
 
 .option-cell-v2 input[type="radio"]:hover {
@@ -1415,40 +1624,85 @@ body {
 
 .option-cell-v2 input[type="radio"]:checked {
   transform: scale(1.6);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 0 0 1px rgba(136, 255, 194, 0.3);
 }
 
 /* Mobile styling för brand-matrix-v2 */
 @media (max-width: 768px) {
   .brand-matrix-v2 {
-    grid-template-columns: 1fr;
-    font-size: 0.85em;
-    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: none;
+    box-shadow: none;
+    background: transparent;
   }
   
-  .brand-logo-header-v2, .option-header-v2 {
+  .brand-header-v2 {
     display: none;
   }
   
+  .brand-row-v2 {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .brand-row-v2:hover {
+    border-color: #88FFC2;
+    background: #f8fffd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(136, 255, 194, 0.2);
+  }
+  
   .brand-logo-v2 {
-    padding: 16px 12px;
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    border-right: none;
+    padding: 12px;
+    margin-bottom: 16px;
     background: #f9fafb;
     border-radius: 8px;
-    border: 2px solid #e5e7eb;
+    border: 1px solid #e5e7eb;
+    gap: 12px;
+  }
+  
+  .brand-image-v2 {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .brand-fallback-v2 {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2em;
+  }
+  
+  .brand-name-v2 {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #374151;
   }
   
   .option-cell-v2 {
-    padding: 16px 12px;
-    border-right: none;
-    border-bottom: 2px solid #e5e7eb;
-    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 12px 16px;
     background: white;
-    margin-bottom: 8px;
+    border: 2px solid #e5e7eb;
     border-radius: 8px;
+    margin-bottom: 8px;
     transition: all 0.2s ease;
+    cursor: pointer;
+    min-height: 44px;
+    height: 44px;
+    gap: 12px;
   }
   
   .option-cell-v2:hover {
@@ -1458,40 +1712,67 @@ body {
   }
   
   .option-cell-v2:last-child {
-    border-bottom: 2px solid #e5e7eb;
     margin-bottom: 0;
   }
   
-  .brand-image-v2 {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .brand-fallback-v2 {
-    width: 32px;
-    height: 32px;
-    font-size: 1em;
-  }
-  
-  .brand-name-v2 {
-    font-size: 0.9em;
-    font-weight: 600;
+  .option-cell-v2 label {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    color: #374151;
+    gap: 12px;
   }
   
   .option-cell-v2 input[type="radio"] {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     margin: 0;
     cursor: pointer;
-    accent-color: #88FFC2;
-  }
-  
-  .option-cell-v2 input[type="radio"]:hover {
-    transform: scale(1.1);
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    background: white;
+    position: relative;
+    transform: scale(1.2);
   }
   
   .option-cell-v2 input[type="radio"]:checked {
-    transform: scale(1.1);
+    transform: scale(1.3);
+    background: #88FFC2;
+    border: 2px solid #88FFC2;
+  }
+  
+  .option-cell-v2 input[type="radio"]:checked + span {
+    color: rgb(17, 21, 66);
+    font-weight: 600;
+  }
+  
+  .option-text-mobile {
+    display: block;
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #374151;
+    line-height: 1.3;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* Desktop styling för option-text-mobile */
+@media (min-width: 769px) {
+  .option-text-mobile {
+    display: none;
+  }
+  
+  .scale-text {
+    display: none;
   }
 } 
 
@@ -1764,21 +2045,28 @@ body {
   height: 20px;
   margin: 0;
   cursor: pointer;
-  accent-color: #88FFC2;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 50%;
+  border: 2px solid #e5e7eb;
+  background: white;
+  position: relative;
 }
 
 .security-option input[type="radio"]:checked {
   transform: scale(1.1);
+  background: #88FFC2;
+  border: 2px solid #88FFC2;
 }
 
 .security-option input[type="radio"]:checked + .security-option-text {
-  color: #88FFC2;
+  color: rgb(17, 21, 66);
   font-weight: 700;
 }
 
 .security-option-text {
   font-size: 1em;
-  color: #374151;
+  color: rgb(17, 21, 66);
   font-weight: 500;
   cursor: pointer;
 }
