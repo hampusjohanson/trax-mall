@@ -890,7 +890,7 @@ function App() {
         <div className="page-content statements-container">
           <div className="frozen-instructions">
             <div className="instructions">
-              <p><strong>Instruktioner:</strong> För varje påstående nedan, välj de hamburgerkedjor som du tycker passar bäst. Du kan välja flera alternativ.</p>
+              <p><strong>Instruktioner:</strong> För varje påstående nedan, välj de varumärken som du tycker passar bäst in. Det finns inga rätt eller fel, utgå gärna från din magkänsla. Du kan välja flera alternativ för varje påstående.</p>
             </div>
           </div>
           
