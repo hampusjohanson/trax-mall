@@ -1,0 +1,757 @@
+
+[Name NoA Consulting contact]
+[Phone]
+Stockholm [Date]
+
+[Client]
+Trax driver analysis [year]
+Main survey
+
+
+Sample
+
+Target group: Everyone aged 16-74, nationally representative based on gender, age and A-region.
+
+Quotas: If applicable, otherwise delete.
+
+No. of interviews: 1 000
+
+Weighting: If applicable, otherwise delete.
+
+Estimated interview time (LOI): 15 mins
+
+NB: Survey headings (Part S, Part A etc.) only for internal use, not to be included in survey.
+
+
+Category and brands
+
+Category description for programmers: E.g. This survey is about mobile operators that offer subscriptions or prepaid cards for making calls and surfing on mobile phones.
+
+Oftast används logotyper istället för enbart varumärkesnamn i enkäten. Klistra in logotyperna i PPT, screenshotta varje och spara som PNG i mapp som komprimeras och skickas till Norstat.
+
+Brand list (also shown with images, find PNGs attached in E-mail):
+	•	Brand
+	•	Brand
+	•	Brand
+	•	Brand
+	•	Brand
+
+
+START OF SURVEY
+
+Part S. Screening
+
+Screen out if age<16
+Screen out if age>74
+
+INTRO:
+
+Sätter respondenten i rätt sammanhang (introducerar kategorin), alltid med:
+
+Denna undersökning handlar om mobiloperatörer som erbjuder abonnemang eller kontantkort för att ringa och surfa med mobiltelefon.
+
+Part A. Salience and Awareness
+
+Tänkbarhet kopplat till specifika situationer eller sub-kategorier:
+
+X. Om du skulle behöva köpa öl till en lördagsmiddag när gäster ska komma på besök, vilka ölmärken skulle du överväga? Du kan ange flera.
+___________ (open, required)
+___________ (open)
+___________ (open)
+
+X. Om du skulle behöva köpa öl till en grillkväll en härlig sommardag, vilka ölmärken skulle du överväga? Du kan ange flera.
+___________ (open, required)
+___________ (open)
+___________ (open)
+
+X. Om du skulle behöva ett billigt kontantkort, vilka operatörer skulle du överväga? Du kan ange flera.
+___________ (open, required)
+___________ (open)
+___________ (open)
+
+X. Om du skulle behöva ett mobilabonnemang med mycket data, vilka operatörer skulle du överväga? Du kan ange flera.
+___________ (open, required)
+___________ (open)
+___________ (open)
+
+Mental kategoristorlek/mäta storlek på kundens consideration set. Primärt frågor för B2B:
+ X. Senaste gången ni köpte/valde leverantör, hur många leverantörer övervägde ni att köpa från?
+(Drop-down numerical list: 1-20)
+
+X. Senaste gången ni köpte/valde leverantör, hur många leverantörer begärde ni offert från?
+(Drop-down numerical list: 1-20)
+
+X. Vilken leverantör valde ni till slut?
+Single choice.
+	•	Den vi hade som förstahandsval från början
+	•	Annan leverantör som vi övervägde
+
+
+Kännedom per varumärke, alltid med:
+
+X. Hur väl känner du till följande [företag]? 
+Insert Brand list in rows. Randomise rows. Single choice per row.
+
+Har inte hört talas om
+Hört talas om, men vet inget om vad det har att erbjuda 
+Hört talas om och vet vad det har att erbjuda 
+Brand 1
+	•	
+	•	
+	•	
+Brand 2
+	•	
+	•	
+	•	
+Etc.
+	•	
+	•	
+	•	
+
+
+
+Part B. Sales premium and image
+
+Varumärkesstyrka, försäljningspremiedrivare och image per varumärke, alltid med:
+
+X. Nedan listas ett antal påståenden. Ange vilka [företag] som du känner att respektive påstående stämmer in på. Försök svara även om du är osäker, det finns inga rätt eller fel. Du kan välja fler än 1 för respektive påstående. 
+Insert Brand list in columns. Randomise rows and columns (apart from last column). Multiple choice (apart from last column).
+
+Brand 1
+Brand 2
+Etc.
+Inget av dessa 
+Statement 1
+	•	
+	•	
+	•	
+	•	
+Statement 2
+	•	
+	•	
+	•	
+	•	
+Etc.
+	•	
+	•	
+	•	
+	•	
+
+Statements:
+
+Riktlinje om max 50 påståenden totalt, helst under 40. Desto fler påståenden, desto färre fasta konkurrenter rekommenderas (för att enkäten inte ska bli för lång).
+
+Påståenden försäljningspremie (nyckelord understrukna). Nedan är alltid med:
+
+	•	Nästa gång jag väljer/ska köpa [kategori X] kommer jag mest sannolikt välja detta / Om jag skulle välja [kategori X] idag skulle jag mest sannolikt välja detta 
+
+	•	När det gäller [kategori X] är detta mitt förstahandsval/min favorit /…köper jag helst från detta företag 
+
+	•	Detta [företag/tjänst etc] känner jag lojalitet till/är jag positivt inställd till/gillar jag
+
+	•	Detta [företag/tjänst etc] skulle jag definitivt kunna rekommendera till vänner och bekanta /…om någon annan frågade
+
+	•	[Produkter/tjänster etc.] från detta [företag etc] är värt ett högre pris än de billigaste alternativen på marknaden
+
+	•	Jag är villig att betala lite extra för denna [tjänst etc]/[produkter/tjänster från detta företag] / Är värda att betala lite mer för
+
+	•	“Det har hänt att jag betalat lite mer för X från detta märke, trots att en liknande produkt fanns till lägre pris från ett annat märke”
+
+	•	Här är jag kund idag/Detta köper jag oftast/Detta köpte jag senast (obligatorisk)
+
+	•	Jag skulle kunna tänka mig att köpa [kategori X] från detta [företag] / Om jag skulle välja [kategori X] idag skulle jag kunna tänka mig detta / Jag kan tänka mig vara kund hos detta [företag] (obligatorisk om litet varumärke)
+
+	•	Även om alla [företag] erbjöd exakt samma [sak/produkt/tjänst etc.] skulle jag föredra denna (valbar)
+
+	•	Vi kommer troligen göra mer affärer med denna leverantör i framtiden / Jag kommer troligen köpa mer från detta företag i framtiden (valbar) 
+
+Påståenden image. Ligger slumpvis blandade med påståendena om försäljningspremie ovan. Nedan är alltid med:
+
+	•	Passar mig / Passar mig och mina behov (kan kontrasteras med: Passar hela mitt hushåll/uppskattas av alla medarbetare hos oss)
+	•	Detta varumärke är välbekant för mig / känner jag väl till (familiarity)
+	•	Detta varumärke läger man ofta märke till / hörs och syns mycket
+	•	Jag gillar företaget bakom detta varumärke (om produktvarumärke)
+	•	Prisvärt
+	•	Hög kvalitet
+	•	Enkelt att [vara kund/använda etc.]
+	•	Pålitligt [håller löften/produkter och tjänster som fungerar som de ska]
+	•	Tillgängligt [finns nära mig, vet hur/var jag kan köpa]
+	•	Att köpa detta märke gör ett gott intryck på andra
+	•	Att vara kund här känns nästan som att vara en del av en klubb eller en gemenskap
+
+
+Styrkefråga på 7-gradig skala för att möjliggöra analys av hygien vs. excitement faktor, alltid med:
+
+X. Nästa gång jag väljer/ska köpa [kategori X] kan jag tänka mig att välja detta.
+Insert Brand list in rows. Randomise rows. Single choice per row.
+
+1 Instämmer inte alls
+2
+3
+4
+5
+6
+7
+Instämmer helt och hållet
+Brand 1
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+Brand 2
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+Etc
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+
+Faktisk betalningsvilja per varumärke: 
+
+X. Om [PRODUKT X] normalt sett kostar mellan 10 och 30 kr, hur mycket skulle du betala för [märke X]? / Om det kostar mellan 100 kr (SEK) och 2000 kr (SEK) att hyra en [X] under 1 dygn, vad tycker du att det är värt att betala för att hyra [X] från respektive uthyrare?
+Insert Brand list. Randomise order. 
+
+	•	Brand 1: _____ kr (open numeric, min 0 - max 30)
+	•	Brand 2: _____ kr (open numeric, min 0 - max 30)
+	•	Etc. 
+
+Part D. Purchasing behaviour
+
+Om screeningen är bred, till exempel allmänheten, kan det vara bra att inkludera en fråga om när man senast köpte i kategorin. Detta för att kunna bryta ner på respondenter som har mer ”koll”. Särskilt om det gäller sällanköp:
+
+X. När köpte du/handlade du senast [kategori X, tex ”ketchup”]?
+Single choice.
+	•	Mindre än 1 månad sedan
+	•	1-6 månader sedan
+	•	6 månader-1 år sedan
+	•	Mer än 1 år sedan
+	•	Aldrig
+
+En fråga om penetration är alltid med, nedan följer ett par exempel: 
+
+X. Vilka av följande [företag] är du kund hos idag? Du kan välja flera.
+Randomise order, apart from last two rows. Multiple choice, apart from last two rows.
+	•	Insert Brand list
+	•	Inget av dessa
+	•	Vet ej
+
+X. Vilket av följande [företag/operatörer] ser du som din huvudsakliga? Du kan bara välja en aktör.
+Randomise order, apart from last two rows. Single choice. 
+	•	Insert Brand list
+	•	Inget av dessa
+	•	Vet ej
+
+X. När köpte du från/handlade du från/besökte du senast följande [företag]? / När köpte ert företag senast något från följande leverantörer? / När tittade någon i ditt hushåll på följande TV-kanaler, streamingtjänster eller webbsidor senast? Räkna även med eventuella barn i hushållet? Det spelar inte någon roll om det är du själv, någon annan i hushållet eller en eventuell arbetsgivare som betalar/betalat kostnaderna. 
+Insert Brand list in rows. Randomise rows. Single choice per row. 
+
+Skalan kan behöva anpassas beroende på kategori, B2C eller B2B etc:
+
+
+Mindre än 1 månad sedan 
+1-6 månader sedan 
+6 månader-1 år sedan
+Mer än 1 år sedan
+Aldrig
+Brand 1
+	•	
+	•	
+	•	
+	•	
+	•	
+Brand 2
+	•	
+	•	
+	•	
+	•	
+	•	
+Etc.
+	•	
+	•	
+	•	
+	•	
+	•	
+
+Nedan passar vid komplexa kategorier med många olika typer av produkter eller tjänster som man har bättre koll på än själva företaget, som till exempel försäkringar. OBS krånglig att hantera i analysfas:
+
+X. Vilka typer av försäkringar har du idag hos följande försäkringsbolag?
+Randomise rows. Single choice per row.
+ 
+If 
+Trygg Hansa 
+Folksam 
+ Annat bolag
+Har, men vet ej
+vilket bolag
+Har ej 
+Hem-/villaförsäkring
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+Bil-/båt-/motorcykel-försäkring
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+Fritidshusförsäkring
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+Olycksfall-/livförsäkring
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+Barnförsäkring
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+Övrig försäkring
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+
+Egen fråga om betalning kan behövas om det finns både gratis och betaltjänster i kategorin: 
+X. Vilka av följande [kategori X] betalar ditt hushåll för?
+Randomise order, apart from last two rows. Multiple choice. 
+	•	TV-kanalen TV4
+	•	TV-kanalen SVT1
+	•	TV-kanalen TV3/Kanal 5
+	•	TV4 Play
+	•	SVT Play
+	•	TV3 Play
+	•	C More
+	•	Netflix
+	•	Viaplay
+	•	YouTube
+	•	Swefilmer
+	•	Aftonbladet TV
+	•	Ingen av dessa
+	•	Vet ej
+
+
+Part E. Size of market
+
+Nedan frågor behövs för att uppskatta värdet på marknaden, om kunden själv inte har andra siffror. 
+
+X. Hur ofta köper du mat, antingen för att äta på plats eller ta med, på följande typer av snabbmatsrestauranger?
+Insert the list with “Types of restaurants”. Single choice per row. Randomise rows.
+MEDELVÄRDE FÖR KODNING AV TOTAL SPENDING
+365
+156
+52
+26
+12
+6
+4
+2
+1
+0
+
+Dagligen
+Flera gånger per vecka
+Varje vecka
+Varannan vecka
+Varje månad
+Varannan månad
+1 gång per kvartal
+1 gång per halvår
+1 gång per år
+Mer sällan/aldrig
+Hamburgerrestaurang
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+Premiumburgarställen (t.ex. Prime Burger, Bastard Burgers, Jureskogs, Phil’s Burger)
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+Restaurant type 3
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+Etc.
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+
+…kombineras med: 
+X. Hur mycket pengar uppskattar du att du i genomsnitt betalar per besök (inklusive det du vanligtvis betalar för andra, t.ex. familjemedlemmar) på respektive typ av snabbmatsrestaurang?
+Insert the list with “Types of restaurants”. Show restaurants if X≥1. Single choice per row. Same order as in X.
+MEDELVÄRDE FÖR TOTAL SPENDING
+0
+13
+37
+62
+87
+125
+175
+250
+350
+450
+625
+875
+1750
+3750
+
+0 kr
+1-24 kr
+25-49 kr
+50-74 kr
+75-99 kr
+100-149 kr
+150-199 kr
+200-299 kr
+300-399 kr
+400-499 kr
+500-749 kr
+750-999 kr
+1 000-2 499 kr
+Mer än 2 500 kr
+Hamburgerrestaurang
+
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+Premiumburgarställen (t.ex. Prime Burger, Bastard Burgers, Jureskogs, Phil’s Burger)
+
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+Restaurant type 3
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+Etc.
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+	•	
+
+
+I kategorier där man betalar löpande, tex. abonnemang kan man fråga så här i stället, men obs att det är viktigt att tydliggöra vilka man frågar, individ eller hushåll:
+
+X. Försök uppskatta ditt hushålls totala kostnader/utgifter för [kategori x] per månad.
+
+____________ kr (open numeric)
+
+Alternativt:
+
+	•	0 kr
+	•	1-99 kr
+	•	100-199 kr
+	•	…
+
+X. Försök uppskatta hur stor andel i procent av dina totala kostnader/utgifter för [kategori x] som du/hushållet lägger hos följande [företag]. / Hur fördelar du normalt dina inköp av [kategori X] mellan dessa olika [företag]?
+Det spelar ingen roll om du själv, någon annan i hushållet eller en eventuell arbetsgivare står för kostnaderna.
+Randomise apart from last row. Open numeric. Sum up to 100% unless select last row (option 5).
+	•	Brand 1		_____________%
+	•	Brand 2		_____________%
+	•	Etc.		_____________%
+	•	Annat företag	_____________%
+Totalt 		100%
+
+	•	Mina kostnader är 0 kr
+
+
+Part F. Potential for expansion
+
+Utvidgningspotential.
+
+X. Vilka av följande produkter och tjänster kan du tänka dig att köpa från [varumärke X]? 
+Randomise order, apart from last row. Multiple choice.
+	•	Produkt A
+	•	Tjänst A
+	•	Inga av dessa
+
+Part G. Pain points
+
+Pain points/problem på kategorinivå.
+
+X. Vilka av följande problem har du upplevt med [kategori X] under de senaste 3 åren och blivit irriterad på?  
+Randomise order, apart from last row. Multiple choice.
+	•	Problem 1
+	•	Problem 2
+	•	Inga av dessa
+
+Part H. Stated drivers
+
+X. Vilka av följande saker är viktiga för att du ska vilja [vara kund hos en viss X/välja en viss X]? Du kan välja hur många saker som du vill.
+
+Upprepa imagefrågor/påståenden inkluderade i del B nedan. Påståendena kan behöva skrivas om så att de passar inledningen.
+
+Att [företaget] är/har…
+Randomise order, apart from last row. Multiple choice, apart from last row.
+	•	xxx
+	•	xxx
+	•	xxx
+	•	Inget av detta
+
+Part I. Awareness of client’s offer
+
+Den här bör vara med oftare, särskilt med fokus på de produkter/tjänster som är mest lönsamma/säljer mest. 
+
+X. Ange vilka av följande produkter, tjänster och lösningar som du vet att [företaget som är vår uppdragsgivare] erbjuder? Du kan välja flera.
+Randomise order, apart from last row. Multiple choice apart from last row.
+Exempel telekom.
+	•	Mobil telefoni och data
+	•	Fast telefoni
+	•	Tekniker för integration av komplexa lösningar
+	•	Lösningar för småföretag
+	•	Lösningar för stora företag och offentlig sektor
+	•	Tele2 erbjuder inget av detta till företag
+
+Part J. Background
+
+VARIABLES FROM PANEL:
+Gender
+Age
+Zipcode (incl. Postort, Kommun, Län, A-region, NUTS2)
+
++ inkludera det som är relevant för kunden.   Ofta en fördel att synka med kundens egna definitioner, frågor och skalor så att det matchar deras tidigare studier, hur de själva definierar segment etc. Nedan några alternativ vi kan föreslå.
+
+Familjesituation
+
+X. Hur många personer består ditt hushåll av (inklusive dig själv)?
+Single choice.
+	•	1
+	•	2
+	•	3
+	•	4
+	•	5
+	•	Fler än 5 personer
+
+X. Finns det några barn eller ungdomar i ditt hushåll som är 17 år eller yngre?
+Single choice.
+	•	Ja
+	•	Nej
+
+X. Har du hemmavarande barn under 25 år? Flera svar är möjliga
+Multiple choice.
+	•	Nej
+	•	Ja, barn som är under 6 år
+	•	Ja, barn som är mellan 6 till 15 år
+	•	Ja, barn som är mellan 16 till 25 år
+
+X. Vilket av följande alternativ passar bäst in på din livssituation?
+Single choice.
+	•	Singel
+	•	Pojkvän/flickvän
+	•	Sambo/gift utan barn
+	•	Ensamstående med barn
+	•	Sambo/gift med små barn
+	•	Sambo/gift med tonårsbarn
+	•	Sambo/gift med utflyttade barn
+	•	Frånskild
+	•	Änka/Änkeman
+	•	Annat
+
+Bostadssituation
+
+X. Vilket av följande alternativ passar bäst in på var du bor?
+Single choice.
+	•	Stockholm 
+	•	Malmö 
+	•	Göteborg 
+	•	Annan stad med över 90 000 invånare 
+	•	Stad med 50 000 – 90 000 invånare
+	•	Stad med 10 000 – 50 000 invånare
+	•	Landsbygd/Samhälle med färre än 10 000 invånare 
+
+X. Vilket av följande alternativ passar bäst in på var du bor?
+Single choice.
+	•	Oslo 
+	•	Bergen
+	•	Trondheim
+	•	Annan stad med över 90 000 invånare 
+	•	Stad med 50 000 – 90 000 invånare
+	•	Stad med 10 000 – 50 000 invånare
+	•	Landsbygd/Samhälle med färre än 10 000 invånare 
+
+X. Vilket av följande alternativ passar bäst in på var du bor?
+Single choice.
+	•	Helsinki 
+	•	Tampere 
+	•	Turku 
+	•	Annan stad med över 90 000 invånare 
+	•	Stad med 50 000 – 90 000 invånare
+	•	Stad med 10 000 – 50 000 invånare
+	•	Landsbygd/Samhälle med färre än 10 000 invånare 
+
+X. Vilket av följande alternativ passar bäst in på var du bor?
+Single choice.
+	•	København
+	•	Aarhus
+	•	Odense
+	•	Annan stad med över 90 000 invånare 
+	•	Stad med 50 000 – 90 000 invånare
+	•	Stad med 10 000 – 50 000 invånare
+	•	Landsbygd/Samhälle med färre än 10 000 invånare 
+
+X. Hur bor du?
+Single choice.
+	•	Hyreslägenhet
+	•	Bostadsrättslägenhet/andelslägenhet
+	•	Villa
+	•	Radhus/Kedjehus
+	•	Lantgård
+	•	Annat
+
+Utbildning och sysselsättning
+
+X. Har du någon gång läst på universitet eller högskola?
+Single choice.
+	•	Ja
+	•	Nej
+
+X. Vilken är din senast fullföljda utbildningsnivå?
+Single choice.
+	•	Högstadieskola
+	•	Gymnasieskola
+	•	Universitet eller högskola
+
+X. Vad är din nuvarande sysselsättning? 
+Single choice.
+	•	Egenföretagare
+	•	Anställd
+	•	Studerande
+	•	Pensionär
+	•	Arbetslös
+
+X. Hur stor är din sammanlagda inkomst per månad före skatt? Räkna in samtliga inkomster, såsom lön, bidrag, pension, avkastning med mera.
+Single choice.
+	•	0–10 000 kr
+	•	10 001–20 000 kr
+	•	20 001–30 000 kr
+	•	30 001–40 000 kr
+	•	40 001–50 000 kr
+	•	50 001–60 000 kr
+	•	60 001–70 000 kr
+	•	70 001–80 000 kr
+	•	80 001–90 000 kr
+	•	90 001–100 000 kr
+	•	Mer än 100 000 kr
+	•	Vet ej/Vill ej uppge
+
+X. Hur stor är hushållets sammanlagda inkomst per månad före skatt? Räkna in samtliga inkomster, såsom lön, bidrag, pension, avkastning med mera för samtliga personer i hushållet.
+Single choice.
+	•	0–10 000 kr
+	•	10 001–20 000 kr
+	•	20 001–30 000 kr
+	•	30 001–40 000 kr
+	•	40 001–50 000 kr
+	•	50 001–60 000 kr
+	•	60 001–70 000 kr
+	•	70 001–80 000 kr
+	•	80 001–90 000 kr
+	•	90 001–100 000 kr
+	•	Mer än 100 000 kr
+	•	Vet ej/Vill ej uppge
+
+
+
+END OF SURVEY
