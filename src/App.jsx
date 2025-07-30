@@ -495,33 +495,35 @@ function App() {
       }
     }
 
-    const testSupabaseConnection = async () => {
-      console.log('Testing Supabase connection...')
-      console.log('URL:', supabaseUrl ? 'Set' : 'Missing')
-      console.log('Key:', supabaseAnonKey ? 'Set' : 'Missing')
-      
-      try {
-        const { data, error } = await supabase
-          .from('survey_responses_flexible')
-          .select('count')
-          .limit(1)
-        
-        if (error) {
-          console.error('Supabase connection error:', error)
-          alert(`Supabase error: ${error.message}`)
-        } else {
-          console.log('Supabase connection successful!')
-          alert('Supabase connection working!')
-        }
-      } catch (err) {
-        console.error('Connection test error:', err)
-        alert(`Connection test failed: ${err.message}`)
-      }
-    }
+
     
     // Testa efter en kort fördröjning för att låta DOM laddas
     setTimeout(testSticky, 100)
   }, [currentPage])
+
+  const testSupabaseConnection = async () => {
+    console.log('Testing Supabase connection...')
+    console.log('URL:', supabaseUrl ? 'Set' : 'Missing')
+    console.log('Key:', supabaseAnonKey ? 'Set' : 'Missing')
+    
+    try {
+      const { data, error } = await supabase
+        .from('survey_responses_flexible')
+        .select('count')
+        .limit(1)
+      
+      if (error) {
+        console.error('Supabase connection error:', error)
+        alert(`Supabase error: ${error.message}`)
+      } else {
+        console.log('Supabase connection successful!')
+        alert('Supabase connection working!')
+      }
+    } catch (err) {
+      console.error('Connection test error:', err)
+      alert(`Connection test failed: ${err.message}`)
+    }
+  }
 
   // const fetchSubmissionCount = async () => { // This function was removed
   //   try {
@@ -682,7 +684,6 @@ function App() {
       
       // Skapa JSON-objekt med alla svar
       const surveyResponse = {
-        version: SURVEY_CONFIG.version,
         responses: formData,
         submitted_at: new Date().toISOString()
       }
