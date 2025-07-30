@@ -153,23 +153,6 @@ const SURVEY_CONFIG = {
         }
       }
     },
-    importance: {
-      title: "",
-      questions: {
-        importance_attributes: {
-          type: 'multiple_choice',
-          label: 'Vilka av följande faktorer är viktiga för dig när du väljer hamburgerkedja? Du kan välja flera alternativ.',
-          required: true,
-          options: [
-            'Prisvärt',
-            'Enkelt att vara kund',
-            'Tillgängligt - finns nära mig',
-            'Detta varumärke lägger man ofta märke till',
-            'Att vara kund här känns nästan som att vara en del av en gemenskap'
-          ]
-        }
-      }
-    },
     background: {
       title: "",
       questions: {
