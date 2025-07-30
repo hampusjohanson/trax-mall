@@ -179,6 +179,17 @@ const SURVEY_CONFIG = {
             { value: 'nej', label: 'Nej' }
           ]
         },
+        children_ages: {
+          type: 'multiple_choice',
+          label: 'Vilka åldersgrupper av barn har du i ditt hushåll? Flera svar är möjliga.',
+          required: true,
+          options: [
+            'Nej, inga barn',
+            'Ja, barn som är under 6 år',
+            'Ja, barn som är mellan 6 till 12 år',
+            'Ja, barn som är mellan 13 till 17 år'
+          ]
+        },
         location: {
           type: 'select',
           label: 'Vilket av följande alternativ passar bäst in på var du bor?',
@@ -333,6 +344,18 @@ function App() {
       ...prev,
       [name]: true
     }))
+    
+    // Speciallogik för children - rensa children_ages om svaret är 'nej'
+    if (name === 'children' && value === 'nej') {
+      setFormData(prev => ({
+        ...prev,
+        children_ages: ''
+      }))
+      setAnsweredQuestions(prev => ({
+        ...prev,
+        children_ages: false
+      }))
+    }
   }
 
   const handleBrandSelection = (questionKey, brandId, value) => {
@@ -508,7 +531,17 @@ function App() {
     const questionKeys = Object.keys(section.questions)
     const previousQuestionKey = questionKeys[questionIndex - 1]
     
-    return isQuestionAnswered(previousQuestionKey)
+    // Kontrollera om föregående fråga är besvarad
+    if (!isQuestionAnswered(previousQuestionKey)) {
+      return false
+    }
+    
+    // Speciallogik för children_ages - visa bara om children = 'ja'
+    if (questionKey === 'children_ages') {
+      return formData.children === 'ja'
+    }
+    
+    return true
   }
 
   const shouldShowStatement = (statementIndex) => {
@@ -887,10 +920,20 @@ function App() {
                     type="checkbox"
                     name={`${key}_${index}`}
                     checked={formData[`${key}_${index}`] || false}
-                    onChange={(e) => setFormData(prev => ({
-                      ...prev,
-                      [`${key}_${index}`]: e.target.checked
-                    }))}
+                    onChange={(e) => {
+                      setFormData(prev => ({
+                        ...prev,
+                        [`${key}_${index}`]: e.target.checked
+                      }))
+                      
+                      // Markera frågan som besvarad för children_ages
+                      if (key === 'children_ages') {
+                        setAnsweredQuestions(prev => ({
+                          ...prev,
+                          [key]: true
+                        }))
+                      }
+                    }}
                   />
                   <span className="multiple-choice-text">{option}</span>
                 </label>
