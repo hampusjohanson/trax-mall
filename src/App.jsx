@@ -32,7 +32,7 @@ const SURVEY_CONFIG = {
           required: true,
           min: 16,
           max: 74,
-          placeholder: ''
+          placeholder: 'Antal år'
         }
       }
     },
@@ -522,7 +522,7 @@ function App() {
           <div className="question-input">
             {key === 'age' && (
               <div className="input-hint">
-                <em>antal år</em>
+                <em>Skriv antal år</em>
               </div>
             )}
             <input
