@@ -494,6 +494,28 @@ body {
   margin-top: 16px;
 }
 
+.brand-scale .scale-labels {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+}
+
+.brand-scale .scale-label {
+  font-size: 0.9em;
+  color: #374151;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+  min-width: 80px;
+  flex: 1;
+}
+
 .brand-scale-row {
   display: flex;
   align-items: center;
@@ -532,34 +554,11 @@ body {
   font-size: 1.1em;
 }
 
-.scale-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  gap: 12px;
-}
-
-.scale-labels {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: center;
-}
-
-.scale-label {
-  font-size: 0.85em;
-  color: #6b7280;
-  font-weight: 500;
-  text-align: center;
-  line-height: 1.2;
-  min-width: 60px;
-}
-
 .scale-options {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  flex: 1;
   justify-content: center;
 }
 
@@ -569,15 +568,19 @@ body {
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  padding: 8px;
+  border-radius: 8px;
+  min-width: 60px;
 }
 
 .scale-option:hover {
+  background: #f3f4f6;
   transform: translateY(-2px);
 }
 
 .scale-option input[type="radio"] {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   margin: 0;
   cursor: pointer;
   accent-color: #88FFC2;
@@ -587,11 +590,16 @@ body {
   transform: scale(1.1);
 }
 
+.scale-option input[type="radio"]:checked + .scale-number {
+  color: #88FFC2;
+  font-weight: 700;
+}
+
 .scale-number {
-  font-size: 0.9em;
+  font-size: 1.1em;
   color: #374151;
   font-weight: 600;
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 /* Brand frequency styling */
