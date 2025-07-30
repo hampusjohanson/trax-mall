@@ -170,6 +170,29 @@ const SURVEY_CONFIG = {
             { value: 'fler_än_5', label: 'Fler än 5 personer' }
           ]
         },
+        children: {
+          type: 'select',
+          label: 'Finns det några barn eller ungdomar i ditt hushåll som är 17 år eller yngre?',
+          required: true,
+          options: [
+            { value: 'ja', label: 'Ja' },
+            { value: 'nej', label: 'Nej' }
+          ]
+        },
+        location: {
+          type: 'select',
+          label: 'Vilket av följande alternativ passar bäst in på var du bor?',
+          required: true,
+          options: [
+            { value: 'stockholm', label: 'Stockholm' },
+            { value: 'malmö', label: 'Malmö' },
+            { value: 'göteborg', label: 'Göteborg' },
+            { value: 'annan_stor_stad', label: 'Annan stad med över 90 000 invånare' },
+            { value: 'stad_50_90k', label: 'Stad med 50 000 – 90 000 invånare' },
+            { value: 'stad_10_50k', label: 'Stad med 10 000 – 50 000 invånare' },
+            { value: 'landsbygd', label: 'Landsbygd/Samhälle med färre än 10 000 invånare' }
+          ]
+        },
         income: {
           type: 'select',
           label: 'Hur stor är din sammanlagda inkomst per månad före skatt?',
