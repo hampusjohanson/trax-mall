@@ -576,15 +576,17 @@ body {
   background: linear-gradient(135deg, #88FFC2 0%, #66D4A3 100%);
   color: #374151;
   border: none;
-  padding: 16px 32px;
+  padding: 14px 28px;
   border-radius: 8px;
-  font-size: 1.1em;
+  font-size: 1em;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(136, 255, 194, 0.3);
-  width: 100%;
-  margin-top: 20px;
+  width: auto;
+  min-width: 200px;
+  margin: 20px auto 0;
+  display: block;
 }
 
 .submit-btn:hover:not(:disabled) {
