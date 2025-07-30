@@ -1011,34 +1011,7 @@ body {
 }
 
 /* Frozen question styling */
-.frozen-question {
-  position: sticky;
-  top: 0;
-  background: white;
-  padding: 20px;
-  border: 2px solid #88FFC2;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(136, 255, 194, 0.2);
-  margin-bottom: 20px;
-  z-index: 100;
-}
 
-/* Ensure parent container allows sticky positioning */
-.page-content {
-  min-height: 100vh;
-  overflow-y: auto;
-}
-
-
-
-.frozen-question p {
-  color: #374151;
-  font-size: 1em;
-  line-height: 1.5;
-  margin: 0;
-  text-align: center;
-  font-weight: 500;
-}
 
 .brand-scale-single-question {
   background: white;
@@ -1399,7 +1372,7 @@ body {
 
 .instructions p {
   margin: 0;
-  font-size: 0.95em;
+  font-size: 1.1em;
   color: #374151;
   line-height: 1.4;
   max-width: none;

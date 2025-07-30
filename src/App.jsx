@@ -1437,25 +1437,39 @@ function App() {
     const section = SURVEY_CONFIG.sections[currentPageData.key]
     if (!section) return null
     
+    // Special styling för consideration-frågan
+    if (currentPageData.key === 'consideration') {
+      return (
+        <div className="page-content statements-container">
+          <div className="frozen-instructions">
+            <div className="instructions">
+              <p>I vilken utsträckning instämmer du i följande påstående:</p>
+              <p><strong>{section.questions.strength_scale.label}</strong></p>
+            </div>
+          </div>
+          
+          <div className="statements-list">
+            {Object.entries(section.questions).map(([key, question], index) => {
+              if (!shouldShowQuestion(key, index)) {
+                return null
+              }
+              
+              return (
+                <div key={key} className="question-group">
+                  {renderQuestion(key, question)}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )
+    }
+    
     return (
       <div className="page-content">
         {Object.entries(section.questions).map(([key, question], index) => {
           if (!shouldShowQuestion(key, index)) {
             return null
-          }
-          
-          // Special styling för consideration-frågan
-          if (currentPageData.key === 'consideration' && key === 'strength_scale') {
-            return (
-              <div key={key}>
-                <div className="frozen-question">
-                  <p>{question.label}</p>
-                </div>
-                <div className="question-group">
-                  {renderQuestion(key, question)}
-                </div>
-              </div>
-            )
           }
           
           return (
