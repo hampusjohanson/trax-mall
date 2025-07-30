@@ -337,6 +337,12 @@ function App() {
       
       return newData
     })
+    
+    // Markera frågan som besvarad
+    setAnsweredQuestions(prev => ({
+      ...prev,
+      [questionKey]: true
+    }))
   }
 
   const handleStatementSelection = (questionKey, statementIndex, brandId, value) => {
