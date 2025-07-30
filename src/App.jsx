@@ -877,23 +877,30 @@ function App() {
                   <span className="brand-fallback" style={{display: 'none'}}>{brand.name.charAt(0)}</span>
                   <span className="brand-name">{brand.name}</span>
                 </div>
-                <div className="scale-options">
-                  {question.scale.map((scaleOption, scaleIndex) => (
-                    <label key={scaleIndex} className="scale-option">
-                      <input
-                        type="radio"
-                        name={`${key}_${brand.id}`}
-                        value={scaleIndex + 1}
-                        checked={formData[`${key}_${brand.id}`] === (scaleIndex + 1).toString()}
-                        onChange={(e) => setFormData(prev => ({
-                          ...prev,
-                          [`${key}_${brand.id}`]: e.target.value
-                        }))}
-                        required={question.required}
-                      />
-                      <span className="scale-text">{scaleOption}</span>
-                    </label>
-                  ))}
+                <div className="scale-container">
+                  <div className="scale-labels">
+                    {question.scale.map((scaleOption, scaleIndex) => (
+                      <span key={scaleIndex} className="scale-label">{scaleOption}</span>
+                    ))}
+                  </div>
+                  <div className="scale-options">
+                    {question.scale.map((scaleOption, scaleIndex) => (
+                      <label key={scaleIndex} className="scale-option">
+                        <input
+                          type="radio"
+                          name={`${key}_${brand.id}`}
+                          value={scaleIndex + 1}
+                          checked={formData[`${key}_${brand.id}`] === (scaleIndex + 1).toString()}
+                          onChange={(e) => setFormData(prev => ({
+                            ...prev,
+                            [`${key}_${brand.id}`]: e.target.value
+                          }))}
+                          required={question.required}
+                        />
+                        <span className="scale-number">{scaleIndex + 1}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
