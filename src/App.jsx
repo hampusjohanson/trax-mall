@@ -201,6 +201,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [randomizedBrands, setRandomizedBrands] = useState([])
   const [randomizedStatements, setRandomizedStatements] = useState([])
+  const [randomizedImportanceOptions, setRandomizedImportanceOptions] = useState([])
   const [isInitialized, setIsInitialized] = useState(false)
   const [currentPage, setCurrentPage] = useState(0) // 0: screening, 1: awareness, 2: statements, 3: behavior, 4: background
   const [connectionStatus, setConnectionStatus] = useState('')
@@ -234,6 +235,11 @@ function App() {
       const statements = SURVEY_CONFIG.sections.image.questions.image_statements.statements
       const shuffledStatements = [...statements].sort(() => Math.random() - 0.5)
       setRandomizedStatements(shuffledStatements)
+      
+      // Randomisera ordningen av importance options EN gång per respondent
+      const importanceOptions = SURVEY_CONFIG.sections.behavior.questions.importance_attributes.options
+      const shuffledImportanceOptions = [...importanceOptions].sort(() => Math.random() - 0.5)
+      setRandomizedImportanceOptions(shuffledImportanceOptions)
       
       setIsInitialized(true)
     }
@@ -347,6 +353,33 @@ function App() {
           newData[`${questionKey}_${statementIndex}_ingen`] = false
         }
         newData[`${questionKey}_${statementIndex}_${brandId}`] = value
+      }
+      
+      return newData
+    })
+  }
+
+  const handleImportanceSelection = (questionKey, optionIndex, value) => {
+    setFormData(prev => {
+      const newData = { ...prev }
+      
+      if (optionIndex === 'inget') {
+        // Om "Inget av dessa" väljs, avmarkera alla andra
+        if (value) {
+          // Rensa alla andra val för denna fråga
+          Object.keys(newData).forEach(key => {
+            if (key.startsWith(`${questionKey}_`) && key !== `${questionKey}_inget`) {
+              newData[key] = false
+            }
+          })
+        }
+        newData[`${questionKey}_inget`] = value
+      } else {
+        // Om en vanlig option väljs, avmarkera "Inget av dessa"
+        if (value) {
+          newData[`${questionKey}_inget`] = false
+        }
+        newData[`${questionKey}_${optionIndex}`] = value
       }
       
       return newData
@@ -744,20 +777,45 @@ function App() {
       case 'multiple_choice':
         return (
           <div className="multiple-choice-options">
-            {question.options.map((option, index) => (
-              <label key={index} className="multiple-choice-option">
-                <input
-                  type="checkbox"
-                  name={`${key}_${index}`}
-                  checked={formData[`${key}_${index}`] || false}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    [`${key}_${index}`]: e.target.checked
-                  }))}
-                />
-                <span className="multiple-choice-text">{option}</span>
-              </label>
-            ))}
+            {key === 'importance_attributes' ? (
+              <>
+                {randomizedImportanceOptions.map((option, index) => (
+                  <label key={index} className="multiple-choice-option">
+                    <input
+                      type="checkbox"
+                      name={`${key}_${index}`}
+                      checked={formData[`${key}_${index}`] || false}
+                      onChange={(e) => handleImportanceSelection(key, index, e.target.checked)}
+                    />
+                    <span className="multiple-choice-text">{option}</span>
+                  </label>
+                ))}
+                <label className="multiple-choice-option">
+                  <input
+                    type="checkbox"
+                    name={`${key}_inget`}
+                    checked={formData[`${key}_inget`] || false}
+                    onChange={(e) => handleImportanceSelection(key, 'inget', e.target.checked)}
+                  />
+                  <span className="multiple-choice-text">Inget av dessa</span>
+                </label>
+              </>
+            ) : (
+              question.options.map((option, index) => (
+                <label key={index} className="multiple-choice-option">
+                  <input
+                    type="checkbox"
+                    name={`${key}_${index}`}
+                    checked={formData[`${key}_${index}`] || false}
+                    onChange={(e) => setFormData(prev => ({
+                      ...prev,
+                      [`${key}_${index}`]: e.target.checked
+                    }))}
+                  />
+                  <span className="multiple-choice-text">{option}</span>
+                </label>
+              ))
+            )}
           </div>
         )
       
