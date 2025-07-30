@@ -128,6 +128,18 @@ const SURVEY_CONFIG = {
             '1 gång per år',
             'Mer sällan/aldrig'
           ]
+        },
+        importance_attributes: {
+          type: 'multiple_choice',
+          label: 'Vilka av följande faktorer är viktiga för dig när du väljer hamburgerkedja? Du kan välja flera alternativ.',
+          required: true,
+          options: [
+            'Prisvärt',
+            'Enkelt att vara kund',
+            'Tillgängligt - finns nära mig',
+            'Detta varumärke lägger man ofta märke till',
+            'Att vara kund här känns nästan som att vara en del av en gemenskap'
+          ]
         }
       }
     },
@@ -725,6 +737,26 @@ function App() {
                   </select>
                 </div>
               </div>
+            ))}
+          </div>
+        )
+      
+      case 'multiple_choice':
+        return (
+          <div className="multiple-choice-options">
+            {question.options.map((option, index) => (
+              <label key={index} className="multiple-choice-option">
+                <input
+                  type="checkbox"
+                  name={`${key}_${index}`}
+                  checked={formData[`${key}_${index}`] || false}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    [`${key}_${index}`]: e.target.checked
+                  }))}
+                />
+                <span className="multiple-choice-text">{option}</span>
+              </label>
             ))}
           </div>
         )
