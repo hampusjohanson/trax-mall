@@ -133,7 +133,29 @@ const SURVEY_CONFIG = {
           type: 'brand_share',
           label: 'Hur fördelar du normalt dina inköp av hamburgare mellan dessa olika kedjor? Ange procent för varje kedja du köper från minst varje år. Summan ska bli 100%.',
           required: true
-        },
+        }
+      }
+    },
+    importance: {
+      title: "",
+      questions: {
+        importance_attributes: {
+          type: 'multiple_choice',
+          label: 'Vilka av följande faktorer är viktiga för dig när du väljer hamburgerkedja? Du kan välja flera alternativ.',
+          required: true,
+          options: [
+            'Prisvärt',
+            'Enkelt att vara kund',
+            'Tillgängligt - finns nära mig',
+            'Detta varumärke lägger man ofta märke till',
+            'Att vara kund här känns nästan som att vara en del av en gemenskap'
+          ]
+        }
+      }
+    },
+    importance: {
+      title: "",
+      questions: {
         importance_attributes: {
           type: 'multiple_choice',
           label: 'Vilka av följande faktorer är viktiga för dig när du väljer hamburgerkedja? Du kan välja flera alternativ.',
@@ -242,7 +264,7 @@ function App() {
   const [randomizedStatements, setRandomizedStatements] = useState([])
   const [randomizedImportanceOptions, setRandomizedImportanceOptions] = useState([])
   const [isInitialized, setIsInitialized] = useState(false)
-  const [currentPage, setCurrentPage] = useState(0) // 0: screening, 1: awareness, 2: statements, 3: behavior, 4: background
+  const [currentPage, setCurrentPage] = useState(0) // 0: screening, 1: awareness, 2: statements, 3: behavior, 4: importance, 5: background
   const [connectionStatus, setConnectionStatus] = useState('')
   const [submissionCount, setSubmissionCount] = useState(0)
   const [answeredQuestions, setAnsweredQuestions] = useState({})
@@ -253,6 +275,7 @@ function App() {
     { key: 'awareness_v2', title: '' },
     { key: 'statements', title: '' },
     { key: 'behavior', title: '' },
+    { key: 'importance', title: '' },
     { key: 'background', title: '' }
   ]
 
