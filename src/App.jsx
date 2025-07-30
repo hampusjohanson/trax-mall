@@ -522,7 +522,7 @@ function App() {
           <div className="question-input">
             {key === 'age' && (
               <div className="input-hint">
-                <em>Skriv antal år</em>
+                <em>antal år</em>
               </div>
             )}
             <input
