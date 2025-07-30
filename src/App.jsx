@@ -70,20 +70,6 @@ const SURVEY_CONFIG = {
             'Tillgängligt - finns nära mig',
             'Att vara kund här känns nästan som att vara en del av en gemenskap'
           ]
-        },
-        strength_scale: {
-          type: 'brand_scale',
-          label: 'Nästa gång jag väljer hamburgerkedja kan jag tänka mig att välja detta.',
-          required: true,
-          scale: [
-            '1 Instämmer inte alls',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7 Instämmer helt och hållet'
-          ]
         }
       }
     },
@@ -149,6 +135,25 @@ const SURVEY_CONFIG = {
             'Tillgängligt - finns nära mig',
             'Detta varumärke lägger man ofta märke till',
             'Att vara kund här känns nästan som att vara en del av en gemenskap'
+          ]
+        }
+      }
+    },
+    consideration: {
+      title: "",
+      questions: {
+        strength_scale: {
+          type: 'brand_scale',
+          label: 'Nästa gång jag väljer hamburgerkedja kan jag tänka mig att välja detta.',
+          required: true,
+          scale: [
+            '1 Instämmer inte alls',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7 Instämmer helt och hållet'
           ]
         }
       }
@@ -247,7 +252,7 @@ function App() {
   const [randomizedStatements, setRandomizedStatements] = useState([])
   const [randomizedImportanceOptions, setRandomizedImportanceOptions] = useState([])
   const [isInitialized, setIsInitialized] = useState(false)
-  const [currentPage, setCurrentPage] = useState(0) // 0: screening, 1: awareness, 2: statements, 3: behavior, 4: importance, 5: background
+  const [currentPage, setCurrentPage] = useState(0) // 0: screening, 1: awareness, 2: statements, 3: behavior, 4: importance, 5: consideration, 6: background
   const [connectionStatus, setConnectionStatus] = useState('')
   const [submissionCount, setSubmissionCount] = useState(0)
   const [answeredQuestions, setAnsweredQuestions] = useState({})
@@ -259,6 +264,7 @@ function App() {
     { key: 'statements', title: '' },
     { key: 'behavior', title: '' },
     { key: 'importance', title: '' },
+    { key: 'consideration', title: '' },
     { key: 'background', title: '' }
   ]
 
