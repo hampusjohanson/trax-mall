@@ -706,6 +706,17 @@ function App() {
     }
   }
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      if (currentPage < pages.length - 1) {
+        nextPage()
+      } else {
+        handleSubmit(e)
+      }
+    }
+  }
+
   const isQuestionAnswered = (questionKey) => {
     // Speciallogik för purchase_frequency - kolla om minst ett varumärke har valts
     if (questionKey === 'purchase_frequency') {
@@ -1522,7 +1533,7 @@ function App() {
           </div>
         )}
         
-        <div className="survey-form">
+        <div className="survey-form" onKeyDown={handleKeyDown} tabIndex={0}>
           {renderPage()}
         </div>
 

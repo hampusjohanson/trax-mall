@@ -1825,6 +1825,11 @@ body {
   line-height: 1.5;
 }
 
+/* Större font för importance attributes */
+.multiple-choice-option .multiple-choice-text {
+  font-size: 1.2em;
+}
+
 /* Mobile styling för multiple choice */
 @media (max-width: 768px) {
   .multiple-choice-option {
@@ -1835,6 +1840,11 @@ body {
   .multiple-choice-option input[type="checkbox"] {
     transform: scale(1.2);
     margin-right: 12px;
+  }
+  
+  /* Större font för importance attributes på mobil */
+  .multiple-choice-option .multiple-choice-text {
+    font-size: 1.15em;
   }
 } 
 
