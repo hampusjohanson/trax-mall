@@ -537,6 +537,14 @@ function App() {
   }
 
   const isQuestionAnswered = (questionKey) => {
+    // Speciallogik för purchase_frequency - kolla om minst ett varumärke har valts
+    if (questionKey === 'purchase_frequency') {
+      return randomizedBrands.some(brand => {
+        const frequency = formData[`purchase_frequency_${brand.id}`]
+        return frequency && frequency !== ''
+      })
+    }
+    
     return answeredQuestions[questionKey] || false
   }
 
