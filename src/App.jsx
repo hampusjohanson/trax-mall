@@ -448,9 +448,14 @@ function App() {
       setRandomizedImportanceOptions(shuffledImportanceOptions)
       
       // Randomisera 3 säkerhetsfrågor EN gång per respondent
-      const securityQuestions = SURVEY_CONFIG.sections.security.questions.security_questions.questions
-      const shuffledSecurityQuestions = [...securityQuestions].sort(() => Math.random() - 0.5).slice(0, 3)
-      setRandomizedSecurityQuestions(shuffledSecurityQuestions)
+      try {
+        const securityQuestions = SURVEY_CONFIG.sections.security.questions.security_questions.questions
+        const shuffledSecurityQuestions = [...securityQuestions].sort(() => Math.random() - 0.5).slice(0, 3)
+        setRandomizedSecurityQuestions(shuffledSecurityQuestions)
+      } catch (error) {
+        console.error('Error randomizing security questions:', error)
+        setRandomizedSecurityQuestions([])
+      }
       
       setIsInitialized(true)
     }
@@ -1250,6 +1255,9 @@ function App() {
         )
       
       case 'security_check':
+        if (!randomizedSecurityQuestions || randomizedSecurityQuestions.length === 0) {
+          return <div>Laddar säkerhetsfrågor...</div>
+        }
         return (
           <div className="security-questions">
             {randomizedSecurityQuestions.map((securityQuestion, index) => (
