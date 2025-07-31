@@ -682,30 +682,522 @@ function App() {
       console.log('Supabase URL:', supabaseUrl ? 'Set' : 'Missing')
       console.log('Supabase Key:', supabaseAnonKey ? 'Set' : 'Missing')
       
-      // Skapa JSON-objekt med alla svar
-      const surveyResponse = {
-        responses: formData,
-        submitted_at: new Date().toISOString()
+      // Skapa en komplett datastruktur med standardiserade variabelnamn och numeriska värden
+      const completeResponseData = {}
+      
+      // Funktion för att konvertera text-värden till numeriska
+      const convertToNumeric = (value, questionKey) => {
+        if (value === '' || value === null || value === undefined) return ''
+        
+        // Konvertera boolean till 0/1
+        if (typeof value === 'boolean') return value ? 1 : 0
+        
+        // Konvertera text-värden till numeriska baserat på frågetyp
+        switch (questionKey) {
+          case 'gender':
+            switch (value) {
+              case 'man': return 1
+              case 'kvinna': return 2
+              case 'annat': return 3
+              case 'vill_ej_säga': return 4
+              default: return value
+            }
+          
+          case 'household_size':
+            switch (value) {
+              case '1_person': return 1
+              case '2_personer': return 2
+              case '3_personer': return 3
+              case '4_personer': return 4
+              case '5_personer': return 5
+              case 'fler_än_5': return 6
+              default: return value
+            }
+          
+          case 'children':
+            switch (value) {
+              case 'ja': return 1
+              case 'nej': return 2
+              default: return value
+            }
+          
+          case 'location':
+            switch (value) {
+              case 'stockholm': return 1
+              case 'malmö': return 2
+              case 'göteborg': return 3
+              case 'annan_stad_över_90k': return 4
+              case 'stad_50k_90k': return 5
+              case 'stad_10k_50k': return 6
+              case 'landsbygd': return 7
+              default: return value
+            }
+          
+          case 'income':
+            switch (value) {
+              case '0_10k': return 1
+              case '10k_20k': return 2
+              case '20k_30k': return 3
+              case '30k_40k': return 4
+              case '40k_50k': return 5
+              case '50k_60k': return 6
+              case '60k_70k': return 7
+              case '70k_80k': return 8
+              case '80k_90k': return 9
+              case '90k_100k': return 10
+              case 'över_100k': return 11
+              case 'vet_ej': return 12
+              default: return value
+            }
+          
+          case 'life_situation':
+            switch (value) {
+              case 'singel': return 1
+              case 'pojkvän_flickvän': return 2
+              case 'sambo_gift_utan_barn': return 3
+              case 'ensamstående_med_barn': return 4
+              case 'sambo_gift_små_barn': return 5
+              case 'sambo_gift_tonårsbarn': return 6
+              case 'sambo_gift_utflyttade_barn': return 7
+              case 'frånskild': return 8
+              case 'änka_änkeman': return 9
+              case 'annat': return 10
+              default: return value
+            }
+          
+          case 'education':
+            switch (value) {
+              case 'grundskola': return 1
+              case 'gymnasieskola': return 2
+              case 'universitet_högskola': return 3
+              default: return value
+            }
+          
+          case 'employment':
+            switch (value) {
+              case 'egenföretagare': return 1
+              case 'anställd': return 2
+              case 'studerande': return 3
+              case 'pensionär': return 4
+              case 'arbetslös': return 5
+              default: return value
+            }
+          
+          case 'last_purchase':
+            switch (value) {
+              case 'mindre_än_1_månad': return 1
+              case '1_6_månader': return 2
+              case '6_månader_1_år': return 3
+              case 'mer_än_1_år': return 4
+              case 'aldrig': return 5
+              default: return value
+            }
+          
+          case 'main_provider':
+            switch (value) {
+              case 'mcdonalds': return 1
+              case 'burger_king': return 2
+              case 'max': return 3
+              case 'sibylla': return 4
+              case 'bastard_burgers': return 5
+              case 'prime_burger': return 6
+              case 'inget_av_dessa': return 7
+              default: return value
+            }
+          
+          case 'purchase_frequency':
+            switch (value) {
+              case 'dagligen': return 1
+              case 'flera_gånger_per_vecka': return 2
+              case 'varje_vecka': return 3
+              case 'varannan_vecka': return 4
+              case 'varje_månad': return 5
+              case 'varannan_månad': return 6
+              case '1_gång_per_kvartal': return 7
+              case '1_gång_per_halvår': return 8
+              case '1_gång_per_år': return 9
+              case 'mer_sällan_aldrig': return 10
+              default: return value
+            }
+          
+          case 'awareness':
+            switch (value) {
+              case 'har_inte_hört_talas_om': return 1
+              case 'hört_talas_om_men_vet_inget': return 2
+              case 'hört_talas_om_och_vet_vad': return 3
+              default: return value
+            }
+          
+          case 'strength_scale':
+            // Behåll numeriska värden som de är (1-7)
+            return isNaN(value) ? value : parseInt(value)
+          
+          default:
+            return value
+        }
+      }
+      
+      // Mappning från fråge-ID till standardnamn
+      const variableMapping = {
+        // Demografi
+        'age': 'A1',
+        'gender': 'A2', 
+        'household_size': 'A3',
+        'children': 'A4',
+        'children_ages_0': 'A5_1',
+        'children_ages_1': 'A5_2',
+        'children_ages_2': 'A5_3',
+        'children_ages_3': 'A5_4',
+        'children_ages_inget': 'A5_5',
+        'location': 'A6',
+        'income': 'A7',
+        'life_situation': 'A8',
+        'education': 'A9',
+        'employment': 'A10',
+        
+        // Köpbeteende
+        'last_purchase': 'B1',
+        'main_provider': 'B2',
+        
+        // Current customers (B3_1 till B3_7)
+        'current_customers_mcdonalds': 'B3_1',
+        'current_customers_burger_king': 'B3_2',
+        'current_customers_max': 'B3_3',
+        'current_customers_sibylla': 'B3_4',
+        'current_customers_bastard_burgers': 'B3_5',
+        'current_customers_prime_burger': 'B3_6',
+        'current_customers_inget': 'B3_7',
+        
+        // Purchase frequency (B4_1 till B4_6)
+        'purchase_frequency_mcdonalds': 'B4_1',
+        'purchase_frequency_burger_king': 'B4_2',
+        'purchase_frequency_max': 'B4_3',
+        'purchase_frequency_sibylla': 'B4_4',
+        'purchase_frequency_bastard_burgers': 'B4_5',
+        'purchase_frequency_prime_burger': 'B4_6',
+        
+        // Share of market (B5_1 till B5_6)
+        'share_of_market_mcdonalds': 'B5_1',
+        'share_of_market_burger_king': 'B5_2',
+        'share_of_market_max': 'B5_3',
+        'share_of_market_sibylla': 'B5_4',
+        'share_of_market_bastard_burgers': 'B5_5',
+        'share_of_market_prime_burger': 'B5_6',
+        
+        // Awareness (C1_1 till C1_6)
+        'awareness_v2_mcdonalds': 'C1_1',
+        'awareness_v2_burger_king': 'C1_2',
+        'awareness_v2_max': 'C1_3',
+        'awareness_v2_sibylla': 'C1_4',
+        'awareness_v2_bastard_burgers': 'C1_5',
+        'awareness_v2_prime_burger': 'C1_6',
+        
+        // Strength scale (C2_1 till C2_6)
+        'strength_scale_mcdonalds': 'C2_1',
+        'strength_scale_burger_king': 'C2_2',
+        'strength_scale_max': 'C2_3',
+        'strength_scale_sibylla': 'C2_4',
+        'strength_scale_bastard_burgers': 'C2_5',
+        'strength_scale_prime_burger': 'C2_6',
+        
+        // Image statements (D1_1_1 till D1_10_7)
+        // Statement 1
+        'image_statements_0_mcdonalds': 'D1_1_1',
+        'image_statements_0_burger_king': 'D1_1_2',
+        'image_statements_0_max': 'D1_1_3',
+        'image_statements_0_sibylla': 'D1_1_4',
+        'image_statements_0_bastard_burgers': 'D1_1_5',
+        'image_statements_0_prime_burger': 'D1_1_6',
+        'image_statements_0_ingen': 'D1_1_7',
+        
+        // Statement 2
+        'image_statements_1_mcdonalds': 'D1_2_1',
+        'image_statements_1_burger_king': 'D1_2_2',
+        'image_statements_1_max': 'D1_2_3',
+        'image_statements_1_sibylla': 'D1_2_4',
+        'image_statements_1_bastard_burgers': 'D1_2_5',
+        'image_statements_1_prime_burger': 'D1_2_6',
+        'image_statements_1_ingen': 'D1_2_7',
+        
+        // Statement 3
+        'image_statements_2_mcdonalds': 'D1_3_1',
+        'image_statements_2_burger_king': 'D1_3_2',
+        'image_statements_2_max': 'D1_3_3',
+        'image_statements_2_sibylla': 'D1_3_4',
+        'image_statements_2_bastard_burgers': 'D1_3_5',
+        'image_statements_2_prime_burger': 'D1_3_6',
+        'image_statements_2_ingen': 'D1_3_7',
+        
+        // Statement 4
+        'image_statements_3_mcdonalds': 'D1_4_1',
+        'image_statements_3_burger_king': 'D1_4_2',
+        'image_statements_3_max': 'D1_4_3',
+        'image_statements_3_sibylla': 'D1_4_4',
+        'image_statements_3_bastard_burgers': 'D1_4_5',
+        'image_statements_3_prime_burger': 'D1_4_6',
+        'image_statements_3_ingen': 'D1_4_7',
+        
+        // Statement 5
+        'image_statements_4_mcdonalds': 'D1_5_1',
+        'image_statements_4_burger_king': 'D1_5_2',
+        'image_statements_4_max': 'D1_5_3',
+        'image_statements_4_sibylla': 'D1_5_4',
+        'image_statements_4_bastard_burgers': 'D1_5_5',
+        'image_statements_4_prime_burger': 'D1_5_6',
+        'image_statements_4_ingen': 'D1_5_7',
+        
+        // Statement 6
+        'image_statements_5_mcdonalds': 'D1_6_1',
+        'image_statements_5_burger_king': 'D1_6_2',
+        'image_statements_5_max': 'D1_6_3',
+        'image_statements_5_sibylla': 'D1_6_4',
+        'image_statements_5_bastard_burgers': 'D1_6_5',
+        'image_statements_5_prime_burger': 'D1_6_6',
+        'image_statements_5_ingen': 'D1_6_7',
+        
+        // Statement 7
+        'image_statements_6_mcdonalds': 'D1_7_1',
+        'image_statements_6_burger_king': 'D1_7_2',
+        'image_statements_6_max': 'D1_7_3',
+        'image_statements_6_sibylla': 'D1_7_4',
+        'image_statements_6_bastard_burgers': 'D1_7_5',
+        'image_statements_6_prime_burger': 'D1_7_6',
+        'image_statements_6_ingen': 'D1_7_7',
+        
+        // Statement 8
+        'image_statements_7_mcdonalds': 'D1_8_1',
+        'image_statements_7_burger_king': 'D1_8_2',
+        'image_statements_7_max': 'D1_8_3',
+        'image_statements_7_sibylla': 'D1_8_4',
+        'image_statements_7_bastard_burgers': 'D1_8_5',
+        'image_statements_7_prime_burger': 'D1_8_6',
+        'image_statements_7_ingen': 'D1_8_7',
+        
+        // Statement 9
+        'image_statements_8_mcdonalds': 'D1_9_1',
+        'image_statements_8_burger_king': 'D1_9_2',
+        'image_statements_8_max': 'D1_9_3',
+        'image_statements_8_sibylla': 'D1_9_4',
+        'image_statements_8_bastard_burgers': 'D1_9_5',
+        'image_statements_8_prime_burger': 'D1_9_6',
+        'image_statements_8_ingen': 'D1_9_7',
+        
+        // Statement 10
+        'image_statements_9_mcdonalds': 'D1_10_1',
+        'image_statements_9_burger_king': 'D1_10_2',
+        'image_statements_9_max': 'D1_10_3',
+        'image_statements_9_sibylla': 'D1_10_4',
+        'image_statements_9_bastard_burgers': 'D1_10_5',
+        'image_statements_9_prime_burger': 'D1_10_6',
+        'image_statements_9_ingen': 'D1_10_7',
+        
+        // Importance attributes (E1_1 till E1_6)
+        'importance_attributes_0': 'E1_1',
+        'importance_attributes_1': 'E1_2',
+        'importance_attributes_2': 'E1_3',
+        'importance_attributes_3': 'E1_4',
+        'importance_attributes_4': 'E1_5',
+        'importance_attributes_inget': 'E1_6',
+        
+        // Security questions (F1 till F20)
+        'security_questions_0': 'F1',
+        'security_questions_1': 'F2',
+        'security_questions_2': 'F3',
+        'security_questions_3': 'F4',
+        'security_questions_4': 'F5',
+        'security_questions_5': 'F6',
+        'security_questions_6': 'F7',
+        'security_questions_7': 'F8',
+        'security_questions_8': 'F9',
+        'security_questions_9': 'F10',
+        'security_questions_10': 'F11',
+        'security_questions_11': 'F12',
+        'security_questions_12': 'F13',
+        'security_questions_13': 'F14',
+        'security_questions_14': 'F15',
+        'security_questions_15': 'F16',
+        'security_questions_16': 'F17',
+        'security_questions_17': 'F18',
+        'security_questions_18': 'F19',
+        'security_questions_19': 'F20'
+      }
+      
+      // Lägg till alla grundläggande frågor från SURVEY_CONFIG
+      Object.values(SURVEY_CONFIG.sections).forEach(section => {
+        Object.keys(section.questions).forEach(questionKey => {
+          const question = section.questions[questionKey]
+          
+          // Specialhantering för statements som använder randomizedStatements
+          if (questionKey === 'image_statements') {
+            randomizedStatements.forEach((statement, statementIndex) => {
+              SURVEY_CONFIG.brands.forEach(brand => {
+                const oldKey = `${questionKey}_${statementIndex}_${brand.id}`
+                const newKey = `D1_${statementIndex + 1}_${brand.id === 'mcdonalds' ? 1 : 
+                               brand.id === 'burger_king' ? 2 : 
+                               brand.id === 'max' ? 3 : 
+                               brand.id === 'sibylla' ? 4 : 
+                               brand.id === 'bastard_burgers' ? 5 : 
+                               brand.id === 'prime_burger' ? 6 : 7}`
+                completeResponseData[newKey] = convertToNumeric(formData[oldKey], 'boolean')
+              })
+              // Lägg till "ingen av dessa" för varje statement
+              const oldNoneKey = `${questionKey}_${statementIndex}_ingen`
+              const newNoneKey = `D1_${statementIndex + 1}_7`
+              completeResponseData[newNoneKey] = convertToNumeric(formData[oldNoneKey], 'boolean')
+            })
+            return // Hoppa över den vanliga switch-satsen
+          }
+          
+          // Specialhantering för importance_attributes som använder randomizedImportanceOptions
+          if (questionKey === 'importance_attributes') {
+            randomizedImportanceOptions.forEach((option, index) => {
+              const oldKey = `${questionKey}_${index}`
+              const newKey = `E1_${index + 1}`
+              completeResponseData[newKey] = convertToNumeric(formData[oldKey], 'boolean')
+            })
+            // Lägg till "inget av dessa"
+            completeResponseData['E1_6'] = convertToNumeric(formData[`${questionKey}_inget`], 'boolean')
+            return // Hoppa över den vanliga switch-satsen
+          }
+          
+          // Hantera olika frågetyper
+          switch (question.type) {
+            case 'brand_matrix_v2':
+              // Lägg till alla brand-specifika svar för awareness
+              SURVEY_CONFIG.brands.forEach(brand => {
+                const oldKey = `${questionKey}_${brand.id}`
+                const newKey = `C1_${brand.id === 'mcdonalds' ? 1 : 
+                               brand.id === 'burger_king' ? 2 : 
+                               brand.id === 'max' ? 3 : 
+                               brand.id === 'sibylla' ? 4 : 
+                               brand.id === 'bastard_burgers' ? 5 : 
+                               brand.id === 'prime_burger' ? 6 : 1}`
+                completeResponseData[newKey] = convertToNumeric(formData[oldKey], 'awareness')
+              })
+              break
+              
+            case 'brand_statement_matrix':
+              // Denna hanteras redan ovan
+              break
+              
+            case 'brand_multiple':
+              // Lägg till alla brand-specifika svar
+              SURVEY_CONFIG.brands.forEach(brand => {
+                const oldKey = `${questionKey}_${brand.id}`
+                const newKey = `B3_${brand.id === 'mcdonalds' ? 1 : 
+                               brand.id === 'burger_king' ? 2 : 
+                               brand.id === 'max' ? 3 : 
+                               brand.id === 'sibylla' ? 4 : 
+                               brand.id === 'bastard_burgers' ? 5 : 
+                               brand.id === 'prime_burger' ? 6 : 1}`
+                completeResponseData[newKey] = convertToNumeric(formData[oldKey], 'boolean')
+              })
+              // Lägg till "inget av dessa"
+              completeResponseData['B3_7'] = convertToNumeric(formData[`${questionKey}_inget`], 'boolean')
+              break
+              
+            case 'brand_single':
+              // Denna hanteras redan i formData
+              const singleMappedKey = variableMapping[questionKey] || questionKey
+              completeResponseData[singleMappedKey] = convertToNumeric(formData[questionKey], questionKey)
+              break
+              
+            case 'brand_scale':
+            case 'brand_scale_single':
+              // Lägg till alla brand-specifika skala-svar
+              SURVEY_CONFIG.brands.forEach(brand => {
+                const oldKey = `${questionKey}_${brand.id}`
+                const newKey = `C2_${brand.id === 'mcdonalds' ? 1 : 
+                               brand.id === 'burger_king' ? 2 : 
+                               brand.id === 'max' ? 3 : 
+                               brand.id === 'sibylla' ? 4 : 
+                               brand.id === 'bastard_burgers' ? 5 : 
+                               brand.id === 'prime_burger' ? 6 : 1}`
+                completeResponseData[newKey] = convertToNumeric(formData[oldKey], 'strength_scale')
+              })
+              break
+              
+            case 'brand_frequency':
+              // Lägg till alla brand-specifika frekvens-svar
+              SURVEY_CONFIG.brands.forEach(brand => {
+                const oldKey = `${questionKey}_${brand.id}`
+                const newKey = `B4_${brand.id === 'mcdonalds' ? 1 : 
+                               brand.id === 'burger_king' ? 2 : 
+                               brand.id === 'max' ? 3 : 
+                               brand.id === 'sibylla' ? 4 : 
+                               brand.id === 'bastard_burgers' ? 5 : 
+                               brand.id === 'prime_burger' ? 6 : 1}`
+                completeResponseData[newKey] = convertToNumeric(formData[oldKey], 'purchase_frequency')
+              })
+              break
+              
+            case 'brand_share':
+              // Lägg till alla brand-specifika procent-svar
+              SURVEY_CONFIG.brands.forEach(brand => {
+                const oldKey = `${questionKey}_${brand.id}`
+                const newKey = `B5_${brand.id === 'mcdonalds' ? 1 : 
+                               brand.id === 'burger_king' ? 2 : 
+                               brand.id === 'max' ? 3 : 
+                               brand.id === 'sibylla' ? 4 : 
+                               brand.id === 'bastard_burgers' ? 5 : 
+                               brand.id === 'prime_burger' ? 6 : 1}`
+                completeResponseData[newKey] = formData[oldKey] || '' // Behåll procent som text
+              })
+              break
+              
+            case 'multiple_choice':
+            case 'select':
+            case 'number':
+            case 'text':
+            case 'security_check':
+            default:
+              // Hantera vanliga frågor med mappning
+              const defaultMappedKey = variableMapping[questionKey] || questionKey
+              completeResponseData[defaultMappedKey] = convertToNumeric(formData[questionKey], questionKey)
+              break
+          }
+        })
+      })
+      
+      // Lägg till security questions (behåll som text)
+      for (let i = 0; i < 20; i++) {
+        const oldKey = `security_questions_${i}`
+        const newKey = `F${i + 1}`
+        completeResponseData[newKey] = formData[oldKey] || ''
       }
 
-      console.log('Survey response:', surveyResponse)
+      console.log('FormData keys:', Object.keys(formData))
+      console.log('Complete survey response:', completeResponseData)
+      console.log('Number of response fields:', Object.keys(completeResponseData).length)
 
-      // Lägg till svaret
+      const surveyResponse = {
+        version: SURVEY_CONFIG.version,
+        responses: completeResponseData,
+        survey_version: SURVEY_CONFIG.version,
+        brands_order: SURVEY_CONFIG.brands.map(b => b.id),
+        statements_order: randomizedStatements.map((_, i) => i),
+        importance_options_order: randomizedImportanceOptions.map((_, i) => i),
+        security_questions_used: randomizedSecurityQuestions.length > 0 ? randomizedSecurityQuestions.map((_, i) => i) : []
+      }
+
+      console.log('Submitting to Supabase...')
       const { data, error } = await supabase
         .from('survey_responses_flexible')
         .insert([surveyResponse])
 
       if (error) {
         console.error('Supabase error:', error)
-        alert(`Ett fel uppstod när svaret skulle sparas: ${error.message}`)
-      } else {
-        console.log('Success! Data:', data)
-        setIsSubmitted(true)
+        alert('Ett fel uppstod när svaret sparades. Försök igen.')
+        setIsLoading(false)
+        return
       }
-    } catch (err) {
-      console.error('Submission error:', err)
-      alert(`Ett fel uppstod: ${err.message}`)
-    } finally {
+
+      console.log('Successfully submitted to Supabase:', data)
+      setIsSubmitted(true)
+      setIsLoading(false)
+    } catch (error) {
+      console.error('Submission error:', error)
+      alert('Ett fel uppstod när svaret sparades. Försök igen.')
       setIsLoading(false)
     }
   }
