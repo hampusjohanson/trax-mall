@@ -96,4 +96,4 @@ När du har installerat Node.js och konfigurerat Supabase, kan du:
 
 ## Supabase Setup
 
-Se `SUPABASE_SETUP.md` för detaljerade instruktioner om hur du sätter upp databasen. 
+Se `SUPABASE_SETUP.md` för detaljerade instruktioner om hur du sätter upp databasen. # Vercel deployment test
