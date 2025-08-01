@@ -41,7 +41,7 @@ body {
   background: #88FFC2;
   padding: 16px 24px;
   border-radius: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   text-align: center;
 }
 
@@ -114,8 +114,8 @@ body {
   border: 2px solid #e5e7eb;
   border-left: 4px solid #88FFC2;
   border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 16px;
+  margin-bottom: 12px;
   animation: slideInUp 0.5s ease-out;
 }
 
@@ -126,10 +126,10 @@ body {
 
 .question-label {
   display: block;
-  font-size: 1.1em;
+  font-size: 1.3em;
   font-weight: 600;
   color: rgb(17, 21, 66);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   line-height: 1.4;
 }
 
@@ -1322,7 +1322,6 @@ body {
 
 .statements-container {
   padding: 0;
-  height: calc(100vh - 200px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1351,18 +1350,7 @@ body {
   will-change: transform; /* Optimering för sticky */
 }
 
-.category-info {
-  flex-shrink: 0;
-}
 
-.category-info p {
-  margin: 0;
-  font-size: 1.1em;
-  color: rgb(17, 21, 66);
-  line-height: 1.4;
-  font-weight: 500;
-  max-width: none;
-}
 
 .instructions {
   flex: 1;
@@ -1379,10 +1367,9 @@ body {
 }
 
 .statements-list {
-  padding: 20px 30px;
+  padding: 16px 20px;
   flex: 1;
   overflow-y: auto;
-  height: 100%;
 }
 
 /* Page Navigation */
@@ -1390,7 +1377,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 30px;
+  padding: 16px 20px;
   border-top: 1px solid #e5e7eb;
   background: #f9fafb;
 }
@@ -1443,10 +1430,7 @@ body {
     gap: 4px;
   }
   
-  .category-info p {
-    font-size: 0.85em;
-    line-height: 1.2;
-  }
+
   
   .instructions p {
     font-size: 0.9em;
@@ -1482,11 +1466,12 @@ body {
 /* Brand Matrix V2 - Alternative layout */
 .brand-matrix-v2 {
   display: grid;
-  grid-template-columns: 320px 1fr 1fr 1fr;
+  grid-template-columns: 380px 1fr 1fr 1fr;
   margin-top: 20px;
   border: 2px solid #e5e7eb;
   border-radius: 12px;
-  overflow: hidden;
+  overflow: auto;
+  max-height: 600px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
@@ -1507,6 +1492,10 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 80px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 200;
 }
 
 .option-header-v2 {
@@ -1515,7 +1504,7 @@ body {
   font-weight: 600;
   color: rgb(17, 21, 66);
   text-align: center;
-  font-size: 0.9em;
+  font-size: 1.2em;
   border-bottom: 2px solid #e5e7eb;
   border-right: 1px solid #e5e7eb;
   word-wrap: break-word;
@@ -1524,6 +1513,9 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 70px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .option-header-v2:last-child {
@@ -1543,6 +1535,9 @@ body {
   min-height: 80px;
   flex: 0 0 160px;
   border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  left: 0;
+  z-index: 150;
 }
 
 .brand-row-v2:last-child .brand-logo-v2 {
@@ -1575,7 +1570,7 @@ body {
 .brand-name-v2 {
   font-weight: 600;
   color: rgb(17, 21, 66);
-  font-size: 1.0em;
+  font-size: 1.2em;
 }
 
 .option-cell-v2 {
@@ -1634,7 +1629,7 @@ body {
   .brand-matrix-v2 {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 8px;
     border: none;
     box-shadow: none;
     background: transparent;
@@ -1648,10 +1643,10 @@ body {
     display: flex;
     flex-direction: column;
     background: white;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
   }
   
@@ -1666,27 +1661,28 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px;
-    margin-bottom: 16px;
+    padding: 0px 1px;
+    margin-bottom: 0px;
     background: #f9fafb;
-    border-radius: 8px;
+    border-radius: 2px;
     border: 1px solid #e5e7eb;
-    gap: 12px;
+    gap: 2px;
+    min-height: 4px;
   }
   
   .brand-image-v2 {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
   }
   
   .brand-fallback-v2 {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2em;
+    width: 60px;
+    height: 60px;
+    font-size: 1.6em;
   }
   
   .brand-name-v2 {
-    font-size: 1.1em;
+    font-size: 0.9em;
     font-weight: 600;
     color: rgb(17, 21, 66);
   }
@@ -1695,16 +1691,15 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 12px 16px;
+    padding: 8px 12px;
     background: white;
     border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    margin-bottom: 8px;
+    border-radius: 6px;
+    margin-bottom: 6px;
     transition: all 0.2s ease;
     cursor: pointer;
-    min-height: 44px;
-    height: 44px;
-    gap: 12px;
+    min-height: 35px;
+    gap: 6px;
   }
   
   .option-cell-v2:hover {
@@ -1723,15 +1718,19 @@ body {
     align-items: center;
     justify-content: flex-start;
     cursor: pointer;
-    font-size: 0.95em;
+    font-size: 0.85em;
     font-weight: 500;
     color: rgb(17, 21, 66);
-    gap: 12px;
+    gap: 6px;
+    line-height: 1.1;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    flex-shrink: 1;
   }
   
   .option-cell-v2 input[type="radio"] {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     margin: 0;
     cursor: pointer;
     appearance: none;
@@ -1740,7 +1739,8 @@ body {
     border: 2px solid #e5e7eb;
     background: white;
     position: relative;
-    transform: scale(1.2);
+    transform: scale(1.1);
+    flex-shrink: 0;
   }
   
   .option-cell-v2 input[type="radio"]:checked {
@@ -1756,14 +1756,13 @@ body {
   
   .option-text-mobile {
     display: block;
-    font-size: 0.9em;
+    font-size: 0.85em;
     font-weight: 500;
     color: rgb(17, 21, 66);
-    line-height: 1.3;
+    line-height: 1.2;
     flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 }
 
@@ -2085,6 +2084,59 @@ body {
   border-radius: 8px;
   color: #6b7280;
   font-weight: 500;
+}
+
+/* Öppna frågor styling */
+.open-questions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.open-question {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.open-question-label {
+  display: block;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 12px;
+  font-size: 1.1em;
+  line-height: 1.4;
+}
+
+.open-question-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1em;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+}
+
+.open-question-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.no-questions {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+  font-style: italic;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px dashed #d1d5db;
 }
 
 /* Mobile styling för security questions */

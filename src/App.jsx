@@ -31,7 +31,13 @@ const SURVEY_CONFIG = {
     { id: 'frasses', name: 'Frasses', logo: '/images/frasses.svg' },
     { id: 'shake_shack', name: 'Shake Shack', logo: '/images/shake-shack.svg' },
     { id: 'five_guys', name: 'Five Guys', logo: '/images/five-guys.svg' },
-    { id: 'flippin_burgers', name: 'Flippin\' Burgers', logo: '/images/flippin-burgers.png' }
+    { id: 'flippin_burgers', name: 'Flippin\' Burgers', logo: '/images/flippin-burgers.png' },
+    { id: 'brodernas', name: 'Brödernas', logo: '/images/brodernas.svg' }
+    // PLACEHOLDER BRANDS - Lägg till eller ta bort efter behov (kommenterade ut för att inte visa för användare)
+    // { id: 'placeholder_1', name: 'Placeholder Brand 1', logo: '/images/placeholder.png' },
+    // { id: 'placeholder_2', name: 'Placeholder Brand 2', logo: '/images/placeholder.png' },
+    // { id: 'placeholder_3', name: 'Placeholder Brand 3', logo: '/images/placeholder.png' },
+    // { id: 'placeholder_4', name: 'Placeholder Brand 4', logo: '/images/placeholder.png' }
   ],
   sections: {
     security: {
@@ -183,7 +189,42 @@ const SURVEY_CONFIG = {
             'Prisvärt',
             'Enkelt att vara kund',
             'Tillgängligt - finns nära mig',
-            'Att vara kund här känns nästan som att vara en del av en gemenskap'
+            'Att vara kund här känns nästan som att vara en del av en gemenskap',
+            'Känns lyhörda för kundens önskningar',
+            'Är originalet, har funnits länge'
+            // PLACEHOLDER ATTRIBUTES - Lägg till eller ta bort efter behov (kommenterade ut för att inte visa för användare)
+            // 'Placeholder Attribute 1',
+            // 'Placeholder Attribute 2',
+            // 'Placeholder Attribute 3',
+            // 'Placeholder Attribute 4',
+            // 'Placeholder Attribute 5',
+            // 'Placeholder Attribute 6',
+            // 'Placeholder Attribute 7',
+            // 'Placeholder Attribute 8'
+          ]
+        }
+      }
+    },
+    statements: {
+      title: "",
+      questions: {
+        image_statements: {
+          type: 'brand_statement_matrix',
+          label: 'Nedan listas ett antal påståenden. Ange vilka hamburgerkedjor som du känner att respektive påstående stämmer in på. Försök svara även om du är osäker, det finns inga rätt eller fel. Du kan välja fler än 1 för respektive påstående.',
+          required: true,
+          statements: [
+            'Nästa gång jag väljer hamburgerkedja kommer jag mest sannolikt välja detta',
+            'Detta företag skulle jag definitivt kunna rekommendera till vänner och bekanta',
+            'Hamburgare från detta företag är värt ett högre pris än de billigaste alternativen',
+            'Här är jag kund idag/Detta köper jag oftast/Detta köpte jag senast',
+            'Passar mig och mina behov',
+            'Detta varumärke lägger man ofta märke till',
+            'Prisvärt',
+            'Enkelt att vara kund',
+            'Tillgängligt - finns nära mig',
+            'Att vara kund här känns nästan som att vara en del av en gemenskap',
+            'Känns lyhörda för kundens önskningar',
+            'Är originalet, har funnits länge'
           ]
         }
       }
@@ -254,7 +295,18 @@ const SURVEY_CONFIG = {
             'Enkelt att vara kund',
             'Tillgängligt - finns nära mig',
             'Detta varumärke lägger man ofta märke till',
-            'Att vara kund här känns nästan som att vara en del av en gemenskap'
+            'Att vara kund här känns nästan som att vara en del av en gemenskap',
+            'Känns lyhörda för kundens önskningar',
+            'Är originalet, har funnits länge'
+            // PLACEHOLDER ATTRIBUTES - Lägg till eller ta bort efter behov (kommenterade ut för att inte visa för användare)
+            // 'Placeholder Attribute 1',
+            // 'Placeholder Attribute 2',
+            // 'Placeholder Attribute 3',
+            // 'Placeholder Attribute 4',
+            // 'Placeholder Attribute 5',
+            // 'Placeholder Attribute 6',
+            // 'Placeholder Attribute 7',
+            // 'Placeholder Attribute 8'
           ]
         }
       }
@@ -275,6 +327,16 @@ const SURVEY_CONFIG = {
             '6',
             '7 Instämmer helt och hållet'
           ]
+        }
+      }
+    },
+    open_questions: {
+      title: "",
+      questions: {
+        dynamic_open_questions: {
+          type: 'dynamic_open_questions',
+          label: '',
+          required: true
         }
       }
     },
@@ -419,17 +481,19 @@ function App() {
   const [submissionCount, setSubmissionCount] = useState(0)
   const [answeredQuestions, setAnsweredQuestions] = useState({})
   const [currentSecurityQuestion, setCurrentSecurityQuestion] = useState(0)
+  const [currentOpenQuestionIndex, setCurrentOpenQuestionIndex] = useState(0)
 
   // Definiera sidorna i ordning
   const pages = [
     { key: 'security', title: '' },
     { key: 'screening', title: '' },
     { key: 'awareness_v2', title: '' },
-    { key: 'statements', title: '' },
+    { key: 'image', title: '' },
     { key: 'behavior', title: '' },
     { key: 'share_of_market', title: '' },
     { key: 'importance', title: '' },
     { key: 'consideration', title: '' },
+    { key: 'open_questions', title: '' },
     { key: 'background', title: '' }
   ]
 
@@ -1381,6 +1445,7 @@ function App() {
     setIsSubmitted(false)
     setCurrentPage(0) // Gå tillbaka till första sidan
     setCurrentSecurityQuestion(0) // Återställ säkerhetsfrågan
+    setCurrentOpenQuestionIndex(0) // Återställ öppen fråga index
     setIsInitialized(false) // Återställ så att ny randomisering sker för nästa respondent
     setAnsweredQuestions({}) // Återställ besvarade frågor
     const initialData = {}
@@ -1397,9 +1462,17 @@ function App() {
     const section = SURVEY_CONFIG.sections[pageData.key]
     if (!section) return false
     
-    // Specialhantering för statements-sidan
-    if (pageData.key === 'statements') {
+    // Specialhantering för image-sidan (statements)
+    if (pageData.key === 'image') {
       return randomizedStatements && randomizedStatements.length > 0
+    }
+    
+    // Specialhantering för open_questions-sidan
+    if (pageData.key === 'open_questions') {
+      console.log('Checking open_questions page visibility...')
+      const openQuestions = generateDynamicOpenQuestions()
+      console.log('open_questions should show:', openQuestions.length > 0)
+      return openQuestions.length > 0
     }
     
     // Kontrollera om någon fråga på sidan är synlig
@@ -1415,6 +1488,19 @@ function App() {
   }
 
   const nextPage = () => {
+    // Specialhantering för open_questions sidan
+    if (pages[currentPage].key === 'open_questions') {
+      const openQuestions = generateDynamicOpenQuestions()
+      if (currentOpenQuestionIndex < openQuestions.length - 1) {
+        // Gå till nästa öppen fråga
+        setCurrentOpenQuestionIndex(currentOpenQuestionIndex + 1)
+        return
+      } else {
+        // Gå till nästa sida
+        setCurrentOpenQuestionIndex(0) // Reset för nästa gång
+      }
+    }
+    
     if (currentPage < pages.length - 1) {
       let nextPageIndex = currentPage + 1
       
@@ -1428,6 +1514,18 @@ function App() {
   }
 
   const prevPage = () => {
+    // Specialhantering för open_questions sidan
+    if (pages[currentPage].key === 'open_questions') {
+      if (currentOpenQuestionIndex > 0) {
+        // Gå till föregående öppen fråga
+        setCurrentOpenQuestionIndex(currentOpenQuestionIndex - 1)
+        return
+      } else {
+        // Gå till föregående sida
+        setCurrentOpenQuestionIndex(0) // Reset för nästa gång
+      }
+    }
+    
     if (currentPage > 0) {
       let prevPageIndex = currentPage - 1
       
@@ -1492,6 +1590,28 @@ function App() {
       }
     }
     
+    // Speciallogik för dynamic_open_questions - kolla om den aktuella öppna frågan är besvarad
+    if (questionKey === 'dynamic_open_questions') {
+      const openQuestions = generateDynamicOpenQuestions()
+      if (openQuestions.length === 0) {
+        return true // Inga frågor att svara på
+      }
+      
+      // Om vi är på open_questions sidan, kolla bara den aktuella frågan
+      if (pages[currentPage].key === 'open_questions') {
+        const currentQuestion = openQuestions[currentOpenQuestionIndex]
+        if (!currentQuestion) return true
+        const answer = formData[currentQuestion.id]
+        return answer && answer.trim() !== ''
+      }
+      
+      // Annars kolla om alla frågor är besvarade
+      return openQuestions.every(question => {
+        const answer = formData[question.id]
+        return answer && answer.trim() !== ''
+      })
+    }
+    
     return answeredQuestions[questionKey] || false
   }
 
@@ -1520,6 +1640,12 @@ function App() {
     if (questionKey === 'share_of_market') {
       const frequentBrands = getFrequentBrands()
       return frequentBrands.length > 1 // Visa bara om det finns flera än 1 kedja
+    }
+    
+    // Speciallogik för dynamic_open_questions - visa bara om det finns frågor att visa
+    if (questionKey === 'dynamic_open_questions') {
+      const openQuestions = generateDynamicOpenQuestions()
+      return openQuestions.length > 0
     }
     
     return true
@@ -1570,7 +1696,119 @@ function App() {
   }
 
   const getCategoryDefinition = (pageKey) => {
-    return ''
+    const definitions = {
+      security: 'Säkerhetsfrågor för att säkerställa att du är en riktig person',
+      screening: 'Screening-frågor för att säkerställa att du är rätt målgrupp',
+      awareness_v2: 'Kännedom om hamburgerkedjor',
+      statements: 'Attribut och påståenden om hamburgerkedjor',
+      behavior: 'Köpbeteende och vanor',
+      share_of_market: 'Marknadsandel mellan kedjor',
+      importance: 'Viktiga faktorer vid val av hamburgerkedja',
+      consideration: 'Övervägande av hamburgerkedjor',
+      open_questions: 'Förklaringar till dina svar',
+      background: 'Bakgrundsinformation'
+    }
+    return definitions[pageKey] || ''
+  }
+
+  // Funktion för att generera dynamiska öppna frågor baserat på statement-kombinationer
+  const generateDynamicOpenQuestions = () => {
+    const questions = []
+    const statements = SURVEY_CONFIG.sections.image.questions.image_statements.statements
+    
+    console.log('generateDynamicOpenQuestions - checking combinations...')
+    console.log('randomizedImageBrands:', randomizedImageBrands)
+    console.log('formData keys:', Object.keys(formData).filter(key => key.includes('image_statements')))
+    console.log('formData values for MAX:', Object.entries(formData).filter(([key, value]) => key.includes('max') && value).map(([key, value]) => `${key}: ${value}`))
+    
+    // Kolla alla varumärken (endast de 6 ursprungliga för statements)
+    randomizedImageBrands.forEach(brand => {
+      // Hitta index för "betala mer" statement i den randomiserade listan
+      const betalaMerIndex = randomizedStatements.findIndex(statement => 
+        statement.includes('högre pris') || statement.includes('värt ett högre pris')
+      )
+      console.log(`Betala mer statement index: ${betalaMerIndex}`)
+      
+      // Kolla om användaren har markerat "betala mer" statement
+      const hasWillingToPayMore = betalaMerIndex !== -1 && (formData[`image_statements_${betalaMerIndex}_${brand.id}`] === true || formData[`image_statements_${betalaMerIndex}_${brand.id}`] === 'yes')
+      console.log(`Brand ${brand.name}: hasWillingToPayMore = ${hasWillingToPayMore}`)
+      
+            if (hasWillingToPayMore) {
+        // Kolla endast image-attribut (inte styrka-attribut)
+        const imageStatements = [
+          'Detta varumärke lägger man ofta märke till',
+          'Prisvärt',
+          'Enkelt att vara kund',
+          'Tillgängligt - finns nära mig',
+          'Att vara kund här känns nästan som att vara en del av en gemenskap',
+          'Känns lyhörda för kundens önskningar',
+          'Är originalet, har funnits länge'
+          // PLACEHOLDER ATTRIBUTES - Lägg till eller ta bort efter behov (kommenterade ut för att inte visa för användare)
+          // 'Placeholder Attribute 1',
+          // 'Placeholder Attribute 2',
+          // 'Placeholder Attribute 3',
+          // 'Placeholder Attribute 4',
+          // 'Placeholder Attribute 5',
+          // 'Placeholder Attribute 6',
+          // 'Placeholder Attribute 7',
+          // 'Placeholder Attribute 8'
+        ]
+        
+        randomizedStatements.forEach((statement, statementIndex) => {
+          // Skip "betala mer" statement och kolla endast image-attribut
+          if (statementIndex !== betalaMerIndex && imageStatements.includes(statement)) {
+            const hasOtherStatement = formData[`image_statements_${statementIndex}_${brand.id}`] === true || formData[`image_statements_${statementIndex}_${brand.id}`] === 'yes'
+            console.log(`Brand ${brand.name}, statement ${statementIndex} (image): hasOtherStatement = ${hasOtherStatement}`)
+            
+            if (hasOtherStatement) {
+               // Skapa dynamisk frågetext
+               let questionText = ''
+               if (statement.includes('rekommendera')) {
+                 questionText = `Du berättade att du skulle kunna rekommendera ${brand.name} till vänner och bekanta. Kan du berätta mer om det?`
+               } else if (statement.includes('kund idag')) {
+                 questionText = `Du berättade att du är kund hos ${brand.name} idag. Kan du berätta mer om det?`
+               } else if (statement.includes('Passar mig')) {
+                 questionText = `Du berättade att du upplever att ${brand.name} passar dig och dina behov. Kan du berätta mer om det?`
+               } else if (statement.includes('lägger man ofta märke till')) {
+                 questionText = `Du berättade att du upplever att du ofta lägger märke till ${brand.name}. Kan du berätta mer om det?`
+               } else if (statement.includes('Prisvärt')) {
+                 questionText = `Du berättade att du upplever ${brand.name} som prisvärt. Kan du berätta mer om det?`
+               } else if (statement.includes('Enkelt att vara kund')) {
+                 questionText = `Du berättade att du upplever att det är enkelt att vara kund hos ${brand.name}. Kan du berätta mer om det?`
+               } else if (statement.includes('Tillgängligt')) {
+                 questionText = `Du berättade att du upplever att ${brand.name} är tillgängligt för dig. Kan du berätta mer om det?`
+               } else if (statement.includes('gemenskap')) {
+                 questionText = `Du berättade att du upplever att det känns som att vara en del av en gemenskap när du är kund hos ${brand.name}. Kan du berätta mer om det?`
+               } else if (statement.includes('lyhörda')) {
+                 questionText = `Du berättade att du upplever att ${brand.name} känns lyhörda för kundens önskningar. Kan du berätta mer om det?`
+               } else if (statement.includes('originalet')) {
+                 questionText = `Du berättade att du upplever att ${brand.name} är originalet och har funnits länge. Kan du berätta mer om det?`
+               } else if (statement.includes('högre pris')) {
+                 questionText = `Du berättade att du upplever att hamburgare från ${brand.name} är värt ett högre pris. Kan du berätta mer om det?`
+               } else if (statement.includes('mest sannolikt välja')) {
+                 questionText = `Du berättade att du upplever att du mest sannolikt skulle välja ${brand.name} nästa gång. Kan du berätta mer om det?`
+               } else if (statement.includes('Placeholder Attribute')) {
+                 questionText = `Du berättade att du upplever ${brand.name} som ${statement.toLowerCase()}. Kan du berätta mer om det?`
+               } else {
+                 questionText = `Du berättade att du upplever ${statement.toLowerCase()} för ${brand.name}. Kan du berätta mer om det?`
+               }
+              
+              questions.push({
+                id: `open_${brand.id}_${statementIndex}`,
+                text: questionText,
+                brand: brand.name,
+                statement: statement
+              })
+            }
+          }
+        })
+      }
+    })
+    
+    // Begränsa till max 3 frågor
+    console.log('Generated questions:', questions)
+    console.log('Final questions (max 3):', questions.slice(0, 3))
+    return questions.slice(0, 3)
   }
 
   const renderQuestion = (key, question) => {
@@ -2165,6 +2403,10 @@ function App() {
           </div>
         )
       
+      case 'dynamic_open_questions':
+        // Denna hanteras nu i renderPage för open_questions sidan
+        return null
+      
       default:
         return null
     }
@@ -2203,14 +2445,11 @@ function App() {
       )
     }
     
-    // Statements sida
-    if (currentPageData.key === 'statements') {
+    // Image sida (statements)
+    if (currentPageData.key === 'image') {
       return (
         <div className="page-content statements-container">
           <div className="frozen-instructions">
-            <div className="category-info">
-              <p>{getCategoryDefinition(currentPageData.key)}</p>
-            </div>
             <div className="instructions">
               <p><strong>Instruktioner:</strong> För varje påstående nedan, välj de varumärken som du tycker passar bäst in. Det finns inga rätt eller fel, utgå gärna från din magkänsla. Du kan välja flera alternativ för varje påstående.</p>
             </div>
@@ -2234,7 +2473,10 @@ function App() {
                           type="checkbox"
                           name={`image_statements_${statementIndex}_${brand.id}`}
                           checked={formData[`image_statements_${statementIndex}_${brand.id}`] || false}
-                          onChange={(e) => handleStatementSelection('image_statements', statementIndex, brand.id, e.target.checked)}
+                          onChange={(e) => {
+                            console.log(`Checkbox changed: image_statements_${statementIndex}_${brand.id} = ${e.target.checked}`)
+                            handleStatementSelection('image_statements', statementIndex, brand.id, e.target.checked)
+                          }}
                         />
                         <img 
                           src={brand.logo} 
@@ -2267,6 +2509,36 @@ function App() {
       )
     }
     
+    // Open questions sida - visa en fråga i taget
+    if (currentPageData.key === 'open_questions') {
+      const openQuestions = generateDynamicOpenQuestions()
+      if (openQuestions.length === 0) return null
+      
+      // Visa frågan baserat på currentOpenQuestionIndex
+      const currentQuestion = openQuestions[currentOpenQuestionIndex]
+      if (!currentQuestion) return null
+      
+      return (
+        <div className="page-content">
+          <div className="question-group">
+            <label className="question-label">
+              {currentQuestion.text}
+            </label>
+            <textarea
+              id={currentQuestion.id}
+              name={currentQuestion.id}
+              value={formData[currentQuestion.id] || ''}
+              onChange={handleInputChange}
+              placeholder="Skriv ditt svar här..."
+              required={true}
+              rows={4}
+              className="open-question-textarea"
+            />
+          </div>
+        </div>
+      )
+    }
+    
     // Vanliga sektioner
     const section = SURVEY_CONFIG.sections[currentPageData.key]
     if (!section) return null
@@ -2276,9 +2548,6 @@ function App() {
       return (
         <div className="page-content statements-container">
           <div className="frozen-instructions">
-            <div className="category-info">
-              <p>{getCategoryDefinition(currentPageData.key)}</p>
-            </div>
             <div className="instructions">
               <p>I vilken utsträckning instämmer du i följande påstående:</p>
               <p><strong>{section.questions.strength_scale.label}</strong></p>
@@ -2310,9 +2579,6 @@ function App() {
     return (
       <div className="page-content statements-container">
         <div className="frozen-instructions">
-          <div className="category-info">
-            <p>{getCategoryDefinition(currentPageData.key)}</p>
-          </div>
         </div>
         
         <div className="statements-list">
