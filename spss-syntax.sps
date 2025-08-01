@@ -144,8 +144,7 @@ F15 "Säkerhetsfråga 15"
 F16 "Säkerhetsfråga 16"
 F17 "Säkerhetsfråga 17"
 F18 "Säkerhetsfråga 18"
-F19 "Säkerhetsfråga 19"
-F20 "Säkerhetsfråga 20"
+
 .
 
 * Value Labels

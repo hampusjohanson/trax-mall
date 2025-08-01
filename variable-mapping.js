@@ -162,27 +162,25 @@ const VARIABLE_MAPPING = {
   'importance_attributes_4': 'E1_5',
   'importance_attributes_inget': 'E1_6',
   
-  // Security questions (F1 till F20)
-  'security_questions_0': 'F1',
-  'security_questions_1': 'F2',
-  'security_questions_2': 'F3',
-  'security_questions_3': 'F4',
-  'security_questions_4': 'F5',
-  'security_questions_5': 'F6',
-  'security_questions_6': 'F7',
-  'security_questions_7': 'F8',
-  'security_questions_8': 'F9',
-  'security_questions_9': 'F10',
-  'security_questions_10': 'F11',
-  'security_questions_11': 'F12',
-  'security_questions_12': 'F13',
-  'security_questions_13': 'F14',
-  'security_questions_14': 'F15',
-  'security_questions_15': 'F16',
-  'security_questions_16': 'F17',
-  'security_questions_17': 'F18',
-  'security_questions_18': 'F19',
-  'security_questions_19': 'F20'
+  // Security questions (F1 till F18)
+'security_questions_0': 'F1',
+'security_questions_1': 'F2',
+'security_questions_2': 'F3',
+'security_questions_3': 'F4',
+'security_questions_4': 'F5',
+'security_questions_5': 'F6',
+'security_questions_6': 'F7',
+'security_questions_7': 'F8',
+'security_questions_8': 'F9',
+'security_questions_9': 'F10',
+'security_questions_10': 'F11',
+'security_questions_11': 'F12',
+'security_questions_12': 'F13',
+'security_questions_13': 'F14',
+'security_questions_14': 'F15',
+'security_questions_15': 'F16',
+'security_questions_16': 'F17',
+'security_questions_17': 'F18'
 }
 
 // Generera SPSS-syntax

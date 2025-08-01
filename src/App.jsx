@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
 import './App.css'
 
-// Skapa Supabase-klient
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Skapa Supabase-klient endast om credentials finns
+let supabase = null
+try {
+  const { createClient } = require('@supabase/supabase-js')
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+  
+  if (supabaseUrl && supabaseAnonKey && supabaseUrl !== 'your_supabase_url_here') {
+    supabase = createClient(supabaseUrl, supabaseAnonKey)
+  }
+} catch (error) {
+  console.log('Supabase not configured, running in demo mode')
+}
 
 // Enkät-konfiguration för hamburgerkedjor
 const SURVEY_CONFIG = {
@@ -16,11 +23,15 @@ const SURVEY_CONFIG = {
   category: "Denna enkät handlar om hamburgerkedjor som erbjuder snabbmat för att äta på plats eller ta med.",
   brands: [
     { id: 'mcdonalds', name: 'McDonald\'s', logo: '/images/mcdonalds.png' },
-    { id: 'burger_king', name: 'Burger King', logo: '/images/burger-king.svg' },
+    { id: 'burger_king', name: 'Burger King', logo: '/images/burger-king.png' },
     { id: 'max', name: 'MAX', logo: '/images/max.png' },
     { id: 'sibylla', name: 'Sibylla', logo: '/images/sibylla.png' },
-    { id: 'bastard_burgers', name: 'Bastard Burgers', logo: '/images/bastard-burgers.svg' },
-    { id: 'prime_burger', name: 'Prime Burger', logo: '/images/prime-burger.svg' }
+    { id: 'bastard_burgers', name: 'Bastard Burgers', logo: '/images/bastard-burgers.png' },
+    { id: 'prime_burger', name: 'Prime Burger', logo: '/images/prime-burger.png' },
+    { id: 'frasses', name: 'Frasses', logo: '/images/frasses.svg' },
+    { id: 'shake_shack', name: 'Shake Shack', logo: '/images/shake-shack.svg' },
+    { id: 'five_guys', name: 'Five Guys', logo: '/images/five-guys.svg' },
+    { id: 'flippin_burgers', name: 'Flippin\' Burgers', logo: '/images/flippin-burgers.png' }
   ],
   sections: {
     security: {
@@ -101,21 +112,13 @@ const SURVEY_CONFIG = {
               options: ['3', '4', '5', '6'],
               correct: '4'
             },
+
             {
-              question: 'Vilken färg har en banan?',
-              options: ['Röd', 'Blå', 'Gul', 'Grön'],
-              correct: 'Gul'
-            },
-            {
-              question: 'Hur många timmar har en dag?',
+              question: 'Hur många timmar har ett dygn?',
               options: ['12', '18', '24', '30'],
               correct: '24'
             },
-            {
-              question: 'Vilken är Sveriges andra största stad?',
-              options: ['Stockholm', 'Göteborg', 'Malmö', 'Uppsala'],
-              correct: 'Göteborg'
-            },
+
             {
               question: 'Vad är 6+3?',
               options: ['7', '8', '9', '10'],
@@ -226,7 +229,12 @@ const SURVEY_CONFIG = {
             '1 gång per år',
             'Mer sällan/aldrig'
           ]
-        },
+        }
+      }
+    },
+    share_of_market: {
+      title: "",
+      questions: {
         share_of_market: {
           type: 'brand_share',
           label: 'Hur fördelar du normalt dina inköp av hamburgare mellan dessa olika kedjor? Ange procent för varje kedja du köper från minst varje år. Summan ska bli 100%.',
@@ -401,14 +409,16 @@ function App() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [randomizedBrands, setRandomizedBrands] = useState([])
+  const [randomizedImageBrands, setRandomizedImageBrands] = useState([])
   const [randomizedStatements, setRandomizedStatements] = useState([])
   const [randomizedImportanceOptions, setRandomizedImportanceOptions] = useState([])
   const [randomizedSecurityQuestions, setRandomizedSecurityQuestions] = useState([])
   const [isInitialized, setIsInitialized] = useState(false)
-  const [currentPage, setCurrentPage] = useState(0) // 0: security, 1: screening, 2: awareness, 3: statements, 4: behavior, 5: importance, 6: consideration, 7: background
+  const [currentPage, setCurrentPage] = useState(0) // 0: security, 1: screening, 2: awareness, 3: statements, 4: behavior, 5: share_of_market, 6: importance, 7: consideration, 8: background
   const [connectionStatus, setConnectionStatus] = useState('')
   const [submissionCount, setSubmissionCount] = useState(0)
   const [answeredQuestions, setAnsweredQuestions] = useState({})
+  const [currentSecurityQuestion, setCurrentSecurityQuestion] = useState(0)
 
   // Definiera sidorna i ordning
   const pages = [
@@ -417,6 +427,7 @@ function App() {
     { key: 'awareness_v2', title: '' },
     { key: 'statements', title: '' },
     { key: 'behavior', title: '' },
+    { key: 'share_of_market', title: '' },
     { key: 'importance', title: '' },
     { key: 'consideration', title: '' },
     { key: 'background', title: '' }
@@ -433,9 +444,14 @@ function App() {
       })
       setFormData(initialData)
       
-      // Randomisera ordningen av brands EN gång per respondent
+      // Randomisera ordningen av brands EN gång per respondent (alla 10 varumärken)
       const shuffled = [...SURVEY_CONFIG.brands].sort(() => Math.random() - 0.5)
       setRandomizedBrands(shuffled)
+      
+      // Skapa en separat lista för image statements (endast de 6 ursprungliga varumärkena)
+      const originalBrands = SURVEY_CONFIG.brands.slice(0, 6)
+      const shuffledImageBrands = [...originalBrands].sort(() => Math.random() - 0.5)
+      setRandomizedImageBrands(shuffledImageBrands)
       
       // Randomisera ordningen av statements EN gång per respondent
       const statements = SURVEY_CONFIG.sections.image.questions.image_statements.statements
@@ -461,26 +477,30 @@ function App() {
     }
   }, [isInitialized])
 
-  // Testa Supabase-anslutning och hämta antal svar
+  // Testa Supabase-anslutning endast om den är konfigurerad
   useEffect(() => {
-    const testConnection = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('survey_responses_flexible')
-          .select('id', { count: 'exact' })
-        
-        if (error) {
-          setConnectionStatus('Connection failed: ' + error.message)
-        } else {
-          setConnectionStatus('Connected successfully!')
-          setSubmissionCount(data?.length || 0)
+    if (supabase) {
+      const testConnection = async () => {
+        try {
+          const { data, error } = await supabase
+            .from('survey_responses_flexible')
+            .select('id', { count: 'exact' })
+          
+          if (error) {
+            setConnectionStatus('Connection failed: ' + error.message)
+          } else {
+            setConnectionStatus('Connected successfully!')
+            setSubmissionCount(data?.length || 0)
+          }
+        } catch (err) {
+          setConnectionStatus('Connection error: ' + err.message)
         }
-      } catch (err) {
-        setConnectionStatus('Connection error: ' + err.message)
       }
+      
+      testConnection()
+    } else {
+      setConnectionStatus('Demo mode - no database connection')
     }
-    
-    testConnection()
   }, [])
 
   // Testa sticky-funktionen
@@ -605,6 +625,25 @@ function App() {
       ...prev,
       [questionKey]: true
     }))
+    
+    // Speciallogik för purchase_frequency - automatiskt sätta 100% om bara en kedja
+    if (questionKey === 'purchase_frequency') {
+      setTimeout(() => {
+        const frequentBrands = getFrequentBrands()
+        if (frequentBrands.length === 1) {
+          // Automatiskt sätta 100% för den enda kedjan
+          const singleBrand = frequentBrands[0]
+          setFormData(prev => ({
+            ...prev,
+            [`share_of_market_${singleBrand.id}`]: '100'
+          }))
+          setAnsweredQuestions(prev => ({
+            ...prev,
+            'share_of_market': true
+          }))
+        }
+      }, 100) // Kort fördröjning för att låta state uppdateras
+    }
   }
 
   const handleStatementSelection = (questionKey, statementIndex, brandId, value) => {
@@ -678,9 +717,7 @@ function App() {
     setIsLoading(true)
 
     try {
-      console.log('Starting submission...')
-      console.log('Supabase URL:', supabaseUrl ? 'Set' : 'Missing')
-      console.log('Supabase Key:', supabaseAnonKey ? 'Set' : 'Missing')
+      console.log('Form data:', formData)
       
       // Skapa en komplett datastruktur med standardiserade variabelnamn och numeriska värden
       const completeResponseData = {}
@@ -801,7 +838,11 @@ function App() {
               case 'sibylla': return 4
               case 'bastard_burgers': return 5
               case 'prime_burger': return 6
-              case 'inget_av_dessa': return 7
+              case 'frasses': return 7
+              case 'shake_shack': return 8
+              case 'five_guys': return 9
+              case 'flippin_burgers': return 10
+              case 'inget_av_dessa': return 11
               default: return value
             }
           
@@ -859,46 +900,66 @@ function App() {
         'last_purchase': 'B1',
         'main_provider': 'B2',
         
-        // Current customers (B3_1 till B3_7)
+        // Current customers (B3_1 till B3_11)
         'current_customers_mcdonalds': 'B3_1',
         'current_customers_burger_king': 'B3_2',
         'current_customers_max': 'B3_3',
         'current_customers_sibylla': 'B3_4',
         'current_customers_bastard_burgers': 'B3_5',
         'current_customers_prime_burger': 'B3_6',
-        'current_customers_inget': 'B3_7',
+        'current_customers_frasses': 'B3_7',
+        'current_customers_shake_shack': 'B3_8',
+        'current_customers_five_guys': 'B3_9',
+        'current_customers_flippin_burgers': 'B3_10',
+        'current_customers_inget': 'B3_11',
         
-        // Purchase frequency (B4_1 till B4_6)
+        // Purchase frequency (B4_1 till B4_10)
         'purchase_frequency_mcdonalds': 'B4_1',
         'purchase_frequency_burger_king': 'B4_2',
         'purchase_frequency_max': 'B4_3',
         'purchase_frequency_sibylla': 'B4_4',
         'purchase_frequency_bastard_burgers': 'B4_5',
         'purchase_frequency_prime_burger': 'B4_6',
+        'purchase_frequency_frasses': 'B4_7',
+        'purchase_frequency_shake_shack': 'B4_8',
+        'purchase_frequency_five_guys': 'B4_9',
+        'purchase_frequency_flippin_burgers': 'B4_10',
         
-        // Share of market (B5_1 till B5_6)
+        // Share of market (B5_1 till B5_10)
         'share_of_market_mcdonalds': 'B5_1',
         'share_of_market_burger_king': 'B5_2',
         'share_of_market_max': 'B5_3',
         'share_of_market_sibylla': 'B5_4',
         'share_of_market_bastard_burgers': 'B5_5',
         'share_of_market_prime_burger': 'B5_6',
+        'share_of_market_frasses': 'B5_7',
+        'share_of_market_shake_shack': 'B5_8',
+        'share_of_market_five_guys': 'B5_9',
+        'share_of_market_flippin_burgers': 'B5_10',
         
-        // Awareness (C1_1 till C1_6)
+        // Awareness (C1_1 till C1_10)
         'awareness_v2_mcdonalds': 'C1_1',
         'awareness_v2_burger_king': 'C1_2',
         'awareness_v2_max': 'C1_3',
         'awareness_v2_sibylla': 'C1_4',
         'awareness_v2_bastard_burgers': 'C1_5',
         'awareness_v2_prime_burger': 'C1_6',
+        'awareness_v2_frasses': 'C1_7',
+        'awareness_v2_shake_shack': 'C1_8',
+        'awareness_v2_five_guys': 'C1_9',
+        'awareness_v2_flippin_burgers': 'C1_10',
         
-        // Strength scale (C2_1 till C2_6)
+        // Strength scale (C2_1 till C2_10)
         'strength_scale_mcdonalds': 'C2_1',
         'strength_scale_burger_king': 'C2_2',
         'strength_scale_max': 'C2_3',
         'strength_scale_sibylla': 'C2_4',
         'strength_scale_bastard_burgers': 'C2_5',
         'strength_scale_prime_burger': 'C2_6',
+        'strength_scale_frasses': 'C2_7',
+        'strength_scale_shake_shack': 'C2_8',
+        'strength_scale_five_guys': 'C2_9',
+        'strength_scale_flippin_burgers': 'C2_10',
         
         // Image statements (D1_1_1 till D1_10_7)
         // Statement 1
@@ -999,7 +1060,7 @@ function App() {
         'importance_attributes_4': 'E1_5',
         'importance_attributes_inget': 'E1_6',
         
-        // Security questions (F1 till F20)
+        // Security questions (F1 till F18)
         'security_questions_0': 'F1',
         'security_questions_1': 'F2',
         'security_questions_2': 'F3',
@@ -1017,9 +1078,7 @@ function App() {
         'security_questions_14': 'F15',
         'security_questions_15': 'F16',
         'security_questions_16': 'F17',
-        'security_questions_17': 'F18',
-        'security_questions_18': 'F19',
-        'security_questions_19': 'F20'
+        'security_questions_17': 'F18'
       }
       
       // Lägg till alla grundläggande frågor från SURVEY_CONFIG
@@ -1030,7 +1089,9 @@ function App() {
           // Specialhantering för statements som använder randomizedStatements
           if (questionKey === 'image_statements') {
             randomizedStatements.forEach((statement, statementIndex) => {
-              SURVEY_CONFIG.brands.forEach(brand => {
+              // Använd endast de 6 ursprungliga varumärkena för image statements
+              const originalBrands = SURVEY_CONFIG.brands.slice(0, 6)
+              originalBrands.forEach(brand => {
                 const oldKey = `${questionKey}_${statementIndex}_${brand.id}`
                 const newKey = `D1_${statementIndex + 1}_${brand.id === 'mcdonalds' ? 1 : 
                                brand.id === 'burger_king' ? 2 : 
@@ -1071,7 +1132,11 @@ function App() {
                                brand.id === 'max' ? 3 : 
                                brand.id === 'sibylla' ? 4 : 
                                brand.id === 'bastard_burgers' ? 5 : 
-                               brand.id === 'prime_burger' ? 6 : 1}`
+                               brand.id === 'prime_burger' ? 6 : 
+                               brand.id === 'frasses' ? 7 : 
+                               brand.id === 'shake_shack' ? 8 : 
+                               brand.id === 'five_guys' ? 9 : 
+                               brand.id === 'flippin_burgers' ? 10 : 1}`
                 completeResponseData[newKey] = convertToNumeric(formData[oldKey], 'awareness')
               })
               break
@@ -1081,25 +1146,102 @@ function App() {
               break
               
             case 'brand_multiple':
-              // Lägg till alla brand-specifika svar
-              SURVEY_CONFIG.brands.forEach(brand => {
-                const oldKey = `${questionKey}_${brand.id}`
-                const newKey = `B3_${brand.id === 'mcdonalds' ? 1 : 
-                               brand.id === 'burger_king' ? 2 : 
-                               brand.id === 'max' ? 3 : 
-                               brand.id === 'sibylla' ? 4 : 
-                               brand.id === 'bastard_burgers' ? 5 : 
-                               brand.id === 'prime_burger' ? 6 : 1}`
-                completeResponseData[newKey] = convertToNumeric(formData[oldKey], 'boolean')
-              })
+              // För current_customers, hantera endast kända varumärken
+              if (questionKey === 'current_customers') {
+                // Först, sätt alla till missing (tomma värden)
+                SURVEY_CONFIG.brands.forEach(brand => {
+                  const newKey = `B3_${brand.id === 'mcdonalds' ? 1 : 
+                                 brand.id === 'burger_king' ? 2 : 
+                                 brand.id === 'max' ? 3 : 
+                                 brand.id === 'sibylla' ? 4 : 
+                                 brand.id === 'bastard_burgers' ? 5 : 
+                                 brand.id === 'prime_burger' ? 6 : 
+                                 brand.id === 'frasses' ? 7 : 
+                                 brand.id === 'shake_shack' ? 8 : 
+                                 brand.id === 'five_guys' ? 9 : 
+                                 brand.id === 'flippin_burgers' ? 10 : 1}`
+                  completeResponseData[newKey] = '' // Missing value för okända varumärken
+                })
+                
+                // Sedan, sätt bara de kända varumärkena som valts
+                getKnownBrandsForCurrentCustomers().forEach(brand => {
+                  const oldKey = `${questionKey}_${brand.id}`
+                  const newKey = `B3_${brand.id === 'mcdonalds' ? 1 : 
+                                 brand.id === 'burger_king' ? 2 : 
+                                 brand.id === 'max' ? 3 : 
+                                 brand.id === 'sibylla' ? 4 : 
+                                 brand.id === 'bastard_burgers' ? 5 : 
+                                 brand.id === 'prime_burger' ? 6 : 
+                                 brand.id === 'frasses' ? 7 : 
+                                 brand.id === 'shake_shack' ? 8 : 
+                                 brand.id === 'five_guys' ? 9 : 
+                                 brand.id === 'flippin_burgers' ? 10 : 1}`
+                  completeResponseData[newKey] = convertToNumeric(formData[oldKey], 'boolean')
+                })
+              } else {
+                // För andra brand_multiple-frågor, hantera alla varumärken
+                SURVEY_CONFIG.brands.forEach(brand => {
+                  const oldKey = `${questionKey}_${brand.id}`
+                  const newKey = `B3_${brand.id === 'mcdonalds' ? 1 : 
+                                 brand.id === 'burger_king' ? 2 : 
+                                 brand.id === 'max' ? 3 : 
+                                 brand.id === 'sibylla' ? 4 : 
+                                 brand.id === 'bastard_burgers' ? 5 : 
+                                 brand.id === 'prime_burger' ? 6 : 
+                                 brand.id === 'frasses' ? 7 : 
+                                 brand.id === 'shake_shack' ? 8 : 
+                                 brand.id === 'five_guys' ? 9 : 
+                                 brand.id === 'flippin_burgers' ? 10 : 1}`
+                  completeResponseData[newKey] = convertToNumeric(formData[oldKey], 'boolean')
+                })
+              }
               // Lägg till "inget av dessa"
-              completeResponseData['B3_7'] = convertToNumeric(formData[`${questionKey}_inget`], 'boolean')
+              completeResponseData['B3_11'] = convertToNumeric(formData[`${questionKey}_inget`], 'boolean')
               break
               
             case 'brand_single':
-              // Denna hanteras redan i formData
-              const singleMappedKey = variableMapping[questionKey] || questionKey
-              completeResponseData[singleMappedKey] = convertToNumeric(formData[questionKey], questionKey)
+              // För main_provider, hantera endast kända varumärken
+              if (questionKey === 'main_provider') {
+                // Sätt alla till missing (tomma värden)
+                SURVEY_CONFIG.brands.forEach(brand => {
+                  const newKey = `B2_${brand.id === 'mcdonalds' ? 1 : 
+                                 brand.id === 'burger_king' ? 2 : 
+                                 brand.id === 'max' ? 3 : 
+                                 brand.id === 'sibylla' ? 4 : 
+                                 brand.id === 'bastard_burgers' ? 5 : 
+                                 brand.id === 'prime_burger' ? 6 : 
+                                 brand.id === 'frasses' ? 7 : 
+                                 brand.id === 'shake_shack' ? 8 : 
+                                 brand.id === 'five_guys' ? 9 : 
+                                 brand.id === 'flippin_burgers' ? 10 : 1}`
+                  completeResponseData[newKey] = '' // Missing value för okända varumärken
+                })
+                
+                // Sätt bara det valda kända varumärket
+                const selectedBrand = getKnownBrandsForCurrentCustomers().find(brand => brand.id === formData[questionKey])
+                if (selectedBrand) {
+                  const newKey = `B2_${selectedBrand.id === 'mcdonalds' ? 1 : 
+                                 selectedBrand.id === 'burger_king' ? 2 : 
+                                 selectedBrand.id === 'max' ? 3 : 
+                                 selectedBrand.id === 'sibylla' ? 4 : 
+                                 selectedBrand.id === 'bastard_burgers' ? 5 : 
+                                 selectedBrand.id === 'prime_burger' ? 6 : 
+                                 selectedBrand.id === 'frasses' ? 7 : 
+                                 selectedBrand.id === 'shake_shack' ? 8 : 
+                                 selectedBrand.id === 'five_guys' ? 9 : 
+                                 selectedBrand.id === 'flippin_burgers' ? 10 : 1}`
+                  completeResponseData[newKey] = 1
+                }
+                
+                // Hantera "inget av dessa"
+                if (formData[questionKey] === 'inget') {
+                  completeResponseData['B2_11'] = 1
+                }
+              } else {
+                // För andra brand_single-frågor, hantera som vanligt
+                const singleMappedKey = variableMapping[questionKey] || questionKey
+                completeResponseData[singleMappedKey] = convertToNumeric(formData[questionKey], questionKey)
+              }
               break
               
             case 'brand_scale':
@@ -1112,21 +1254,45 @@ function App() {
                                brand.id === 'max' ? 3 : 
                                brand.id === 'sibylla' ? 4 : 
                                brand.id === 'bastard_burgers' ? 5 : 
-                               brand.id === 'prime_burger' ? 6 : 1}`
+                               brand.id === 'prime_burger' ? 6 : 
+                               brand.id === 'frasses' ? 7 : 
+                               brand.id === 'shake_shack' ? 8 : 
+                               brand.id === 'five_guys' ? 9 : 
+                               brand.id === 'flippin_burgers' ? 10 : 1}`
                 completeResponseData[newKey] = convertToNumeric(formData[oldKey], 'strength_scale')
               })
               break
               
             case 'brand_frequency':
-              // Lägg till alla brand-specifika frekvens-svar
+              // För purchase_frequency, hantera endast kända varumärken
+              // Först, sätt alla till missing (tomma värden)
               SURVEY_CONFIG.brands.forEach(brand => {
+                const newKey = `B4_${brand.id === 'mcdonalds' ? 1 : 
+                               brand.id === 'burger_king' ? 2 : 
+                               brand.id === 'max' ? 3 : 
+                               brand.id === 'sibylla' ? 4 : 
+                               brand.id === 'bastard_burgers' ? 5 : 
+                               brand.id === 'prime_burger' ? 6 : 
+                               brand.id === 'frasses' ? 7 : 
+                               brand.id === 'shake_shack' ? 8 : 
+                               brand.id === 'five_guys' ? 9 : 
+                               brand.id === 'flippin_burgers' ? 10 : 1}`
+                completeResponseData[newKey] = '' // Missing value för okända varumärken
+              })
+              
+              // Sedan, sätt bara de kända varumärkena som har svar
+              getKnownBrandsForCurrentCustomers().forEach(brand => {
                 const oldKey = `${questionKey}_${brand.id}`
                 const newKey = `B4_${brand.id === 'mcdonalds' ? 1 : 
                                brand.id === 'burger_king' ? 2 : 
                                brand.id === 'max' ? 3 : 
                                brand.id === 'sibylla' ? 4 : 
                                brand.id === 'bastard_burgers' ? 5 : 
-                               brand.id === 'prime_burger' ? 6 : 1}`
+                               brand.id === 'prime_burger' ? 6 : 
+                               brand.id === 'frasses' ? 7 : 
+                               brand.id === 'shake_shack' ? 8 : 
+                               brand.id === 'five_guys' ? 9 : 
+                               brand.id === 'flippin_burgers' ? 10 : 1}`
                 completeResponseData[newKey] = convertToNumeric(formData[oldKey], 'purchase_frequency')
               })
               break
@@ -1140,7 +1306,11 @@ function App() {
                                brand.id === 'max' ? 3 : 
                                brand.id === 'sibylla' ? 4 : 
                                brand.id === 'bastard_burgers' ? 5 : 
-                               brand.id === 'prime_burger' ? 6 : 1}`
+                               brand.id === 'prime_burger' ? 6 : 
+                               brand.id === 'frasses' ? 7 : 
+                               brand.id === 'shake_shack' ? 8 : 
+                               brand.id === 'five_guys' ? 9 : 
+                               brand.id === 'flippin_burgers' ? 10 : 1}`
                 completeResponseData[newKey] = formData[oldKey] || '' // Behåll procent som text
               })
               break
@@ -1160,7 +1330,7 @@ function App() {
       })
       
       // Lägg till security questions (behåll som text)
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 18; i++) {
         const oldKey = `security_questions_${i}`
         const newKey = `F${i + 1}`
         completeResponseData[newKey] = formData[oldKey] || ''
@@ -1180,19 +1350,24 @@ function App() {
         security_questions_used: randomizedSecurityQuestions.length > 0 ? randomizedSecurityQuestions.map((_, i) => i) : []
       }
 
-      console.log('Submitting to Supabase...')
-      const { data, error } = await supabase
-        .from('survey_responses_flexible')
-        .insert([surveyResponse])
+      if (supabase) {
+        console.log('Submitting to Supabase...')
+        const { data, error } = await supabase
+          .from('survey_responses_flexible')
+          .insert([surveyResponse])
 
-      if (error) {
-        console.error('Supabase error:', error)
-        alert('Ett fel uppstod när svaret sparades. Försök igen.')
-        setIsLoading(false)
-        return
+        if (error) {
+          console.error('Supabase error:', error)
+          alert('Ett fel uppstod när svaret sparades. Försök igen.')
+          setIsLoading(false)
+          return
+        }
+
+        console.log('Successfully submitted to Supabase:', data)
+      } else {
+        console.log('Demo mode - data not saved to database')
       }
 
-      console.log('Successfully submitted to Supabase:', data)
       setIsSubmitted(true)
       setIsLoading(false)
     } catch (error) {
@@ -1205,6 +1380,7 @@ function App() {
   const resetForm = () => {
     setIsSubmitted(false)
     setCurrentPage(0) // Gå tillbaka till första sidan
+    setCurrentSecurityQuestion(0) // Återställ säkerhetsfrågan
     setIsInitialized(false) // Återställ så att ny randomisering sker för nästa respondent
     setAnsweredQuestions({}) // Återställ besvarade frågor
     const initialData = {}
@@ -1216,23 +1392,66 @@ function App() {
     setFormData(initialData)
   }
 
+  const hasVisibleQuestions = (pageIndex) => {
+    const pageData = pages[pageIndex]
+    const section = SURVEY_CONFIG.sections[pageData.key]
+    if (!section) return false
+    
+    // Specialhantering för statements-sidan
+    if (pageData.key === 'statements') {
+      return randomizedStatements && randomizedStatements.length > 0
+    }
+    
+    // Kontrollera om någon fråga på sidan är synlig
+    return Object.entries(section.questions).some(([key, question], index) => {
+      if (!shouldShowQuestion(key, index)) {
+        return false
+      }
+      
+      // Kontrollera om renderQuestion returnerar null
+      const renderedQuestion = renderQuestion(key, question)
+      return renderedQuestion !== null
+    })
+  }
+
   const nextPage = () => {
     if (currentPage < pages.length - 1) {
-      setCurrentPage(currentPage + 1)
+      let nextPageIndex = currentPage + 1
+      
+      // Hoppa över tomma sidor
+      while (nextPageIndex < pages.length - 1 && !hasVisibleQuestions(nextPageIndex)) {
+        nextPageIndex++
+      }
+      
+      setCurrentPage(nextPageIndex)
     }
   }
 
   const prevPage = () => {
     if (currentPage > 0) {
-      setCurrentPage(currentPage - 1)
+      let prevPageIndex = currentPage - 1
+      
+      // Hoppa över tomma sidor när man går bakåt
+      while (prevPageIndex > 0 && !hasVisibleQuestions(prevPageIndex)) {
+        prevPageIndex--
+      }
+      
+      setCurrentPage(prevPageIndex)
     }
   }
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault()
-      if (currentPage < pages.length - 1) {
-        nextPage()
+      
+      // Hitta nästa sida med synliga frågor
+      let nextPageIndex = currentPage + 1
+      while (nextPageIndex < pages.length && !hasVisibleQuestions(nextPageIndex)) {
+        nextPageIndex++
+      }
+      
+      if (nextPageIndex < pages.length) {
+        setCurrentPage(nextPageIndex)
       } else {
         handleSubmit(e)
       }
@@ -1240,12 +1459,37 @@ function App() {
   }
 
   const isQuestionAnswered = (questionKey) => {
+    // Speciallogik för security_questions - kolla om alla säkerhetsfrågor är besvarade
+    if (questionKey === 'security_questions') {
+      return randomizedSecurityQuestions && randomizedSecurityQuestions.length > 0 && 
+             randomizedSecurityQuestions.every((_, index) => {
+               const answer = formData[`security_questions_${index}`]
+               return answer && answer !== ''
+             })
+    }
+    
     // Speciallogik för purchase_frequency - kolla om minst ett varumärke har valts
     if (questionKey === 'purchase_frequency') {
       return randomizedBrands && randomizedBrands.length > 0 && randomizedBrands.some(brand => {
         const frequency = formData[`purchase_frequency_${brand.id}`]
         return frequency && frequency !== ''
       })
+    }
+    
+    // Speciallogik för share_of_market - kolla om det finns flera kedjor eller om det automatiskt sätts
+    if (questionKey === 'share_of_market') {
+      const frequentBrands = getFrequentBrands()
+      if (frequentBrands.length === 0) {
+        return false // Ingen kedja vald
+      } else if (frequentBrands.length === 1) {
+        return true // Automatiskt satt till 100%
+      } else {
+        // Flera kedjor - kolla om alla har procent
+        return frequentBrands.every(brand => {
+          const share = formData[`share_of_market_${brand.id}`]
+          return share && share !== ''
+        })
+      }
     }
     
     return answeredQuestions[questionKey] || false
@@ -1272,9 +1516,10 @@ function App() {
       return formData.children === 'ja'
     }
     
-    // Speciallogik för share_of_market - visa bara om purchase_frequency är besvarad
+    // Speciallogik för share_of_market - visa bara om det finns flera frekventa kedjor
     if (questionKey === 'share_of_market') {
-      return isQuestionAnswered('purchase_frequency')
+      const frequentBrands = getFrequentBrands()
+      return frequentBrands.length > 1 // Visa bara om det finns flera än 1 kedja
     }
     
     return true
@@ -1300,6 +1545,32 @@ function App() {
       const frequency = formData[`purchase_frequency_${brand.id}`]
       return frequency && frequentOptions.includes(frequency)
     })
+  }
+
+  const getKnownBrands = () => {
+    if (!randomizedBrands || randomizedBrands.length === 0) {
+      return []
+    }
+    
+    return randomizedBrands.filter(brand => {
+      const awareness = formData[`awareness_v2_${brand.id}`]
+      return awareness && awareness !== 'Har inte hört talas om'
+    })
+  }
+
+  const getKnownBrandsForCurrentCustomers = () => {
+    if (!randomizedBrands || randomizedBrands.length === 0) {
+      return []
+    }
+    
+    return randomizedBrands.filter(brand => {
+      const awareness = formData[`awareness_v2_${brand.id}`]
+      return awareness && awareness !== 'Har inte hört talas om'
+    })
+  }
+
+  const getCategoryDefinition = (pageKey) => {
+    return ''
   }
 
   const renderQuestion = (key, question) => {
@@ -1433,7 +1704,8 @@ function App() {
       case 'brand_multiple':
         return (
           <div className="brand-multiple">
-            {randomizedBrands.map(brand => (
+            {/* För current_customers-frågan, visa endast kända varumärken */}
+            {(key === 'current_customers' ? getKnownBrandsForCurrentCustomers() : randomizedBrands).map(brand => (
               <label key={brand.id} className="brand-option">
                 <input
                   type="checkbox"
@@ -1469,7 +1741,8 @@ function App() {
       case 'brand_single':
         return (
           <div className="brand-single">
-            {randomizedBrands.map(brand => (
+            {/* För main_provider-frågan, visa endast kända varumärken */}
+            {(key === 'main_provider' ? getKnownBrandsForCurrentCustomers() : randomizedBrands).map(brand => (
               <label key={brand.id} className="brand-option">
                 <input
                   type="radio"
@@ -1531,7 +1804,7 @@ function App() {
                   {statement}
                 </div>
                 <div className="brand-checkboxes">
-                  {randomizedBrands.map(brand => (
+                  {randomizedImageBrands.map(brand => (
                     <label key={brand.id} className="brand-checkbox">
                       <input
                         type="checkbox"
@@ -1661,7 +1934,8 @@ function App() {
       case 'brand_frequency':
         return (
           <div className="brand-frequency">
-            {randomizedBrands.map(brand => (
+            {/* Visa endast kända varumärken för purchase_frequency */}
+            {getKnownBrandsForCurrentCustomers().map(brand => (
               <div key={brand.id} className="brand-frequency-row">
                 <div className="brand-frequency-logo">
                   <img 
@@ -1786,58 +2060,61 @@ function App() {
       
       case 'brand_share':
         const frequentBrands = getFrequentBrands()
+        
+        // Visa inte frågan alls om det inte finns några frekventa kedjor
+        if (frequentBrands.length === 0) {
+          return null
+        }
+        
+        // Visa inte frågan om det bara finns en kedja (automatiskt 100%)
+        if (frequentBrands.length === 1) {
+          return null
+        }
+        
         return (
           <div className="brand-share">
-            {frequentBrands.length > 0 ? (
-              <>
-                <div className="share-instructions">
-                  <p>Ange procent för varje kedja du köper från minst varje år. Summan ska bli 100%.</p>
+            <div className="share-instructions">
+              <p>Ange procent för varje kedja du köper från minst varje år. Summan ska bli 100%.</p>
+            </div>
+            {frequentBrands.map(brand => (
+              <div key={brand.id} className="brand-share-row">
+                <div className="brand-share-logo">
+                  <img 
+                    src={brand.logo} 
+                    alt={brand.name} 
+                    className="brand-image" 
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'inline';
+                    }}
+                  />
+                  <span className="brand-fallback" style={{display: 'none'}}>{brand.name.charAt(0)}</span>
+                  <span className="brand-name">{brand.name}</span>
                 </div>
-                {frequentBrands.map(brand => (
-                  <div key={brand.id} className="brand-share-row">
-                    <div className="brand-share-logo">
-                      <img 
-                        src={brand.logo} 
-                        alt={brand.name} 
-                        className="brand-image" 
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'inline';
-                        }}
-                      />
-                      <span className="brand-fallback" style={{display: 'none'}}>{brand.name.charAt(0)}</span>
-                      <span className="brand-name">{brand.name}</span>
-                    </div>
-                    <div className="share-input">
-                      <input
-                        type="number"
-                        name={`${key}_${brand.id}`}
-                        value={formData[`${key}_${brand.id}`] || ''}
-                        onChange={handleInputChange}
-                        min="0"
-                        max="100"
-                        placeholder="0"
-                        className="share-percentage-input"
-                      />
-                      <span className="percentage-symbol">%</span>
-                    </div>
-                  </div>
-                ))}
-                <div className="share-total">
-                  <span>Totalt: {frequentBrands.reduce((sum, brand) => {
-                    const value = parseInt(formData[`${key}_${brand.id}`]) || 0
-                    return sum + value
-                  }, 0)}% ({100 - frequentBrands.reduce((sum, brand) => {
-                    const value = parseInt(formData[`${key}_${brand.id}`]) || 0
-                    return sum + value
-                  }, 0)}% kvar att fördela)</span>
+                <div className="share-input">
+                  <input
+                    type="number"
+                    name={`${key}_${brand.id}`}
+                    value={formData[`${key}_${brand.id}`] || ''}
+                    onChange={handleInputChange}
+                    min="0"
+                    max="100"
+                    placeholder="0"
+                    className="share-percentage-input"
+                  />
+                  <span className="percentage-symbol">%</span>
                 </div>
-              </>
-            ) : (
-              <div className="no-frequent-brands">
-                <p>Du har inte valt några kedjor som du köper från minst varje år. Gå tillbaka och uppdatera dina svar i frekvensfrågan.</p>
               </div>
-            )}
+            ))}
+            <div className="share-total">
+              <span>Totalt: {frequentBrands.reduce((sum, brand) => {
+                const value = parseInt(formData[`${key}_${brand.id}`]) || 0
+                return sum + value
+              }, 0)}% ({100 - frequentBrands.reduce((sum, brand) => {
+                const value = parseInt(formData[`${key}_${brand.id}`]) || 0
+                return sum + value
+              }, 0)}% kvar att fördela)</span>
+            </div>
           </div>
         )
       
@@ -1845,30 +2122,46 @@ function App() {
         if (!randomizedSecurityQuestions || randomizedSecurityQuestions.length === 0) {
           return <div>Laddar säkerhetsfrågor...</div>
         }
+        
+        // Visa bara den aktuella säkerhetsfrågan
+        const currentQuestion = randomizedSecurityQuestions[currentSecurityQuestion]
+        if (!currentQuestion) {
+          return <div>Inga fler säkerhetsfrågor</div>
+        }
+        
         return (
           <div className="security-questions">
-            {randomizedSecurityQuestions.map((securityQuestion, index) => (
-              <div key={index} className="security-question">
-                <div className="security-question-text">
-                  {securityQuestion.question}
-                </div>
-                <div className="security-options">
-                  {securityQuestion.options.map((option, optionIndex) => (
-                    <label key={optionIndex} className="security-option">
-                      <input
-                        type="radio"
-                        name={`${key}_${index}`}
-                        value={option}
-                        checked={formData[`${key}_${index}`] === option}
-                        onChange={handleInputChange}
-                        required={question.required}
-                      />
-                      <span className="security-option-text">{option}</span>
-                    </label>
-                  ))}
-                </div>
+            <div className="security-question">
+              <div className="security-question-text">
+                {currentQuestion.question}
               </div>
-            ))}
+              <div className="security-options">
+                {currentQuestion.options.map((option, optionIndex) => (
+                  <label key={optionIndex} className="security-option">
+                    <input
+                      type="radio"
+                      name={`${key}_${currentSecurityQuestion}`}
+                      value={option}
+                      checked={formData[`${key}_${currentSecurityQuestion}`] === option}
+                      onChange={(e) => {
+                        handleInputChange(e)
+                        // Automatiskt gå till nästa fråga efter en kort fördröjning
+                        setTimeout(() => {
+                          if (currentSecurityQuestion < randomizedSecurityQuestions.length - 1) {
+                            setCurrentSecurityQuestion(currentSecurityQuestion + 1)
+                          }
+                        }, 500)
+                      }}
+                      required={question.required}
+                    />
+                    <span className="security-option-text">{option}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div className="security-progress">
+              Fråga {currentSecurityQuestion + 1} av {randomizedSecurityQuestions.length}
+            </div>
           </div>
         )
       
@@ -1892,12 +2185,17 @@ function App() {
               return null
             }
             
+            const renderedQuestion = renderQuestion(key, question)
+            if (renderedQuestion === null) {
+              return null
+            }
+            
             return (
               <div key={key} className="question-group">
                 <label className="question-label">
                   {question.label}
                 </label>
-                {renderQuestion(key, question)}
+                {renderedQuestion}
               </div>
             )
           })}
@@ -1910,6 +2208,9 @@ function App() {
       return (
         <div className="page-content statements-container">
           <div className="frozen-instructions">
+            <div className="category-info">
+              <p>{getCategoryDefinition(currentPageData.key)}</p>
+            </div>
             <div className="instructions">
               <p><strong>Instruktioner:</strong> För varje påstående nedan, välj de varumärken som du tycker passar bäst in. Det finns inga rätt eller fel, utgå gärna från din magkänsla. Du kan välja flera alternativ för varje påstående.</p>
             </div>
@@ -1927,7 +2228,7 @@ function App() {
                     {statement}
                   </div>
                   <div className="brand-checkboxes">
-                    {randomizedBrands.map(brand => (
+                    {randomizedImageBrands.map(brand => (
                       <label key={brand.id} className="brand-checkbox">
                         <input
                           type="checkbox"
@@ -1975,6 +2276,9 @@ function App() {
       return (
         <div className="page-content statements-container">
           <div className="frozen-instructions">
+            <div className="category-info">
+              <p>{getCategoryDefinition(currentPageData.key)}</p>
+            </div>
             <div className="instructions">
               <p>I vilken utsträckning instämmer du i följande påstående:</p>
               <p><strong>{section.questions.strength_scale.label}</strong></p>
@@ -1987,9 +2291,14 @@ function App() {
                 return null
               }
               
+              const renderedQuestion = renderQuestion(key, question)
+              if (renderedQuestion === null) {
+                return null
+              }
+              
               return (
                 <div key={key} className="question-group">
-                  {renderQuestion(key, question)}
+                  {renderedQuestion}
                 </div>
               )
             })}
@@ -1999,21 +2308,34 @@ function App() {
     }
     
     return (
-      <div className="page-content">
-        {Object.entries(section.questions).map(([key, question], index) => {
-          if (!shouldShowQuestion(key, index)) {
-            return null
-          }
-          
-          return (
-            <div key={key} className="question-group">
-              <label className="question-label">
-                {question.label}
-              </label>
-              {renderQuestion(key, question)}
-            </div>
-          )
-        })}
+      <div className="page-content statements-container">
+        <div className="frozen-instructions">
+          <div className="category-info">
+            <p>{getCategoryDefinition(currentPageData.key)}</p>
+          </div>
+        </div>
+        
+        <div className="statements-list">
+          {Object.entries(section.questions).map(([key, question], index) => {
+            if (!shouldShowQuestion(key, index)) {
+              return null
+            }
+            
+            const renderedQuestion = renderQuestion(key, question)
+            if (renderedQuestion === null) {
+              return null
+            }
+            
+            return (
+              <div key={key} className="question-group">
+                <label className="question-label">
+                  {question.label}
+                </label>
+                {renderedQuestion}
+              </div>
+            )
+          })}
+        </div>
       </div>
     )
   }
@@ -2030,6 +2352,7 @@ function App() {
           <div className="success-message">
             <h3>Tack för ditt svar!</h3>
             <p>Din enkät har skickats in framgångsrikt.</p>
+            {!supabase && <p><em>Demo-läge: Data sparades inte till databas</em></p>}
             <button onClick={resetForm} className="submit-btn">
               Skicka ett till svar
             </button>
@@ -2080,13 +2403,11 @@ function App() {
             </button>
           )}
           
-          <button 
-            onClick={testSupabaseConnection} 
-            className="nav-btn"
-            style={{ marginTop: '10px', fontSize: '0.8em' }}
-          >
-            Testa Supabase
-          </button>
+          {!supabase && (
+            <div style={{ marginTop: '10px', fontSize: '0.8em', color: '#666' }}>
+              Demo-läge - ingen databasanslutning
+            </div>
+          )}
         </div>
       </div>
     </div>
