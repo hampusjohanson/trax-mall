@@ -1,4 +1,7 @@
 {
   "public": true,
-  "name": "trax-mall-survey"
+  "name": "trax-mall-survey",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite"
 } 
