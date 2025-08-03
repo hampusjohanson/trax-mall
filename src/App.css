@@ -31,11 +31,12 @@ body {
   margin: 20px auto;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: block;
   position: relative;
   min-height: auto;
-  max-height: fit-content;
+  max-height: 85vh;
 }
 
 /* Survey header */
@@ -807,7 +808,7 @@ body {
     border-radius: 12px;
     width: 95%;
     max-width: 95%;
-    max-height: fit-content;
+    max-height: 90vh;
   }
   
   .survey-header {
