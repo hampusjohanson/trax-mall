@@ -1876,12 +1876,12 @@ body {
 }
 
 .multiple-choice-option input[type="checkbox"]:checked {
-  background: #66D4A3;
-  border: 2px solid #66D4A3;
+  background: #88FFC2;
+  border: 2px solid #88FFC2;
 }
 
 .multiple-choice-option input[type="checkbox"]:checked + .multiple-choice-text {
-  color: #059669;
+  color: rgb(17, 21, 66);
   font-weight: 600;
 }
 
@@ -1912,8 +1912,8 @@ body {
   }
   
   .multiple-choice-option input[type="checkbox"]:checked {
-    background: #66D4A3;
-    border: 2px solid #66D4A3;
+    background: #88FFC2;
+    border: 2px solid #88FFC2;
   }
   
 
