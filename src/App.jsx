@@ -2125,11 +2125,6 @@ function App() {
       case 'brand_scale_single':
         return (
           <div className="brand-scale-single">
-            <div className="frozen-instructions">
-              <div className="instructions">
-                <p><strong>{question.label}</strong></p>
-              </div>
-            </div>
             {randomizedBrands.map(brand => (
               <div key={brand.id} className="brand-scale-single-question">
                 <div className="brand-scale-single-header">
@@ -2554,7 +2549,6 @@ function App() {
         <div className="page-content statements-container">
           <div className="frozen-instructions">
             <div className="instructions">
-              <p>I vilken utsträckning instämmer du i följande påstående:</p>
               <p><strong>{section.questions.strength_scale.label}</strong></p>
             </div>
           </div>
