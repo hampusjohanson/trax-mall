@@ -1413,10 +1413,8 @@ body {
 
 /* Frozen Instructions för Statements */
 .frozen-instructions {
-  position: fixed;
-  top: 60px; /* Under det gröna bannern */
-  left: 0;
-  right: 0;
+  position: sticky;
+  top: 0;
   background: white;
   padding: 10px 15px;
   border-bottom: 2px solid #e5e7eb;
@@ -1451,7 +1449,7 @@ body {
 }
 
 .statements-list {
-  padding: 140px 20px 16px 20px;
+  padding: 16px 20px;
   flex: 1;
   overflow-y: auto;
 }
