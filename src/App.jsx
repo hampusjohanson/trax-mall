@@ -1513,7 +1513,10 @@ function App() {
       
       // Scroll to top när sidan ändras
       setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        const container = document.querySelector('.survey-container')
+        if (container) {
+          container.scrollTo({ top: 0, behavior: 'smooth' })
+        }
       }, 100)
     }
   }
@@ -1543,7 +1546,10 @@ function App() {
       
       // Scroll to top när sidan ändras
       setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        const container = document.querySelector('.survey-container')
+        if (container) {
+          container.scrollTo({ top: 0, behavior: 'smooth' })
+        }
       }, 100)
     }
   }
@@ -1563,7 +1569,10 @@ function App() {
         
         // Scroll to top när sidan ändras
         setTimeout(() => {
-          window.scrollTo({ top: 0, behavior: 'smooth' })
+          const container = document.querySelector('.survey-container')
+          if (container) {
+            container.scrollTo({ top: 0, behavior: 'smooth' })
+          }
         }, 100)
       } else {
         handleSubmit(e)
