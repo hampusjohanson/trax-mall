@@ -1386,13 +1386,15 @@ body {
   flex-direction: column;
   position: relative; /* För bättre sticky-support */
   height: 100vh;
+  scroll-behavior: smooth;
 }
 
 /* Frozen Instructions för Statements */
 .frozen-instructions {
-  position: -webkit-sticky; /* Safari support */
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   background: white;
   padding: 10px 15px;
   border-bottom: 2px solid #e5e7eb;
@@ -1427,7 +1429,7 @@ body {
 }
 
 .statements-list {
-  padding: 16px 20px;
+  padding: 80px 20px 16px 20px;
   flex: 1;
   overflow-y: auto;
 }
