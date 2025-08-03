@@ -1510,6 +1510,11 @@ function App() {
       }
       
       setCurrentPage(nextPageIndex)
+      
+      // Scroll to top när sidan ändras
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }, 100)
     }
   }
 
@@ -1535,6 +1540,11 @@ function App() {
       }
       
       setCurrentPage(prevPageIndex)
+      
+      // Scroll to top när sidan ändras
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }, 100)
     }
   }
 
@@ -1550,6 +1560,11 @@ function App() {
       
       if (nextPageIndex < pages.length) {
         setCurrentPage(nextPageIndex)
+        
+        // Scroll to top när sidan ändras
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }, 100)
       } else {
         handleSubmit(e)
       }

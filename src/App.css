@@ -34,6 +34,8 @@ body {
   overflow: hidden;
   display: block;
   position: relative;
+  min-height: auto;
+  max-height: fit-content;
 }
 
 /* Survey header */
@@ -805,6 +807,7 @@ body {
     border-radius: 12px;
     width: 95%;
     max-width: 95%;
+    max-height: fit-content;
   }
   
   .survey-header {
