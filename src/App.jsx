@@ -2549,6 +2549,7 @@ function App() {
         <div className="page-content statements-container">
           <div className="frozen-instructions">
             <div className="instructions">
+              <p>I vilken utsträckning instämmer du i följande påstående:</p>
               <p><strong>{section.questions.strength_scale.label}</strong></p>
             </div>
           </div>
