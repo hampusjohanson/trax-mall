@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import './App.css'
 
 // Skapa Supabase-klient endast om credentials finns
@@ -2632,75 +2633,81 @@ function App() {
 
   if (isSubmitted) {
     return (
-      <div className="app">
-        <div className="survey-container">
-          <div className="survey-header">
-            <h1>{SURVEY_CONFIG.title}</h1>
-            <h2>{SURVEY_CONFIG.subtitle}</h2>
-          </div>
-          
-          <div className="success-message">
-            <h3>Tack för ditt svar!</h3>
-            <p>Din enkät har skickats in framgångsrikt.</p>
-            {!supabase && <p><em>Demo-läge: Data sparades inte till databas</em></p>}
-            <button onClick={resetForm} className="submit-btn">
-              Skicka ett till svar
-            </button>
+      <>
+        <div className="app">
+          <div className="survey-container">
+            <div className="survey-header">
+              <h1>{SURVEY_CONFIG.title}</h1>
+              <h2>{SURVEY_CONFIG.subtitle}</h2>
+            </div>
+            
+            <div className="success-message">
+              <h3>Tack för ditt svar!</h3>
+              <p>Din enkät har skickats in framgångsrikt.</p>
+              {!supabase && <p><em>Demo-läge: Data sparades inte till databas</em></p>}
+              <button onClick={resetForm} className="submit-btn">
+                Skicka ett till svar
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+        <Analytics />
+      </>
     )
   }
 
   return (
-    <div className="app">
-      <div className="survey-container">
-        {currentPage > 0 && (
-          <div className="survey-header">
-            <h1>{SURVEY_CONFIG.title}</h1>
-            <h2>{SURVEY_CONFIG.subtitle}</h2>
-          </div>
-        )}
-        {currentPage === 0 && (
-          <div className="survey-header security-header">
-            <h1></h1>
-            <h2></h2>
-          </div>
-        )}
-        
-        <div className="survey-form" onKeyDown={handleKeyDown} tabIndex={0}>
-          {renderPage()}
-        </div>
-
-        <div className="page-navigation">
+    <>
+      <div className="app">
+        <div className="survey-container">
           {currentPage > 0 && (
-            <button onClick={prevPage} className="nav-btn prev-btn">
-              ← Föregående
-            </button>
-          )}
-          
-          {currentPage < pages.length - 1 ? (
-            <button onClick={nextPage} className="nav-btn next-btn">
-              Nästa →
-            </button>
-          ) : (
-            <button 
-              onClick={handleSubmit} 
-              className="submit-btn"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Skickar...' : 'Skicka svar'}
-            </button>
-          )}
-          
-          {!supabase && (
-            <div style={{ marginTop: '10px', fontSize: '0.8em', color: '#666' }}>
-              Demo-läge - ingen databasanslutning
+            <div className="survey-header">
+              <h1>{SURVEY_CONFIG.title}</h1>
+              <h2>{SURVEY_CONFIG.subtitle}</h2>
             </div>
           )}
+          {currentPage === 0 && (
+            <div className="survey-header security-header">
+              <h1></h1>
+              <h2></h2>
+            </div>
+          )}
+          
+          <div className="survey-form" onKeyDown={handleKeyDown} tabIndex={0}>
+            {renderPage()}
+          </div>
+
+          <div className="page-navigation">
+            {currentPage > 0 && (
+              <button onClick={prevPage} className="nav-btn prev-btn">
+                ← Föregående
+              </button>
+            )}
+            
+            {currentPage < pages.length - 1 ? (
+              <button onClick={nextPage} className="nav-btn next-btn">
+                Nästa →
+              </button>
+            ) : (
+              <button 
+                onClick={handleSubmit} 
+                className="submit-btn"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Skickar...' : 'Skicka svar'}
+              </button>
+            )}
+            
+            {!supabase && (
+              <div style={{ marginTop: '10px', fontSize: '0.8em', color: '#666' }}>
+                Demo-läge - ingen databasanslutning
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      <Analytics />
+    </>
   )
 }
 
