@@ -1381,10 +1381,11 @@ body {
 
 .statements-container {
   padding: 0;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
   position: relative; /* För bättre sticky-support */
+  height: 100vh;
 }
 
 /* Frozen Instructions för Statements */
