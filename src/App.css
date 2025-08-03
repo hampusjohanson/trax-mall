@@ -1114,41 +1114,45 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 12px 16px;
+  padding: 16px 20px;
   background: white;
   border: 2px solid #e5e7eb;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  min-height: 44px;
-  height: 44px;
-  gap: 12px;
+  transition: all 0.3s ease;
+  min-height: 56px;
+  height: 56px;
+  gap: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .scale-single-option:hover {
   background: #f8fffd;
-  border-color: #88FFC2;
-  transform: translateY(-1px);
+  border-color: #66D4A3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 212, 163, 0.2);
 }
 
 .scale-single-option input[type="radio"] {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   margin: 0;
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
   border-radius: 50%;
-  border: 2px solid #e5e7eb;
+  border: 3px solid #e5e7eb;
   background: white;
   position: relative;
-  transform: scale(1.2);
+  transform: scale(1.1);
+  flex-shrink: 0;
 }
 
 .scale-single-option input[type="radio"]:checked {
-  transform: scale(1.3);
-  background: #88FFC2;
-  border: 2px solid #88FFC2;
+  transform: scale(1.2);
+  background: #66D4A3;
+  border: 3px solid #66D4A3;
+  box-shadow: 0 0 0 2px rgba(102, 212, 163, 0.2);
 }
 
 .scale-single-option input[type="radio"]:checked + .scale-single-number {
@@ -1157,16 +1161,17 @@ body {
 }
 
 .scale-single-number {
-  font-size: 1em;
+  font-size: 1.1em;
   color: rgb(17, 21, 66);
-  font-weight: 500;
+  font-weight: 600;
   margin: 0;
-  min-width: 20px;
+  min-width: 24px;
   text-align: left;
+  flex-shrink: 0;
 }
 
 .scale-single-text {
-  font-size: 0.9em;
+  font-size: 1em;
   color: rgb(17, 21, 66);
   font-weight: 500;
   flex: 1;
@@ -1174,6 +1179,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
+  line-height: 1.4;
 } 
 
 /* Desktop styling för bättre responsivitet */
@@ -1475,6 +1481,32 @@ body {
   .page-content {
     padding: 0;
     min-height: 300px;
+  }
+  
+  .scale-single-option {
+    padding: 14px 16px;
+    gap: 12px;
+    min-height: 52px;
+    height: 52px;
+  }
+  
+  .scale-single-option input[type="radio"] {
+    width: 22px;
+    height: 22px;
+    border-width: 2px;
+  }
+  
+  .scale-single-option input[type="radio"]:checked {
+    border-width: 2px;
+  }
+  
+  .scale-single-number {
+    font-size: 1em;
+    min-width: 22px;
+  }
+  
+  .scale-single-text {
+    font-size: 0.95em;
   }
   
   .frozen-instructions {
