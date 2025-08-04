@@ -731,7 +731,7 @@ body {
 }
 
 .submit-btn:hover {
-  background: #66D4A3;
+  background: #88FFC2;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(136, 255, 194, 0.4);
 }
@@ -1044,7 +1044,7 @@ body {
   }
   
   .scale-option input[type="radio"]:checked + .scale-number {
-    color: #059669;
+    color: #88FFC2;
     font-weight: 600;
   }
   
@@ -1146,9 +1146,9 @@ body {
 
 .scale-single-option:hover {
   background: #f8fffd;
-  border-color: #66D4A3;
+  border-color: #88FFC2;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 212, 163, 0.2);
+  box-shadow: 0 4px 12px rgba(136, 255, 194, 0.2);
 }
 
 .scale-single-option input[type="radio"] {
@@ -1168,9 +1168,9 @@ body {
 
 .scale-single-option input[type="radio"]:checked {
   transform: scale(1.2);
-  background: #66D4A3;
-  border: 3px solid #66D4A3;
-  box-shadow: 0 0 0 2px rgba(102, 212, 163, 0.2);
+  background: #88FFC2;
+  border: 3px solid #88FFC2;
+  box-shadow: 0 0 0 2px rgba(136, 255, 194, 0.2);
 }
 
 .scale-single-option input[type="radio"]:checked + .scale-single-number {
@@ -1502,7 +1502,7 @@ body {
 }
 
 .nav-btn.next-btn:hover {
-  background: #66D4A3;
+  background: #88FFC2;
 }
 
  
