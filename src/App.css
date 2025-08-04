@@ -344,7 +344,7 @@ body {
 }
 
 .brand-name {
-  font-weight: 600;
+  font-weight: 400;
   color: rgb(17, 21, 66);
   font-size: 0.85em;
 }
@@ -529,7 +529,7 @@ body {
 
 .brand-name-small {
   font-size: 0.95em;
-  font-weight: 500;
+  font-weight: 400;
   color: rgb(17, 21, 66);
   flex: 1;
 }
@@ -557,7 +557,7 @@ body {
 .brand-scale .scale-label {
   font-size: 0.85em;
   color: rgb(17, 21, 66);
-  font-weight: 600;
+  font-weight: 400;
   text-align: center;
   line-height: 1.2;
   min-width: 70px;
@@ -608,7 +608,7 @@ body {
 }
 
 .brand-scale-logo .brand-name {
-  font-weight: 600;
+  font-weight: 400;
   color: rgb(17, 21, 66);
   font-size: 1.1em;
 }
@@ -663,7 +663,7 @@ body {
 .scale-number {
   font-size: 1.1em;
   color: rgb(17, 21, 66);
-  font-weight: 600;
+  font-weight: 400;
   margin-top: 8px;
 }
 
@@ -997,7 +997,7 @@ body {
   }
   
   .brand-scale-logo .brand-name {
-    font-weight: 600;
+    font-weight: 400;
     color: rgb(17, 21, 66);
     font-size: 1.1em;
   }
@@ -1117,7 +1117,7 @@ body {
 }
 
 .brand-scale-single-header .brand-name {
-  font-weight: 600;
+  font-weight: 400;
   color: rgb(17, 21, 66);
   font-size: 1.1em;
 }
@@ -1181,7 +1181,7 @@ body {
 .scale-single-number {
   font-size: 1.1em;
   color: rgb(17, 21, 66);
-  font-weight: 600;
+  font-weight: 400;
   margin: 0;
   min-width: 24px;
   text-align: left;
@@ -1191,7 +1191,7 @@ body {
 .scale-single-text {
   font-size: 1em;
   color: rgb(17, 21, 66);
-  font-weight: 500;
+  font-weight: 400;
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
@@ -1687,7 +1687,7 @@ body {
 }
 
 .brand-name-v2 {
-  font-weight: 600;
+  font-weight: 400;
   color: rgb(17, 21, 66);
   font-size: 1.2em;
 }
@@ -2065,7 +2065,7 @@ body {
 }
 
 .brand-share-logo .brand-name {
-  font-weight: 600;
+  font-weight: 400;
   color: rgb(17, 21, 66);
 }
 
@@ -2226,7 +2226,7 @@ body {
 .security-option-text {
   font-size: 1em;
   color: rgb(17, 21, 66);
-  font-weight: 500;
+  font-weight: 400;
   cursor: pointer;
 }
 
