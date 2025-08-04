@@ -1575,9 +1575,9 @@ body {
   
   .nav-btn {
     width: 100%;
-    padding: 16px 24px;
+    padding: 12px 20px;
     font-size: 1em;
-    min-height: 48px;
+    min-height: 40px;
   }
 } 
 
