@@ -2601,6 +2601,47 @@ function App() {
       )
     }
     
+    // Kännedom (awareness_v2)
+    if (currentPageData.key === 'awareness_v2') {
+      return (
+        <div className="page-content statements-container">
+          <div className="frozen-instructions">
+            <div className="instructions">
+              <p>Hur väl känner du till följande hamburgerkedjor?</p>
+            </div>
+          </div>
+          <div className="statements-list">
+            {randomizedBrands.map((brand, index) => (
+              <div key={brand.id} className="question-group">
+                <label className="question-label">{brand.name}</label>
+                {/* Rendera alternativen för kännedom här */}
+                {renderQuestion(`awareness_v2_${brand.id}`, SURVEY_CONFIG.sections.awareness_v2.questions.awareness_v2)}
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+    }
+    // Viktiga faktorer (importance)
+    if (currentPageData.key === 'importance') {
+      return (
+        <div className="page-content statements-container">
+          <div className="frozen-instructions">
+            <div className="instructions">
+              <p>Vilka av följande faktorer är viktiga för dig när du väljer hamburgerkedja? Du kan välja flera alternativ.</p>
+            </div>
+          </div>
+          <div className="statements-list">
+            {Object.entries(SURVEY_CONFIG.sections.importance.questions).map(([key, question], index) => (
+              <div key={key} className="question-group">
+                {renderQuestion(key, question)}
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+    }
+    
     return (
       <div className="page-content statements-container">
         <div className="frozen-instructions">
