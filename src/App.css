@@ -799,7 +799,7 @@ body {
 /* Responsive design */
 @media (max-width: 768px) {
   .app {
-    padding: 5px;
+    padding: 0;
   }
   
   .survey-container {

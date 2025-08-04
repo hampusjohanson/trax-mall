@@ -2644,7 +2644,6 @@ function App() {
             <div className="success-message">
               <h3>Tack för ditt svar!</h3>
               <p>Din enkät har skickats in framgångsrikt.</p>
-              {!supabase && <p><em>Demo-läge: Data sparades inte till databas</em></p>}
               <button onClick={resetForm} className="submit-btn">
                 Skicka ett till svar
               </button>
@@ -2698,11 +2697,7 @@ function App() {
               </button>
             )}
             
-            {!supabase && (
-              <div style={{ marginTop: '10px', fontSize: '0.8em', color: '#666' }}>
-                Demo-läge - ingen databasanslutning
-              </div>
-            )}
+
           </div>
         </div>
       </div>
