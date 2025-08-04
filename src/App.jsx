@@ -2603,6 +2603,9 @@ function App() {
     
     // Kännedom (awareness_v2)
     if (currentPageData.key === 'awareness_v2') {
+      const section = SURVEY_CONFIG.sections[currentPageData.key]
+      if (!section) return null
+      
       return (
         <div className="page-content statements-container">
           <div className="frozen-instructions">
@@ -2611,13 +2614,22 @@ function App() {
             </div>
           </div>
           <div className="statements-list">
-            {randomizedBrands.map((brand, index) => (
-              <div key={brand.id} className="question-group">
-                <label className="question-label">{brand.name}</label>
-                {/* Rendera alternativen för kännedom här */}
-                {renderQuestion(`awareness_v2_${brand.id}`, SURVEY_CONFIG.sections.awareness_v2.questions.awareness_v2)}
-              </div>
-            ))}
+            {Object.entries(section.questions).map(([key, question], index) => {
+              if (!shouldShowQuestion(key, index)) {
+                return null
+              }
+              
+              const renderedQuestion = renderQuestion(key, question)
+              if (renderedQuestion === null) {
+                return null
+              }
+              
+              return (
+                <div key={key} className="question-group">
+                  {renderedQuestion}
+                </div>
+              )
+            })}
           </div>
         </div>
       )
